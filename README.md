@@ -20,6 +20,7 @@ The idea of this app is to allow people who go to the gym to find workout partne
 ## Phase 1: 
 
 ### Gym Selector -
+Host 
 ### Routine Storing -
 ### Matching Algorithm -
 ### Matching Acceptance -
