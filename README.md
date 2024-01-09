@@ -20,17 +20,43 @@ The idea of this app is to allow people who go to the gym to find workout partne
 ## Phase 1: 
 
 ### Gym Selector -
-Host 
+- A list is presented to the user of gyms in a particular zip code that the user will provide.
 ### Routine Storing -
+- For phase 1 the user will put what type of workout they're going for
+  - push/pull
+  - crossfitt
+  - upper body
+  - lower body
+  - abs
+  - etc.
 ### Matching Algorithm -
+  - Looking to work out with?
+    - Gender
+      - Male, Female, Other
+  - When are you working out?
+    - User inputs time
+  - User submits their routine/muscle group and/or push/pull workout
 ### Matching Acceptance -
+- Two panel will be available, open matches that are posted, and match requests. 
+- Users can see list of open matches, then requests to work out with them,
+  - similar to linked in friend requests, (check | X)
 
-## Phase 2: 
-
+## Phase 2:
 ### Gym Selector -
+  - Using Google Location services, provides gyms that are in the area, then user selects the gym
 ### Routine Storing -
+- Routine object will be a list of exercises
+  - Each exercise will contain
+    - WorkOut Name
+    - Number of reps
+    - Number of Sets
+    - Weight if necessary
 ### Matching Algorithm -
+  - Still with the list of available 
+  - Hoping to get some python action in, some machine learning, and have the best matches at the top
 ### Matching Acceptance -
+  - Will stay the same and phase 1. 
+
 
 ## Phase 3: 
 
