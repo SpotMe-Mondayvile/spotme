@@ -10,7 +10,7 @@ tar -czvf spotme-web-archive.tar.gz build
 cd ..'''
 
 archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
-archiveArtifacts artifacts: 'spotme-rest/build/libs/spotme-rest-*-SNAPSHOT.jar', followSymlinks: false
+archiveArtifacts artifacts: 'spotme-rest/build/libs/spotme-rest-.*-SNAPSHOT.jar', followSymlinks: false
 
 // sh '''docker image ls'''
 }
