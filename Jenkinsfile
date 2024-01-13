@@ -6,7 +6,7 @@ sh '''
 cd spotme-web
 npm install
 npm run build
-tar -czvf meact-archive.tar.gz build
+tar -czvf spotme-web-archive.tar.gz build
 cd ..'''
 
 archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
