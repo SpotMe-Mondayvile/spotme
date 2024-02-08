@@ -1,6 +1,20 @@
 package com.mts.spotmerest.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="users")
 public class User {
+    @Id
+    @SequenceGenerator(
+            name="user_sequence",
+            sequenceName="user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
     private Long id;
     private String username;
     private Integer age;
