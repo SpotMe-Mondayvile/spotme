@@ -16,12 +16,28 @@ public class UserConfig {
     @Bean
     CommandLineRunner commandLineRunner(UserDOA userDOA){
         return args -> {
-            User john = new User(
-                    11231L,
+            User magus = new User(
                     "Magus",
-                    25, GVB"male",
+                    25,
+                    "male",
                     "black"
             );
-        }
+
+            User prince = new User(
+                    "Prince",
+                    23,
+                    "male",
+                    "black"
+            );
+
+            User joe = new User(
+                    "Joe Mama",
+                    22,
+                    "male",
+                    "white"
+            );
+            userDOA.saveAll(
+                    List.of(magus,prince,joe));
+        };
     }
 }

@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Configuration
@@ -24,8 +22,22 @@ public class UserController {
     }
 
     @GetMapping
+    public String printHello(){
+       return "User Web Controller";
+    }
+    @GetMapping(path="/all")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
+    @PostMapping(path="/add")
+    public void newUser(@RequestBody User user){
+       System.out.println(user);
+       userService.addNewUser(user);
+    }
+
+    @DeleteMapping(path= "/{UserId}")
+    public void deleteUser(@PathVariable("UserId") Long id){
+        userService.deleteUser(id);
+    }
 }
