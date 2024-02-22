@@ -1,14 +1,19 @@
 package com.mts.spotmerest.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="_user")
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(
             name="user_sequence",
@@ -21,6 +26,8 @@ public class User {
     )
     private Long id;
     private String username;
+
+    private String password;
     private String email;
     private String phoneNumber;
     private String name;
@@ -28,6 +35,9 @@ public class User {
     private LocalDate dob;
     private String gender;
     private String race;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User(){
 
@@ -67,12 +77,47 @@ public class User {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getAge() {
@@ -136,6 +181,8 @@ public class User {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
+
+
 
     @Override
     public String toString() {
