@@ -16,6 +16,7 @@ target/
 ##environment vars
 .env
 .env_dev
+.env_*
 
 ### IntelliJ IDEA ###
 .idea
