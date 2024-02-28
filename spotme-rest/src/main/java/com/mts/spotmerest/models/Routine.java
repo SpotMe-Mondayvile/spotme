@@ -5,7 +5,7 @@ import com.mts.spotmerest.models.User;
 import java.util.List;
 import jakarta.persistence.Entity;
 
-@entity
+@Entity
 public class Routine {  // this Is where we initialize
     private String uniqueId; // for readability, should we lowercase the i//
     private Long userId;
