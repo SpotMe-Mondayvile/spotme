@@ -29,6 +29,12 @@ public class UserConfig {
                     "male",
                     "black"
             );
+            User Rod = new User(
+                    "Rodney",
+                    27,
+                    "male",
+                    "black"
+            );
 
             User joe = new User(
                     "Joe Mama",
@@ -36,6 +42,7 @@ public class UserConfig {
                     "male",
                     "white"
             );
+
             userDOA.saveAll(
                     List.of(magus,prince,joe));
         };
