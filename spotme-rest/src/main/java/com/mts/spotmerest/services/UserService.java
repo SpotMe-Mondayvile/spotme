@@ -3,6 +3,8 @@ package com.mts.spotmerest.services;
 import com.mts.spotmerest.mappers.UserDAO;
 import com.mts.spotmerest.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,12 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public List<User> getUsers(){
-
-        return userDAO.findAll();
+    public List<User> getUsers(Authentication auth) throws Exception{
+        List<User> users= new ArrayList<>();
+        if(hasRole("ADMIN",auth)){
+            users = userDAO.findAll();
+        }
+        return users;
     }
 
     public Optional<User> getUserByEmail(String usrEmail){
@@ -37,9 +42,9 @@ public class UserService {
         return userDAO.findById(id);
     }
 
-    public List<String> getEmails(){
+    public List<String> getEmails(Authentication auth) throws Exception {
         List<String> emails = new ArrayList<>();
-        List<User> user = getUsers();
+        List<User> user = getUsers(auth);
         for(int i=0; i< emails.size();i++){
             String temp = user.get(i).getEmail();
             emails.add(temp);
@@ -75,4 +80,13 @@ public class UserService {
         }
         return userByUserEmail.get().getEmail();
     }
+
+    private boolean hasRole(String role, Authentication authentication) {
+
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+        return hasUserRole;
+    }
+
+
 }
