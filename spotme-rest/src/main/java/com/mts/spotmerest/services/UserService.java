@@ -1,6 +1,6 @@
 package com.mts.spotmerest.services;
 
-import com.mts.spotmerest.mappers.UserDOA;
+import com.mts.spotmerest.mappers.UserDAO;
 import com.mts.spotmerest.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -53,20 +53,20 @@ public class UserService {
     }
 
     public void addNewUser(User user) {
-        Optional<User> userByUserName= userDOA
+        Optional<User> userByUserName= userDAO
                 .findUserByUserName(user.getUsername());
         if(userByUserName.isPresent()){
             throw new IllegalStateException("Email taken");
         }
-        userDOA.save(user);
+        userDAO.save(user);
     }
 
     public void deleteUser(Long id) {
-     boolean exists =userDOA.existsById(id);
+     boolean exists =userDAO.existsById(id);
      if(!exists){
          throw new IllegalStateException("User with id "+ id+ "does not exist");
      }else{
-         userDOA.deleteById(id);
+         userDAO.deleteById(id);
         }
      }
 
