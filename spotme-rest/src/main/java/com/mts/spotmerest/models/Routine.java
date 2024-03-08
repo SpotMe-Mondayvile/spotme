@@ -3,10 +3,22 @@ package com.mts.spotmerest.models;
 import com.mts.spotmerest.models.Exercise;
 import com.mts.spotmerest.models.User;
 import java.util.List;
-import jakarta.persistence.Entity;
 
+import jakarta.persistence.*;
 
+@Entity
+@Table
 public class Routine {  // this Is where we initialize
+    @Id
+    @SequenceGenerator(
+            name="routine_sequence",
+            sequenceName="routine_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "routine_sequence"
+    )
     private String uniqueId; // for readability, should we lowercase the i//
     private Long userId;
     private String workoutIntensity;
