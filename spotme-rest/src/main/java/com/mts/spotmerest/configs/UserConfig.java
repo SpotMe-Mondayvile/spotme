@@ -1,20 +1,18 @@
 package com.mts.spotmerest.configs;
 
-import com.mts.spotmerest.mappers.UserDOA;
+import com.mts.spotmerest.mappers.UserDAO;
 import com.mts.spotmerest.models.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 public class UserConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(UserDOA userDOA){
+    CommandLineRunner commandLineRunner(UserDAO userDAO){
         return args -> {
             User magus = new User(
                     "Magus",
@@ -29,12 +27,6 @@ public class UserConfig {
                     "male",
                     "black"
             );
-            User Rod = new User(
-                    "Rodney",
-                    27,
-                    "male",
-                    "black"
-            );
 
             User joe = new User(
                     "Joe Mama",
@@ -42,8 +34,7 @@ public class UserConfig {
                     "male",
                     "white"
             );
-
-            userDOA.saveAll(
+            userDAO.saveAll(
                     List.of(magus,prince,joe));
         };
     }
