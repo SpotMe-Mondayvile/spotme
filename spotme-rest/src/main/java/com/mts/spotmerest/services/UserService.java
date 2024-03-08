@@ -45,7 +45,7 @@ public class UserService {
     public List<String> getEmails(Authentication auth) throws Exception {
         List<String> emails = new ArrayList<>();
         List<User> user = getUsers(auth);
-        for(int i=0; i< emails.size();i++){
+        for(int i=0; i<emails.size();i++){
             String temp = user.get(i).getEmail();
             emails.add(temp);
         }
