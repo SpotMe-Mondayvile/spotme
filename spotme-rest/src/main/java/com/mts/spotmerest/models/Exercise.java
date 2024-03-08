@@ -1,8 +1,20 @@
 package com.mts.spotmerest.models;
 
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
-
+@Entity
+@Table
 public class Exercise {
+    @Id
+    @SequenceGenerator(
+            name="exercise_sequence",
+            sequenceName="exercise_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "exercise_sequence"
+    )
    private String id;
     private String name;
     private Integer reps;
