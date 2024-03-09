@@ -3,7 +3,7 @@ package com.mts.spotmerest.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name="matches")
 public class Match {
     @Id
     @SequenceGenerator(
@@ -16,7 +16,8 @@ public class Match {
             generator = "match_sequence"
     )
     private Long id;
-    private Long userId;
+    private Long authorId;
+    private Long responderId;
     private String gymId;
     private String name;
     private Integer age;
@@ -26,7 +27,7 @@ public class Match {
 
     public Match(Long id, Long userId, String gymId, String name, Integer age, String gender, String race, String status) {
         this.id = id;
-        this.userId = userId;
+        this.authorId = userId;
         this.gymId = gymId;
         this.name = name;
         this.age = age;
@@ -40,7 +41,7 @@ public class Match {
 
     public Match(Long id, Long userId, String gymId) {
         this.id = id;
-        this.userId = userId;
+        this.authorId = userId;
         this.gymId = gymId;
     }
 
@@ -52,16 +53,24 @@ public class Match {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public String getGymId() {
         return gymId;
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public Long getResponderId() {
+        return responderId;
+    }
+
+    public void setResponderId(Long responderId) {
+        this.responderId = responderId;
     }
 
     public void setGymId(String gymId) {
@@ -108,12 +117,12 @@ public class Match {
         this.status = status;
     }
 
-
     @Override
     public String toString() {
         return "Match{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", authorId=" + authorId +
+                ", responderId=" + responderId +
                 ", gymId='" + gymId + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
