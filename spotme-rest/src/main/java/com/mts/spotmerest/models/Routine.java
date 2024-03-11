@@ -7,6 +7,10 @@ import jakarta.persistence.Entity;
 
 
 public class Routine {  // this Is where we initialize
+    private static int nextRoutineNumber = 1;
+    //added to both methods, with if-else statements
+
+    private String routineName;
     private String uniqueId; // for readability, should we lowercase the i//
     private Long userId;
     private String workoutIntensity;
@@ -15,8 +19,14 @@ public class Routine {  // this Is where we initialize
 
 
 
-    public Routine (String uniqueId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
+    public Routine (String routineName, String uniqueId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
 
+        if (routineName.isBlank()) {
+            this.routineName = "Routine " + nextRoutineNumber;
+            nextRoutineNumber++;
+        } else {
+            this.routineName = routineName;
+        }
         this.uniqueId = uniqueId;
         this.userId = userId;// from user model file
         this.workoutIntensity = workoutIntensity;
@@ -28,10 +38,16 @@ public class Routine {  // this Is where we initialize
     public Routine() {
     }
 
-    public Routine ( String workoutIntensity, String routineType ) {
+    public Routine(String routineName, String workoutIntensity, String routineType) {
+        if (routineName.isBlank()) {
+            this.routineName = "Routine " + nextRoutineNumber;
+            nextRoutineNumber++;
+        } else {
+            this.routineName = routineName;
+        }
+
         this.workoutIntensity = workoutIntensity;
         this.routineType = routineType;
-
     }
 
 // chose intensity and type(cardio, upperbody,  as minimum in case they don't know what specific exercise List they want to do//
@@ -76,17 +92,31 @@ public class Routine {  // this Is where we initialize
     public void setRoutineType(String routineType) {
         this.routineType = routineType;
     }
+    public String getRoutineName() {
+        return routineName;
+    }
 
+    public void setRoutineName(String routineName) {
+        this.routineName = routineName;
+    }
 
     @Override
     public String toString() {
         return "Routine{" +
-                "uniqueId='" + uniqueId + '\'' +
+                "routineName='" + routineName + '\'' +
+                ", uniqueId='" + uniqueId + '\'' +
                 ", userId=" + userId +
                 ", workoutIntensity='" + workoutIntensity + '\'' +
                 ", exerciseList=" + exerciseList +
                 ", routineType='" + routineType + '\'' +
                 '}';
     }
+
+
 }
+
+
+
+
+
 
