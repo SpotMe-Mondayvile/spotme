@@ -13,7 +13,7 @@ import java.util.Optional;
 public class RoutineService {
 //methods/functionalities to create add, delete, edit, favorite
 
-    private RoutineDAO routineDAO;
+    private final RoutineDAO routineDAO;
 
     @Autowired
     public RoutineService(RoutineDAO routineDAO) {
@@ -22,19 +22,22 @@ public class RoutineService {
 
     //For creation, you're passing in a new model b/c you need a model of what you're adding, comes with own parameters
     public void addNewRoutine(Routine routine ){
+            //exception for routine with same name, also
 
             routineDAO.save(routine);
     }
 
-    //delete user, select by uniqueID;
+    //delete user, select by uniqueID
 
     public void deleteRoutine(Routine routine) {
         // Check if the routine exists, forgot about optional value
-        Optional<Routine> optionalRoutine = routineDAO.findById(routine.getUniqueId());
+       //The whole reason was because of th type, you forgot that the uniqueID is a string because
+
+        Optional<Routine> optionalRoutine = routineDAO.findByName(routine.getRoutineName());
 
         if (optionalRoutine.isPresent()) {
             // if Routine exists, delete it by ID **CHANGE TO BY NAME
-            routineDAO.deleteById(routine.getUniqueId());
+            routineDAO.deleteByName(routine.getRoutineName());
         } else {
             // Handle the case where the routine does not exist, throw an exception, log, or handle accordingly
             throw new IllegalArgumentException("Routine not found!");
