@@ -5,13 +5,11 @@ import com.mts.spotmerest.models.User;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
-
+@Entity
+@Table(name="routines")
 public class Routine {  // this Is where we initialize
     private static int nextRoutineNumber = 1;
     //added to both methods, with if-else statements
