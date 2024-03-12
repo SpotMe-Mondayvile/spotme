@@ -21,22 +21,20 @@ public class RoutineService {
     }
 
     //For creation, you're passing in a new model b/c you need a model of what you're adding, comes with own parameters
-    public void addNewRoutine(Routine routine ){
-            //exception for routine with same name, also
+    public void addNewRoutine(Routine routine) {
 
-            routineDAO.save(routine);
+        routineDAO.save(routine);
     }
 
     //delete user, select by uniqueID
 
     public void deleteRoutine(Routine routine) {
-        // Check if the routine exists, forgot about optional value
-       //The whole reason was because of th type, you forgot that the uniqueID is a string because
+        // Check if the routine exists,
 
         Optional<Routine> optionalRoutine = routineDAO.findByName(routine.getRoutineName());
 
         if (optionalRoutine.isPresent()) {
-            // if Routine exists, delete it by ID **CHANGE TO BY NAME
+            // if Routine exists, delete BY NAME
             routineDAO.deleteByName(routine.getRoutineName());
         } else {
             // Handle the case where the routine does not exist, throw an exception, log, or handle accordingly
@@ -45,16 +43,14 @@ public class RoutineService {
     }
 
 
-        public void editRoutine(Routine routine){
+    public void editRoutine(Routine routine) {
 
-          Optional<Routine>  original = routineDAO.findByName(routine.getRoutineName());
-               Routine newRoutine = original.orElseThrow().editRoutine(routine);
-                routineDAO.deleteById(original.orElseThrow().getUniqueId());
-
-            routineDAO.save(routine);
-        }
-
-
+        Optional<Routine> original = routineDAO.findByName(routine.getRoutineName());
+        Routine newRoutine = original.orElseThrow().editRoutine(routine);
+        routineDAO.deleteById(original.orElseThrow().getRoutineId());
+        routine = newRoutine; //Added after office hours with Magus
+        routineDAO.save(routine);
+    }
 
 
 }

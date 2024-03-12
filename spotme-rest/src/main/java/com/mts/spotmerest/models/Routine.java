@@ -2,7 +2,9 @@ package com.mts.spotmerest.models;
 
 import com.mts.spotmerest.models.Exercise;
 import com.mts.spotmerest.models.User;
+
 import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,8 +20,8 @@ public class Routine {  // this Is where we initialize
     private String routineName;
     @Id
     @SequenceGenerator(
-            name="routine_sequence",
-            sequenceName="routine_sequence",
+            name = "routine_sequence",
+            sequenceName = "routine_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -33,8 +35,7 @@ public class Routine {  // this Is where we initialize
     private String routineType;
 
 
-
-    public Routine (String routineName, Long routineId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
+    public Routine(String routineName, Long routineId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
 
         if (routineName.isBlank()) {
             this.routineName = "Routine " + nextRoutineNumber;
@@ -45,7 +46,7 @@ public class Routine {  // this Is where we initialize
         this.routineId = routineId;
         this.userId = userId;// from user model file
         this.workoutIntensity = workoutIntensity;
-        this.exerciseList= exerciseList;
+        this.exerciseList = exerciseList;
         this.routineType = routineType;
 
     }
@@ -66,17 +67,17 @@ public class Routine {  // this Is where we initialize
     }
 
 
-    public Routine editRoutine(Routine routine){
+    public Routine editRoutine(Routine routine) {
 
 
-        return routine ;
+        return routine;
     }
 
-    public Long getUniqueId() {
+    public Long getRoutineId() {
         return routineId;
     }
 
-    public void setUniqueId(Long routineId) {
+    public void setRoutineId(Long routineId) {
         this.routineId = routineId;
     }
 
@@ -111,6 +112,7 @@ public class Routine {  // this Is where we initialize
     public void setRoutineType(String routineType) {
         this.routineType = routineType;
     }
+
     public String getRoutineName() {
         return routineName;
     }
@@ -118,7 +120,6 @@ public class Routine {  // this Is where we initialize
     public void setRoutineName(String routineName) {
         this.routineName = routineName;
     }
-
 
 
     @Override
