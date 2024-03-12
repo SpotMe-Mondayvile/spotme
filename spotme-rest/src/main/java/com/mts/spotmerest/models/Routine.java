@@ -4,14 +4,29 @@ import com.mts.spotmerest.models.Exercise;
 import com.mts.spotmerest.models.User;
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
+import org.springframework.data.annotation.Id;
 
 
 public class Routine {  // this Is where we initialize
     private static int nextRoutineNumber = 1;
     //added to both methods, with if-else statements
 
+
     private String routineName;
-    private String uniqueId; // for readability, should we lowercase the i//
+    @Id
+    @SequenceGenerator(
+            name="routine_sequence",
+            sequenceName="routine_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "routine_sequence"
+    )
+    private Long routineId; // for readability, should we lowercase the i//
     private Long userId;
     private String workoutIntensity;
     private List<String> exerciseList;
@@ -19,7 +34,7 @@ public class Routine {  // this Is where we initialize
 
 
 
-    public Routine (String routineName, String uniqueId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
+    public Routine (String routineName, Long routineId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
 
         if (routineName.isBlank()) {
             this.routineName = "Routine " + nextRoutineNumber;
@@ -27,7 +42,7 @@ public class Routine {  // this Is where we initialize
         } else {
             this.routineName = routineName;
         }
-        this.uniqueId = uniqueId;
+        this.routineId = routineId;
         this.userId = userId;// from user model file
         this.workoutIntensity = workoutIntensity;
         this.exerciseList= exerciseList;
@@ -50,15 +65,19 @@ public class Routine {  // this Is where we initialize
         this.routineType = routineType;
     }
 
-// chose intensity and type(cardio, upperbody,  as minimum in case they don't know what specific exercise List they want to do//
+
+    public Routine editRoutine(Routine routine){
 
 
-    public String getUniqueId() {
-        return uniqueId;
+        return routine ;
     }
 
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+    public Long getUniqueId() {
+        return routineId;
+    }
+
+    public void setUniqueId(Long routineId) {
+        this.routineId = routineId;
     }
 
     public Long getUserId() {
@@ -100,18 +119,19 @@ public class Routine {  // this Is where we initialize
         this.routineName = routineName;
     }
 
+
+
     @Override
     public String toString() {
         return "Routine{" +
                 "routineName='" + routineName + '\'' +
-                ", uniqueId='" + uniqueId + '\'' +
+                ", routineId=" + routineId +
                 ", userId=" + userId +
                 ", workoutIntensity='" + workoutIntensity + '\'' +
                 ", exerciseList=" + exerciseList +
                 ", routineType='" + routineType + '\'' +
                 '}';
     }
-
 
 }
 

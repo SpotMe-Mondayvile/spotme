@@ -45,4 +45,16 @@ public class RoutineService {
     }
 
 
+        public void editRoutine(Routine routine){
+
+          Optional<Routine>  original = routineDAO.findByName(routine.getRoutineName());
+               Routine newRoutine = original.orElseThrow().editRoutine(routine);
+                routineDAO.deleteById(original.orElseThrow().getUniqueId());
+
+            routineDAO.save(routine);
+        }
+
+
+
+
 }
