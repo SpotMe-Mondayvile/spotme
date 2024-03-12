@@ -14,7 +14,7 @@ import java.util.List;
 public class GymConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner2(GymDAO gymDAO){
+    CommandLineRunner commandLineRunnerGym(GymDAO gymDAO){
         return args -> {
             Gym gym1 = new Gym("2384075nv982374n059",
                     "Magus's Muscle Shack",

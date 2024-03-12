@@ -41,4 +41,7 @@ public class UserService {
         }
      }
 
+    public void getUser(Long id) {
+        userDAO.findById(id);
+    }
 }
