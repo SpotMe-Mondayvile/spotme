@@ -21,7 +21,6 @@ public class MatchService {
     }
 
     public List<Match> getMatches() {
-
         return matchDAO.findAll();
     }
 

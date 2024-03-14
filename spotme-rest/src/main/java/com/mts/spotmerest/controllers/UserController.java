@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping(path= "/{UserId}")
-    public void getUser(@PathVariable("UserId") Long id){
-        userService.getUser(id);
+    public Optional<User> getUser(@PathVariable("UserId") Long id){
+       return userService.getUser(id);
     }
 }

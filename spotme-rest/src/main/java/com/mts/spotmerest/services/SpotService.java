@@ -1,6 +1,7 @@
 package com.mts.spotmerest.services;
 
 import com.mts.spotmerest.mappers.SpotDAO;
+import com.mts.spotmerest.models.Match;
 import com.mts.spotmerest.models.Spot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,17 @@ public class SpotService {
 
         return spotDAO.findById(id);
     }
+
+    public List<Match> getSpotMatchesByID(Long userId){
+        Optional<Spot> spot= spotDAO.findSpotByUserId(userId);
+        return spot.orElseThrow().getMatches();
+    }
+
+    public List<Match> getSpotMatchesByUserID(Long spotID){
+        Optional<Spot> spot= spotDAO.findById(spotID);
+        return spot.orElseThrow().getMatches();
+    }
+
 
     public void addNewSpot(Spot spot) {
         Optional<Spot> spotById= spotDAO

@@ -1,5 +1,6 @@
 package com.mts.spotmerest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.text.DateFormat;
@@ -14,8 +15,8 @@ public class Spot {
     @SequenceGenerator(
             name="spot_sequence",
             sequenceName="spot_sequence",
-            allocationSize = 1,
-            initialValue = 1000
+            allocationSize = 1
+//            ,initialValue = 1000
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -122,6 +123,7 @@ public class Spot {
         return date;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy="spot",cascade =CascadeType.ALL, orphanRemoval = true)
     private List<Match> matches = new ArrayList<Match>();
 
