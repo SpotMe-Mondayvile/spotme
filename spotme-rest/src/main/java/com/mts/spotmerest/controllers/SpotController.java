@@ -32,14 +32,7 @@ public class SpotController {
     public List<Spot> getSpots(){
         return spotService.getSpots();
     }
-    @GetMapping(path= "spots_by_user/{userId}")
-    public List<Match> getSpotByUserID(@PathVariable("userId") Long id){
-        return spotService.getSpotMatchesByUserID(id);
-    }
-    @GetMapping(path= "matches_by/{spotId}")
-    public List<Match> getSpotMatchesByID(@PathVariable("spotId") Long id){
-        return spotService.getSpotMatchesByID(id);
-    }
+
     @GetMapping(path= "id/{spotId}")
     public Optional<Spot> getSpotByID(@PathVariable("spotId") Long id){
         return spotService.getSpot(id);
@@ -53,8 +46,8 @@ public class SpotController {
        spotService.addNewSpot(spot);
     }
 
-    @DeleteMapping(path= "/{spotId}")
-    public void deleteSpot(@PathVariable("spotId") Long id){
+    @DeleteMapping(path= "/{spot_id}")
+    public void deleteSpot(@PathVariable("spot_id") Long id){
         spotService.deleteSpot(id);
     }
 }

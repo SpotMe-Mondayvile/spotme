@@ -38,6 +38,12 @@ public class SpotService {
         return spot.orElseThrow().getMatches();
     }
 
+    public void updateSpot(Long id, Spot spotIn){
+        Optional<Spot> spot = spotDAO.findById(id);
+        Spot updated = spot.orElseThrow().updateAttributes(spotIn);
+        spotDAO.save(updated);
+    }
+
 
     public void addNewSpot(Spot spot) {
         Optional<Spot> spotById= spotDAO

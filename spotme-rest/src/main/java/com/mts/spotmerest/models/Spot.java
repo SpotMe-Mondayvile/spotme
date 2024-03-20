@@ -116,6 +116,20 @@ public class Spot {
         this.status = status;
     }
 
+
+    public Spot updateAttributes(Spot s){
+        Spot newSpot = new Spot();
+        newSpot.setUserId(this.getUserId());
+        newSpot.setId(this.getId());
+        newSpot.setCreatedAt(this.getCreatedAt());
+        newSpot.setDescription(s.getDescription());
+        newSpot.setStatus(s.getStatus());
+        newSpot.setTitle(s.getTitle());
+        newSpot.setGymId(s.getGymId());
+        newSpot.setRoutineId(s.getRoutineId());
+        return newSpot;
+    }
+
     public Date getCurrentTime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();

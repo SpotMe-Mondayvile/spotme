@@ -1,5 +1,6 @@
 package com.mts.spotmerest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -93,6 +94,7 @@ public class Match {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name ="spot_id")
     private Spot spot;
 }

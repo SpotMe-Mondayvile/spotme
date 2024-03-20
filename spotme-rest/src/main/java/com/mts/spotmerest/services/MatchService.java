@@ -1,9 +1,7 @@
 package com.mts.spotmerest.services;
 
 import com.mts.spotmerest.mappers.MatchDAO;
-import com.mts.spotmerest.mappers.MatchDAO;
 import com.mts.spotmerest.models.Match;
-import com.mts.spotmerest.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +38,10 @@ public class MatchService {
         } else {
             matchDAO.deleteById(id);
         }
+    }
+
+    public Optional<Match> getMatchByID(Long id) {
+        return matchDAO.findById(id);
     }
 }
 
