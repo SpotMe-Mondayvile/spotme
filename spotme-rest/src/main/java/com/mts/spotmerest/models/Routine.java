@@ -33,7 +33,7 @@ public class Routine {  // this Is where we initialize
     private String routineType;
 
 
-    public Routine(String routineName, Long routineId, Long userId, String workoutIntensity, List exerciseList, String routineType) {
+    public Routine(String routineName, Long routineId, Long userId, String workoutIntensity, List<String> exerciseList, String routineType) {
 
         if (routineName.isBlank()) {
             this.routineName = "Routine " + nextRoutineNumber;
