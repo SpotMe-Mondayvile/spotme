@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -39,5 +41,10 @@ public class UserController {
     @DeleteMapping(path= "/{UserId}")
     public void deleteUser(@PathVariable("UserId") Long id){
         userService.deleteUser(id);
+    }
+
+    @GetMapping(path= "/{UserId}")
+    public Optional<User> getUser(@PathVariable("UserId") Long id){
+       return userService.getUser(id);
     }
 }
