@@ -14,7 +14,7 @@ import java.util.List;
 public class RoutineConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(RoutineDAO routineDAO) {
+    CommandLineRunner commandLineRunnerRoutine(RoutineDAO routineDAO) {
         return args -> {
             List<String> upperBody = Arrays.asList("Bench Press", "DB Fly's", "Dumbbell Curls", "Incline Press");
             List<String> lowerBody = Arrays.asList("Squats Till Failure", "Leg Press Till Failure", "Calf Raises Till Failure", "Quads Till Failure", "Hammies Till Failure");

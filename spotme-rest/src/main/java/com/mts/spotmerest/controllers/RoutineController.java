@@ -13,6 +13,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+@RestController
+@RequestMapping(path = "api/v1/routine")
 public class RoutineController {
+
+    private final RoutineService routineService;
+    @Autowired
+    public RoutineController(RoutineService routineService) {
+        this.routineService = routineService;
+    }
+
+    @GetMapping
+
 }
