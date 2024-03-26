@@ -34,13 +34,12 @@ public class GymService {
         gymDAO.save(gym);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteGym(Long id) {
      boolean exists = gymDAO.existsById(id);
      if(!exists){
-         throw new IllegalStateException("User with id "+ id+ "does not exist");
+         throw new IllegalStateException("Gym with id "+ id+ "does not exist");
      }else{
          gymDAO.deleteById(id);
         }
      }
-
 }
