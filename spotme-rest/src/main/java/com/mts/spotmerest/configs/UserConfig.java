@@ -21,6 +21,13 @@ public class UserConfig {
                     "black"
             );
 
+            User toji = new User(
+                    "Toji",
+                    30,
+                    "Zenin",
+                    "asian"
+            );
+
             User prince = new User(
                     "Prince",
                     23,
@@ -35,7 +42,7 @@ public class UserConfig {
                     "white"
             );
             userDAO.saveAll(
-                    List.of(magus,prince,joe));
+                    List.of(magus,toji,prince,joe));
         };
     }
 }
