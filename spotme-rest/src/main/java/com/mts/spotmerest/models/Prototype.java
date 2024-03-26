@@ -4,59 +4,34 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table
+public class Prototype {
     @Id
     @SequenceGenerator(
-            name="user_sequence",
-            sequenceName="user_sequence",
+            name = "prototype_sequence",
+            sequenceName = "prototype_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
+            generator = "prototype_sequence"
     )
     private Long id;
-    private String username;
-    private String email;
-    private String phoneNumber;
-    private String name;
+    private String title;
     private Integer age;
-    private LocalDate dob;
     private String gender;
-    private String race;
 
-    public User(){
+    public Prototype() {
 
     }
-    public User(String username,
-                Integer age,
-                String gender,
-                String race) {
-        this.username = username;
-        this.age = age;
-        this.dob= null;
-        this.gender = gender;
-        this.race = race;
-        this.email = null;
-        this.phoneNumber = null;
-        this.name = null;
-    }
 
-
-    public User(Long id, String username, String email, String phoneNumber, String name, LocalDate dob, String gender, String race) {
+    public Prototype(Long id, String title, Integer age, String gender) {
         this.id = id;
-        this.username = username;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.name = name;
-        this.dob = dob;
+        this.title = title;
+        this.age = age;
         this.gender = gender;
-        this.race = race;
-        getCalculatedAge();
     }
 
     public Long getId() {
@@ -67,22 +42,16 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getAge() {
         return age;
-    }
-    @Transient
-    public void getCalculatedAge() {
-        if(this.dob!= null){
-            this.age=Period.between(this.dob,LocalDate.now()).getYears();
-        }
     }
 
     public void setAge(Integer age) {
@@ -97,58 +66,13 @@ public class User {
         this.gender = gender;
     }
 
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
+        return "Prototype{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", age=" + age +
-                ", dob=" + dob +
                 ", gender='" + gender + '\'' +
-                ", race='" + race + '\'' +
                 '}';
     }
 }
