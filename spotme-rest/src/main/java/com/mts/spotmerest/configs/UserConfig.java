@@ -1,6 +1,7 @@
 package com.mts.spotmerest.configs;
 
 import com.mts.spotmerest.mappers.UserDAO;
+import com.mts.spotmerest.models.Role;
 import com.mts.spotmerest.models.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -11,31 +12,20 @@ import java.util.List;
 @Configuration
 public class UserConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunner(UserDAO userDAO){
-        return args -> {
-            User magus = new User(
-                    "Magus",
-                    25,
-                    "male",
-                    "black"
-            );
-
-            User prince = new User(
-                    "Prince",
-                    23,
-                    "male",
-                    "black"
-            );
-
-            User joe = new User(
-                    "Joe Mama",
-                    22,
-                    "male",
-                    "white"
-            );
-            userDAO.saveAll(
-                    List.of(magus,prince,joe));
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunner(UserDAO userDAO){
+//
+//
+//        return args -> {
+//            User test= new User("badmin",
+//                    "asdfasd",
+//                    "badmin@fake.com",
+//                    "badmin_password",
+//                    Role.USER
+//            );
+//            test.setPassword("password");
+//            userDAO.saveAll(
+//                    List.of(test));
+//        };
+//    }
 }
