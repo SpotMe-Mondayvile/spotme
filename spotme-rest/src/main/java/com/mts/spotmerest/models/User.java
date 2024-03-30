@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="_userS")
+@Table(name="_user")
 @Builder
 public class User implements UserDetails {
     @Id
