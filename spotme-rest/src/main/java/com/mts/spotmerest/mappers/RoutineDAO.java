@@ -16,7 +16,7 @@ public interface RoutineDAO
     ///for routineDAO, consider whether we need to specify by userID number
 
 
-    void deleteByName(String routineName);
+    void deleteByRoutineName(String routineName);
 
     Optional<Routine> findByRoutineName(String routineName);
 

@@ -35,7 +35,7 @@ public class RoutineService {
 
         if (optionalRoutine.isPresent()) {
             // if Routine exists, delete BY NAME
-            routineDAO.deleteByName(routine.getRoutineName());
+            routineDAO.deleteByRoutineName(routine.getRoutineName());
         } else {
             // Handle the case where the routine does not exist, throw an exception, log, or handle accordingly
             throw new IllegalArgumentException("Routine not found!");
