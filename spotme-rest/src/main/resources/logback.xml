@@ -1,20 +1,20 @@
-<configuration>
+<!--<configuration>-->
 
-    <!-- Appender to log to console -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--    &lt;!&ndash; Appender to log to console &ndash;&gt;-->
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
-    <!-- Logger to log the resolved value of DB_URL -->
-    <logger name="org.springframework.boot.context.config.ConfigFileApplicationListener" level="DEBUG">
-        <appender-ref ref="STDOUT" />
-    </logger>
+<!--    &lt;!&ndash; Logger to log the resolved value of DB_URL &ndash;&gt;-->
+<!--    <logger name="org.springframework.boot.context.config.ConfigFileApplicationListener" level="DEBUG">-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
 
-    <!-- Root logger configuration -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
+<!--    &lt;!&ndash; Root logger configuration &ndash;&gt;-->
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </root>-->
 
-</configuration>
+<!--</configuration>-->

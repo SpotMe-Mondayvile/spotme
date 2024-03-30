@@ -26,6 +26,6 @@ public class RoutineController {
         this.routineService = routineService;
     }
 
-    @GetMapping
+
 
 }

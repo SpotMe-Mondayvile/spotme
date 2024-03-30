@@ -6,7 +6,7 @@ import com.mts.spotmerest.models.User;
 import java.util.List;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+//import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name="routines")

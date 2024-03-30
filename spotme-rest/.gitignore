@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ##environment vars
-.env
+.env_local
 .env_dev
 ### IntelliJ IDEA ###
 .idea
