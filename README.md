@@ -5,7 +5,9 @@ External Sources:
  - [Project Roadmap](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
 
  - [Project UI Planning](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
- 
+
+ - [Project Setup](https://docs.google.com/document/d/1O-df9oUytpZRouY57QEDtHqefBnCYMHm3AedVO7zcIc/edit?usp=sharing).
+
 This project is not a completely original idea, but it will allow us engineers and developers to 
 build something from the ground up. We will be able to collaborate and tune our skills as we add to
 the tech-stack of the project.
