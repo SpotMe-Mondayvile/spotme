@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface GymDAO
         extends JpaRepository<Gym,Long> {
 
-        @Query(value = "SELECT s FROM User s WHERE s.gym_id = :id")
-        Optional<Gym> findGymByGymId(@Param("id") String id);
+//        @Query(value = "SELECT s FROM _gym s WHERE s.gym_id = :id")
+//        Optional<Gym> findGymByGymId(@Param("id") String id);
 
         Optional<Gym> findGymById(Long id);
 }

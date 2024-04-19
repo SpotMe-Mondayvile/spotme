@@ -43,4 +43,8 @@ public class GymService {
          gymDAO.deleteById(id);
         }
      }
+
+    public List<Gym> getGyms() {
+        return gymDAO.findAll();
+    }
 }
