@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 //Unlike the other Api's this will not make calls from the database but instead from the Google Maps api
 @Entity
-@Table
+@Table(name="_gym")
 public class Gym {
     @Id
     @SequenceGenerator(

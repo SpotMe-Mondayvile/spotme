@@ -1,22 +1,28 @@
 package com.mts.spotmerest.services;
 
 import com.mts.spotmerest.mappers.SpotDAO;
+import com.mts.spotmerest.mappers.UserDAO;
 import com.mts.spotmerest.models.Match;
 import com.mts.spotmerest.models.Spot;
+import com.mts.spotmerest.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class SpotService {
 
     private final SpotDAO spotDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public SpotService(SpotDAO spotDAO){
+    public SpotService(SpotDAO spotDAO, UserDAO userDAO){
         this.spotDAO = spotDAO;
+        this.userDAO= userDAO;
     }
 
     public List<Spot> getSpots(){
@@ -27,15 +33,20 @@ public class SpotService {
 
         return spotDAO.findById(id);
     }
-
-    public List<Match> getSpotMatchesByID(Long userId){
-        Optional<Spot> spot= spotDAO.findSpotByUserId(userId);
-        return spot.orElseThrow().getMatches();
-    }
+//
+//    public List<Match> getSpotMatchesByID(Long userId){
+//        Optional<Spot> spot= spotDAO.findSpotByUserId(userId);
+//        return spot.orElseThrow().getMatches();
+//    }
 
     public List<Match> getSpotMatchesByUserID(Long spotID){
         Optional<Spot> spot= spotDAO.findById(spotID);
         return spot.orElseThrow().getMatches();
+    }
+    public List<Optional<Spot>> getSpotMatchesByUserEmail(String email){
+        Optional<User> user = userDAO.findUserByUserEmail(email);
+        List<Optional<Spot>> spots= spotDAO.findSpotByUserId(user.orElseThrow().getId());
+        return spots;
     }
 
     public void updateSpot(Long id, Spot spotIn){
@@ -49,7 +60,10 @@ public class SpotService {
         Optional<Spot> spotById= spotDAO
                 .findSpotById(spot.getId());
         if(spotById.isPresent()){
-            throw new IllegalStateException("Email taken");
+            throw new IllegalStateException("Spot Already exists");
+        }else{
+            spotDAO.save(spot);
+            System.out.println("Spot Created");
         }
         spotDAO.save(spot);
     }
