@@ -24,13 +24,13 @@ import java.util.Optional;
 @RequestMapping(path = "api/v1/user")
 public class UserController {
     private final UserService userService;
-
+    private final DataFilter dataFilter;
    @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, DataFilter dataFilter){
         this.userService= userService;
+        this.dataFilter= dataFilter;
     }
 
-    private final DataFilter dataFilter = new DataFilter();
     @GetMapping
     public String printHello(){
        return "User Web Controller";
@@ -59,7 +59,7 @@ public class UserController {
     public Optional<User> getUserInfo(@PathVariable("user_id") Long userId, Principal principal) throws Exception {
         // test if userId is current principal or principal is an ADMIN
         Optional<User> out= Optional.empty();
-        if(dataFilter.isUser(principal,userService)){
+        if(dataFilter.isUser(principal,userId)){
             out =userService.getUserByID(userId);
         }
         return out;
@@ -68,10 +68,8 @@ public class UserController {
     @GetMapping(path = "/getinfo")
     public Optional<User> getUserInfo(Principal principal) throws Exception {
         // test if userId is current principal or principal is an ADMIN
-        Optional<User> out= Optional.empty();
-        if(dataFilter.isUser(principal,userService)){
-            out =userService.getUserByEmail(principal.getName());
-        }
+        Optional<User> out=userService.getUserByEmail(principal.getName());
+
         return out;
     }
 

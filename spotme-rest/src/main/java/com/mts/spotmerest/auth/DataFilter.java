@@ -21,28 +21,15 @@ public class DataFilter {
 
    public DataFilter(UserService userService){
        this.userService=userService;
-       assert this.userService != null;
    }
 
 
-    public boolean isUser(Principal principal, UserService userService){
-        Optional<User> out= Optional.empty();
-        Optional<User> d= userService.getUserByEmail(principal.getName());
-        String rEmail= d.orElseThrow().getEmail();
-
-        if(!Objects.equals(rEmail, principal.getName())){
-            System.out.println("Not valid");
-        }else if(Objects.equals(rEmail, principal.getName()))
-            out= d;
-        System.out.println("Principal : "+principal.toString());
-
-        return Objects.equals(rEmail, principal.getName());
-    }
 
 
     public boolean isUser(Principal principal,Long id){
-        Optional<User> requester = Objects.requireNonNull(userService).getUserByID(id);
-        String rEmail= requester.orElseThrow().getEmail();
+        Optional<User> out= Optional.empty();
+        Optional<User> requestedUser= userService.getUserByID(id);
+        String rEmail= requestedUser.orElseThrow().getEmail();
         if(!Objects.equals(rEmail, principal.getName())){
             System.out.println("Not valid");
         }else if(Objects.equals(rEmail, principal.getName())){
