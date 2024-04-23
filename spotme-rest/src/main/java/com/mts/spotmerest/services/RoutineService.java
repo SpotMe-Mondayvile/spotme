@@ -28,8 +28,18 @@ public class RoutineService {
 
     //delete user, select by uniqueID
 
+
+    public void editRoutine(Routine routine) {
+
+        Optional<Routine> original = routineDAO.findByRoutineName(routine.getRoutineName());
+        Routine newRoutine = original.orElseThrow().editRoutine(routine);
+        routineDAO.deleteById(original.orElseThrow().getRoutineId());
+        routine = newRoutine; //Added after office hours with Magus
+        routineDAO.save(routine);
+    }
+
     public void deleteRoutine(Routine routine) {
-        // Check if the routine exists,
+        // Check if the routine exists, need to change to delete by ID because names can eb edited
 
         Optional<Routine> optionalRoutine = routineDAO.findByRoutineName(routine.getRoutineName());
 
@@ -40,17 +50,8 @@ public class RoutineService {
             // Handle the case where the routine does not exist, throw an exception, log, or handle accordingly
             throw new IllegalArgumentException("Routine not found!");
         }
-    }
-
-
-    public void editRoutine(Routine routine) {
-
-        Optional<Routine> original = routineDAO.findByRoutineName(routine.getRoutineName());
-        Routine newRoutine = original.orElseThrow().editRoutine(routine);
-        routineDAO.deleteById(original.orElseThrow().getRoutineId());
-        routine = newRoutine; //Added after office hours with Magus
-        routineDAO.save(routine);
-    }
+    }//modify to be able to delete by list of ID's so user doesnt have to select one at a time. Can wait for now
+    
 
 
 }
