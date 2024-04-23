@@ -1,5 +1,6 @@
 package com.mts.spotmerest.controllers;
 
+import com.mts.spotmerest.auth.DataFilter;
 import com.mts.spotmerest.models.User;
 import com.mts.spotmerest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,18 @@ import java.util.Optional;
 @RequestMapping(path = "api/v1/user")
 public class UserController {
     private final UserService userService;
+    private final DataFilter dataFilter;
    @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, DataFilter dataFilter){
         this.userService= userService;
+        this.dataFilter= dataFilter;
     }
 
     @GetMapping
     public String printHello(){
        return "User Web Controller";
     }
+
     @GetMapping(path="/all")
     public List<User> getUsers(@PathVariable("user_id") Long userId, Principal principal) throws Exception{
         // test if userId is current principal or principal is an ADMIN
@@ -55,29 +59,17 @@ public class UserController {
     public Optional<User> getUserInfo(@PathVariable("user_id") Long userId, Principal principal) throws Exception {
         // test if userId is current principal or principal is an ADMIN
         Optional<User> out= Optional.empty();
-        Optional<User> d= userService.getUserByID(userId);
-        String rEmail= d.orElseThrow().getEmail();
-        if(!Objects.equals(rEmail, principal.getName())){
-            System.out.println("Not valid");
-            throw new Exception("Not Permitted");
-        }else if(Objects.equals(rEmail, principal.getName()))
-            out= d;
-        System.out.println("Principal : "+principal.toString());
+        if(dataFilter.isUser(principal,userId)){
+            out =userService.getUserByID(userId);
+        }
         return out;
     }
 
     @GetMapping(path = "/getinfo")
     public Optional<User> getUserInfo(Principal principal) throws Exception {
         // test if userId is current principal or principal is an ADMIN
-        Optional<User> out= Optional.empty();
-        Optional<User> d= userService.getUserByEmail(principal.getName());
-        String rEmail= d.orElseThrow().getEmail();
-        if(!Objects.equals(rEmail, principal.getName())){
-            System.out.println("Not valid");
-            throw new Exception("Not Permitted");
-        }else if(Objects.equals(rEmail, principal.getName()))
-            out= d;
-        System.out.println("Principal : "+principal.toString());
+        Optional<User> out=userService.getUserByEmail(principal.getName());
+
         return out;
     }
 
