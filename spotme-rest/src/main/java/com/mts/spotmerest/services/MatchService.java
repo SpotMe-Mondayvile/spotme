@@ -40,8 +40,15 @@ public class MatchService {
         }
     }
 
-    public Optional<Match> getMatchByID(Long id) {
+    public Optional<Match> getMatchById(Long id) {
         return matchDAO.findById(id);
+    }
+    public List<Optional<Match>> getMatchesByAuthorId(Long id) {
+        return matchDAO.findMatchByAuthorId(id);
+    }
+
+    public List<Optional<Match>> getMatchesBySpotId(Long id) {
+        return matchDAO.findAllBySpotId(id);
     }
 }
 
