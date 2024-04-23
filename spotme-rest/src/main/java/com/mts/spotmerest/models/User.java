@@ -14,6 +14,7 @@ import java.time.Period;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="_user")
@@ -212,4 +213,5 @@ public class User implements UserDetails {
                 ", race='" + race + '\'' +
                 '}';
     }
+
 }

@@ -78,8 +78,19 @@ public class UserService {
         }else{
             System.out.println("Could not find email");
         }
-        return userByUserEmail.get().getEmail();
+        return userByUserEmail.orElseThrow().getEmail();
     }
+
+    public String getPhoneNumber(String email){
+        return getUserByEmail(email).orElseThrow().getPhoneNumber();
+    }
+    public String getFirstName(String email){
+        return getUserByEmail(email).orElseThrow().getPhoneNumber();
+    }
+    public Boolean getStatus(String email){
+        return getUserByEmail(email).orElseThrow().isEnabled();
+    }
+
 
     private boolean hasRole(String role, Authentication authentication) {
 

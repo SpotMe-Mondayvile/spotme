@@ -20,14 +20,15 @@ public class GymService {
         this.gymDAO = gymDAO;
     }
 
-    public List<Gym> getGyms(){
+    public  Optional<Gym> getGymById(Long id){
 
-        return gymDAO.findAll();
+        return gymDAO.findGymById(id);
     }
+
 
     public void addNewGym(Gym gym) {
         Optional<Gym> userByUserName= gymDAO
-                .findGymById(gym.getGymId());
+                .findGymById(gym.getId());
         if(userByUserName.isPresent()){
             throw new IllegalStateException("Email taken");
         }
@@ -42,4 +43,8 @@ public class GymService {
          gymDAO.deleteById(id);
         }
      }
+
+    public List<Gym> getGyms() {
+        return gymDAO.findAll();
+    }
 }
