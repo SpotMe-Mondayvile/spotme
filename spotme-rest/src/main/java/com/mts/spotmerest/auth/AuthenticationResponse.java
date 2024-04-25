@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse{
 
-    private String token;
+    private String access_token;
 
-    public String getToken() {
-        return token;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccess_token(String token) {
+        this.access_token = token;
     }
 }

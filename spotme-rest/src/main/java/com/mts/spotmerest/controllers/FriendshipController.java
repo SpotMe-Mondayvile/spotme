@@ -7,6 +7,7 @@ import com.mts.spotmerest.services.SpotService;
 import com.mts.spotmerest.services.friendships.BlockUserService;
 import com.mts.spotmerest.services.friendships.SubscribeUserService;
 import com.mts.spotmerest.services.friendships.UserFriendsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +24,7 @@ import java.util.List;
 @EnableAutoConfiguration
 @ComponentScan
 @RestController
+@SecurityRequirement(name = "JWT")
 @RequestMapping(path = "api/v1/friends")
 public class FriendshipController {
     private final DataFilter dataFilter;

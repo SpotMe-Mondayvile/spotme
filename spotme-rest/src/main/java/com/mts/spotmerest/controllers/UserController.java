@@ -3,6 +3,9 @@ package com.mts.spotmerest.controllers;
 import com.mts.spotmerest.auth.DataFilter;
 import com.mts.spotmerest.models.User;
 import com.mts.spotmerest.services.UserService;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,6 +24,7 @@ import java.util.Optional;
 @EnableAutoConfiguration
 @ComponentScan
 @RestController
+@SecurityRequirement(name = "JWT")
 @RequestMapping(path = "api/v1/user")
 public class UserController {
     private final UserService userService;

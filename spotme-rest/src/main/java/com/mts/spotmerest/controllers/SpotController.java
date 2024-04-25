@@ -3,6 +3,7 @@ package com.mts.spotmerest.controllers;
 import com.mts.spotmerest.auth.DataFilter;
 import com.mts.spotmerest.models.Spot;
 import com.mts.spotmerest.services.SpotService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @ComponentScan
 @RestController
 @RequestMapping(path = "api/v1/spot")
+@SecurityRequirement(name = "JWT")
 public class SpotController {
     private final DataFilter dataFilter;
     private final SpotService spotService;
