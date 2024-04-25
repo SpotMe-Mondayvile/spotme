@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 //import org.springframework.data.annotation.Id;
 
 @Entity
-@Table(name="routines")
+@Table(name="_routine")
 public class Routine {  // this Is where we initialize
     private static int nextRoutineNumber = 1;
     //added to both methods, with if-else statements
@@ -26,7 +26,7 @@ public class Routine {  // this Is where we initialize
             strategy = GenerationType.SEQUENCE,
             generator = "routine_sequence"
     )
-    private Long routineId; // for readability, should we lowercase the i//
+    private Long id; // for readability, should we lowercase the i//
     private Long userId;
     private String workoutIntensity;
     private List<String> exerciseList;
@@ -41,7 +41,7 @@ public class Routine {  // this Is where we initialize
         } else {
             this.routineName = routineName;
         }
-        this.routineId = routineId;
+        this.id = routineId;
         this.userId = userId;// from user model file
         this.workoutIntensity = workoutIntensity;
         this.exerciseList = exerciseList;
@@ -72,11 +72,11 @@ public class Routine {  // this Is where we initialize
     }
 
     public Long getRoutineId() {
-        return routineId;
+        return id;
     }
 
     public void setRoutineId(Long routineId) {
-        this.routineId = routineId;
+        this.id = routineId;
     }
 
     public Long getUserId() {
@@ -124,7 +124,7 @@ public class Routine {  // this Is where we initialize
     public String toString() {
         return "Routine{" +
                 "routineName='" + routineName + '\'' +
-                ", routineId=" + routineId +
+                ", routineId=" + id +
                 ", userId=" + userId +
                 ", workoutIntensity='" + workoutIntensity + '\'' +
                 ", exerciseList=" + exerciseList +

@@ -2,6 +2,7 @@ package com.mts.spotmerest.controllers;
 
 import com.mts.spotmerest.models.Gym;
 import com.mts.spotmerest.services.GymService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import java.util.List;
 @EnableAutoConfiguration
 @ComponentScan
 @RestController
+@SecurityRequirement(name = "JWT")
 @RequestMapping(path = "api/v1/gym")
 public class GymController {
     private final GymService gymService;

@@ -52,7 +52,7 @@ public class AuthenticationService {
             System.out.println("User Already Exists");
         }
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .access_token(jwtToken)
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class AuthenticationService {
         map.put("email",user.getEmail());
         var jwtToken = jwtService.generateToken(map,user);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .access_token(jwtToken)
                 .build();
     }
 }
