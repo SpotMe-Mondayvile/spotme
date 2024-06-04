@@ -24,7 +24,7 @@ public class UserFriendsService {
 
     public void addUserFriends(Long userId,Long friendId) {
         UserFriends newFriendship = new UserFriends();
-        newFriendship.setUser(userDAO.findById(userId).orElseThrow());
+        newFriendship.setUser(userId);
         newFriendship.setFriendId(friendId);
         userFriendsDAO.save(newFriendship);
     }
@@ -37,5 +37,7 @@ public class UserFriendsService {
     }
 
 
-
+    public List<Optional<UserFriends>> getUserFriendsList(Long userId) {
+        return userFriendsDAO.findAllFriends(userId);
+    }
 }

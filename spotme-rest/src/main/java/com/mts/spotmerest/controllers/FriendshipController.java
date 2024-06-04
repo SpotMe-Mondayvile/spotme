@@ -1,24 +1,22 @@
 package com.mts.spotmerest.controllers;
 
 import com.mts.spotmerest.auth.DataFilter;
-import com.mts.spotmerest.models.User;
+import com.mts.spotmerest.mappers.friendships.FriendRequestDAO;
 import com.mts.spotmerest.models.friendships.FriendRequest;
-import com.mts.spotmerest.services.SpotService;
-import com.mts.spotmerest.services.friendships.BlockUserService;
-import com.mts.spotmerest.services.friendships.SubscribeUserService;
+import com.mts.spotmerest.models.friendships.UserFriends;
+import com.mts.spotmerest.services.friendships.FriendRequestService;
 import com.mts.spotmerest.services.friendships.UserFriendsService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Configuration
 @EnableAutoConfiguration
@@ -29,25 +27,53 @@ import java.util.List;
 public class FriendshipController {
     private final DataFilter dataFilter;
     private final UserFriendsService userFriendsService;
+    private final FriendRequestService friendRequestService;
+
 
     @Autowired
-    public FriendshipController(DataFilter dataFilter, UserFriendsService userFriendsService) {
+    public FriendshipController(DataFilter dataFilter, UserFriendsService userFriendsService, FriendRequestService friendRequestService) {
         this.userFriendsService= userFriendsService;
         this.dataFilter= dataFilter;
+        this.friendRequestService= friendRequestService;
     }
+
     @PostMapping(value = "/add")
     public void userFriendRequest(@RequestBody FriendRequest friendRequest, Principal principal) {
         Long userId = dataFilter.getPrincipalId(principal);
         if(friendRequest.getStatus().equals("CONFIRMED")) {
-            userFriendsService.addUserFriends(userId, friendRequest.getRequester().getId());
+            userFriendsService.addUserFriends(userId, friendRequest.getCreator());
         }
     }
 
+    @PostMapping(value = "/send_request")
+    public void sendUserFriendRequest(@RequestBody FriendRequest friendRequest, Principal principal) {
+        Long userId = dataFilter.getPrincipalId(principal);
+
+    }
+
+    @PostMapping(value = "/accept/{id}")
+    public void acceptFriendRequest(@PathVariable("{id}") Long id, Principal principal) {
+        Long userId = dataFilter.getPrincipalId(principal);
+        FriendRequest friendRequest = friendRequestService.getFriendRequest(id).orElseThrow();
+        if(friendRequest.getStatus().equals("CONFIRMED")) {
+            userFriendsService.addUserFriends(userId, friendRequest.getCreator());
+        }
+    }
+
+
     @DeleteMapping(value = "/delete/{id}")
     public void userFriendRequest(@PathVariable("{id}") Long id, Principal principal) {
-
+        Long userId = dataFilter.getPrincipalId(principal);
         userFriendsService.removeFriend(id);
     }
+
+    @GetMapping(path="/getUserFriendList")
+    public List<Optional<UserFriends>> getUserFriendList(Principal principal){
+        Long userId = dataFilter.getPrincipalId(principal);
+        return this.userFriendsService.getUserFriendsList(userId);
+    }
+
+
 
 //    @GetMapping(path="/getUserFriendList")
 //    public ResponseEntity<Map<String, Object>> getUserFriendList(@RequestBody UserFriendsListRequestEntity userFriendsListRequestEntity) {

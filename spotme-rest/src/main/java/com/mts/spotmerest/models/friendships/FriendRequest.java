@@ -12,15 +12,15 @@ public class FriendRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private User requester;
+    private Long creator;
 
     private Long targetUser;
 
     private String status;
 
-    public FriendRequest(Long id, User requester, Long targetUser, String status) {
+    public FriendRequest(Long id, Long requester, Long targetUser, String status) {
         this.id = id;
-        this.requester = requester;
+        this.creator = requester;
         this.targetUser = targetUser;
         this.status = status;
     }
@@ -33,12 +33,12 @@ public class FriendRequest {
         this.id = id;
     }
 
-    public User getRequester() {
-        return requester;
+    public Long getCreator() {
+        return creator;
     }
 
-    public void setRequester(User requester) {
-        this.requester = requester;
+    public void setCreator(Long requester) {
+        this.creator = requester;
     }
 
     public Long getTargetUser() {

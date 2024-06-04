@@ -5,7 +5,7 @@ import com.mts.spotmerest.models.User;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_friends")
+@Table(name = "_friends")
 public class UserFriends {
 
     @Id
@@ -13,7 +13,7 @@ public class UserFriends {
     private Long id;
     private Long friendId;
 
-    private User user;
+    private Long user;
 
     public Long getFriendId() {
         return friendId;
@@ -23,11 +23,11 @@ public class UserFriends {
         this.friendId = friendId;
     }
 
-    public User getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Long user) {
         this.user = user;
     }
 
