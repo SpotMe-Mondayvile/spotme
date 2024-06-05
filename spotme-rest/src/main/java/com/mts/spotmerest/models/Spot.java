@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="_spot")
+@Table(name="SPOTS")
 public class Spot {
     @Id
     @SequenceGenerator(

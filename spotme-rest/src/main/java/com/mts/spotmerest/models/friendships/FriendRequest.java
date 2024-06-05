@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
-@Table(name="_friend_requests")
+@Table(name="friend_requests")
 public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

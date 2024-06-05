@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="_match")
+@Table(name="MATCHES")
 public class Match {
     @Id
     @SequenceGenerator(

@@ -1,4 +1,4 @@
-package com.mts.spotmerest.configs;
+package com.mts.spotmerest.configs.starter_data;
 
 
 import com.mts.spotmerest.mappers.RoutineDAO;
