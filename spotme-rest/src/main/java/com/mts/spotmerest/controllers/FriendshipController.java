@@ -47,23 +47,38 @@ public class FriendshipController {
     @PostMapping(value = "/send_request")
     public void sendUserFriendRequest(@RequestBody FriendRequest friendRequest, Principal principal) {
         Long userId = dataFilter.getPrincipalId(principal);
-
+        friendRequest.setCreator(userId);
+        friendRequestService.createRequestFromObject(friendRequest);
     }
 
+
     @PostMapping(value = "/accept/{id}")
-    public void acceptFriendRequest(@PathVariable("{id}") Long id, Principal principal) {
+    public void acceptFriendRequest(@PathVariable("id") Long id, Principal principal) {
         Long userId = dataFilter.getPrincipalId(principal);
         FriendRequest friendRequest = friendRequestService.getFriendRequest(id).orElseThrow();
+        friendRequest.setStatus("CONFIRMED");
+        friendRequestService.updateFriendRequestFromObject(friendRequest);
         if(friendRequest.getStatus().equals("CONFIRMED")) {
             friendsService.addUserFriends(userId, friendRequest.getCreator());
         }
     }
 
+    @PostMapping(value = "/deny/{id}")
+    public void denyFriendRequest(@PathVariable("id") Long id, Principal principal) {
+        Long userId = dataFilter.getPrincipalId(principal);
+        FriendRequest friendRequest = friendRequestService.getFriendRequest(id).orElseThrow();
+        friendRequest.setStatus("DENIED");
+        friendRequestService.updateFriendRequestFromObject(friendRequest);
+        if(friendRequest.getStatus().equals("DENIED")) {
+            friendRequestService.deleteRequest(friendRequest.getId());
+        }
+    }
+
 
     @DeleteMapping(value = "/delete/{id}")
-    public void userFriendRequest(@PathVariable("{id}") Long id, Principal principal) {
+    public void userFriendRequest(@PathVariable("id") Long id, Principal principal) {
         Long userId = dataFilter.getPrincipalId(principal);
-        friendsService.removeFriend(id);
+        friendsService.removeFriend(id,userId);
     }
 
     @GetMapping(path="/getUserFriendList")
@@ -73,11 +88,16 @@ public class FriendshipController {
     }
 
     @GetMapping(path="/getFriend/{id}")
-    public Optional<Friend> getFriend(@PathVariable("{id}") Long id, Principal principal){
+    public Optional<Friend> getFriend(@PathVariable(value="id") Long id, Principal principal){
         Long userId = dataFilter.getPrincipalId(principal);
         return this.friendsService.getFriend(id,userId);
     }
 
+    @GetMapping(path="/getFriendRequests")
+    public List<Optional<FriendRequest>> getUserFriendRequests(Principal principal){
+        Long userId = dataFilter.getPrincipalId(principal);
+        return friendRequestService.getFriendRequests(userId);
+    }
 
 
 //    @GetMapping(path="/getUserFriendList")

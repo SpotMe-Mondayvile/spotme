@@ -28,13 +28,19 @@ public class FriendsService {
         Friend newFriendship = new Friend();
         newFriendship.setUser(userId);
         newFriendship.setFriendId(friendId);
-        userFriendsDAO.save(newFriendship);
+        if(!isFriends(friendId,userId)){
+            newFriendship.setActive(true);
+            userFriendsDAO.save(newFriendship);
+        }
+
     }
 
-    public void removeFriend(Long friendShipId){
-        Optional<Friend> friendShip= userFriendsDAO.findById(friendShipId);
-        if(friendShip.isPresent()){
-            userFriendsDAO.deleteById(friendShipId);
+    public void removeFriend(Long friendId,Long userId){
+        Optional<Friend> friendShip= userFriendsDAO.findFriendByUserAndFriendId(friendId,userId);
+        if(isFriends(friendId,userId)){
+            userFriendsDAO.deleteById(friendShip.orElseThrow().getId());
+        }else{
+            log.error("Could not remove friend");
         }
     }
 
@@ -43,10 +49,10 @@ public class FriendsService {
         return userFriendsDAO.findAllFriends(userId);
     }
 
-    public Optional<Friend> getFriend(Long friendId,Long userId) {
+    public Optional<Friend> getFriend(Long userId,Long friendId) {
         Optional<Friend> friend=null;
         if(isFriends(friendId,userId)){
-            friend = userFriendsDAO.findById(friendId);
+            friend = userFriendsDAO.findFriendByUserAndFriendId(friendId,userId);
         }else{
          log.debug("User is not Friends");
         }
@@ -54,6 +60,6 @@ public class FriendsService {
     }
 
     public Boolean isFriends(Long friendId, Long userId){
-        return userFriendsDAO.findFriendByUserAndFriendId(friendId,userId).isEmpty();
+        return userFriendsDAO.findFriendByUserAndFriendId(friendId,userId).isPresent();
     }
 }

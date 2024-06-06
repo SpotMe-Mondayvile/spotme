@@ -11,13 +11,13 @@ public class Friend {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long friendId;
-    private Long user;
+    private Long userId;
     private Boolean isActive;
 
-    public Friend(Long friendId, Long user, Boolean isActive) {
+    public Friend(Long friendId, Long userId, Boolean isActive) {
         this.id = id;
         this.friendId = friendId;
-        this.user = user;
+        this.userId = userId;
         this.isActive = isActive;
     }
 
@@ -33,11 +33,23 @@ public class Friend {
     }
 
     public Long getUser() {
-        return user;
+        return userId;
     }
 
     public void setUser(Long user) {
-        this.user = user;
+        this.userId = user;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 }
