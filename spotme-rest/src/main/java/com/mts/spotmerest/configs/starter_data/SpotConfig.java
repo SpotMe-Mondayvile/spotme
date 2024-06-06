@@ -1,9 +1,6 @@
-package com.mts.spotmerest.configs;
+package com.mts.spotmerest.configs.starter_data;
 
-import com.mts.spotmerest.mappers.GymDAO;
-import com.mts.spotmerest.mappers.MatchDAO;
 import com.mts.spotmerest.mappers.SpotDAO;
-import com.mts.spotmerest.models.Gym;
 import com.mts.spotmerest.models.Spot;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

@@ -9,24 +9,27 @@ public class BlockUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int targetUserId;
+    private Long targetUserId;
+    private Long user;
 
+    public BlockUser(Long targetUserId, Long user) {
+        this.targetUserId = targetUserId;
+        this.user = user;
+    }
 
-    private User user;
-
-    public int getTargetUserId() {
+    public Long getTargetUserId() {
         return targetUserId;
     }
 
-    public void setTargetUserId(int targetUserId) {
+    public void setTargetUserId(Long targetUserId) {
         this.targetUserId = targetUserId;
     }
 
-    public User getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Long user) {
         this.user = user;
     }
 

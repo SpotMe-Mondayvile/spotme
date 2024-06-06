@@ -1,13 +1,6 @@
-package com.mts.spotmerest.configs;
+package com.mts.spotmerest.configs.starter_data;
 
-import com.mts.spotmerest.mappers.UserDAO;
-import com.mts.spotmerest.models.Role;
-import com.mts.spotmerest.models.User;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class UserConfig {

@@ -12,6 +12,11 @@ public class SubscribeUser {
     private int targetUserId;
     private User user;
 
+    public SubscribeUser(int targetUserId, User user) {
+        this.targetUserId = targetUserId;
+        this.user = user;
+    }
+
     public int getTargetUserId() {
         return targetUserId;
     }
