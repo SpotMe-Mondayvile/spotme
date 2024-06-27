@@ -1,6 +1,6 @@
 node {
     // some block
-    git branch: 'develop', url: 'https://github.com/SpotMe-Mondayvile/spotme.git'
+    git branch: '${BRANCH}', url: 'git@github.com:SpotMe-Mondayvile/spotme.git'
 
 sh '''
 cd spotme-web
