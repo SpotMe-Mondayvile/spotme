@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface SpotDAO extends JpaRepository<Spot, Long> {
 
     Optional<Spot> findSpotById(Long id);
+
     List<Optional<Spot>> findSpotByUserId(Long userId);
 //    Optional<Spot> findSpotByUserId(Long userId);
 }

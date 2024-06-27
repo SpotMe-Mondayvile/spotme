@@ -100,11 +100,6 @@ public class FriendshipController {
     }
 
 
-//    @GetMapping(path="/getUserFriendList")
-//    public ResponseEntity<Map<String, Object>> getUserFriendList(@RequestBody UserFriendsListRequestEntity userFriendsListRequestEntity) {
-//        return this.friendsService.getUserFriendsList(userFriendsListRequestEntity);
-//    }
-//
 //    @GetMapping(path= "/getCommonUserFriends")
 //    public ResponseEntity<Map<String, Object>> getCommonUserFriends(@RequestBody UserFriendsRequestEntity userFriendsRequestEntity) {
 //        return this.friendsService.getCommonUserFriends(userFriendsRequestEntity);
@@ -116,6 +111,7 @@ public class FriendshipController {
 //    }
 //
 //    @PostMapping(path = "/blockUserRequest")
-//    public ResponseEntity<Map<String, Object>> blockUserRequest(@RequestBody BlockUserRequestEntity blockUserRequestEntity) {
+//    public  blockUserRequest(@RequestBody BlockUserRequestEntity blockUserRequestEntity) {
 //        return this.blockUserService.addBlockUser(blockUserRequestEntity);
+//    }
 }
