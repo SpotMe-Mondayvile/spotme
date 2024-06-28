@@ -9,6 +9,10 @@ npm run build
 tar -czvf spotme-web-archive.tar.gz build
 cd ..'''
 
+sh '''
+cd spotme-rest
+mvn package -Dmaven.test.skip
+cd ..'''
 def projectVersion = sh script: "mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec", returnStdout: true
 archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
 archiveArtifacts artifacts: "spotme-rest/target/spotme-rest-${projectVersion}.jar", followSymlinks: false
