@@ -18,7 +18,7 @@ def projectVersion = sh script: "cd spotme-rest && mvn -q -Dexec.executable=echo
 
 sh'''cd ..'''
 archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
-archiveArtifacts artifacts: "spotme-rest/target/.*.jar", followSymlinks: false
+archiveArtifacts artifacts: 'spotme-rest/target/*.jar', followSymlinks: false
 
 // sh '''docker image ls'''
 }
