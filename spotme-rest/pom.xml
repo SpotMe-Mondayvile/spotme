@@ -8,6 +8,7 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.mts</groupId>
 	<artifactId>spotme-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -101,5 +102,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+
 	</build>
 </project>
