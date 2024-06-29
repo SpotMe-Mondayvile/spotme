@@ -14,7 +14,7 @@ cd spotme-rest
 mvn package -ntp -Dmaven.test.skip
 '''
 
-def projectVersion = sh script: "mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec", returnStdout: true
+def projectVersion = sh script: "cd spotme-rest && mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec", returnStdout: true
 
 sh'''cd ..'''
 archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
