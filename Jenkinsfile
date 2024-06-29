@@ -17,8 +17,8 @@ mvn package -ntp -Dmaven.test.skip
 def projectVersion = sh script: "cd spotme-rest && mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec", returnStdout: true
 
 sh'''cd ..'''
-archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
-archiveArtifacts artifacts: "spotme-rest/target/spotme-rest-${projectVersion}.jar", followSymlinks: false
+archiveArtifacts artifacts: '/var/jenkins_home/workspace/SPOTME_deployment_jenkins_update/spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
+archiveArtifacts artifacts: "/var/jenkins_home/workspace/SPOTME_deployment_jenkins_update/spotme-rest/target/spotme-rest-${projectVersion}.jar", followSymlinks: false
 
 // sh '''docker image ls'''
 }
