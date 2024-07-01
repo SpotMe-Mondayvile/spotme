@@ -1,0 +1,9 @@
+FROM openjdk:17
+EXPOSE 8080
+EXPOSE 3000
+EXPOSE 5000
+
+COPY . ./
+
+
+
