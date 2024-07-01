@@ -42,7 +42,6 @@ pipeline {
         stage("Deploy"){
             steps{
                dir("spotme-rest/"){
-               def projectVersion = sh script: "cd spotme-rest && mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec", returnStdout: true
                 sh ''' java -jar target/spotme-rest-0.0.1-SNAPSHOT.jar '''
                }
                dir("spotme-web/"){
