@@ -17,7 +17,11 @@ pipeline {
                 sh ''' mvn package -ntp -Dmaven.test.skip '''
                }
                dir("spotme-web/"){
-                sh ''' npm run build '''
+                sh '''
+                npm install
+                npm install -g serve
+                tar -czvf spotme-web-archive.tar.gz build
+                npm run build '''
                }
             }
         }
