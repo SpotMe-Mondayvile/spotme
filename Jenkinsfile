@@ -38,10 +38,8 @@ pipeline {
         }
         stage("Store Artifacts"){
             steps{
-               sh '''
                archiveArtifacts artifacts: 'spotme-web/spotme-web-archive.tar.gz*', followSymlinks: false
                archiveArtifacts artifacts: 'spotme-rest/target/*.jar', followSymlinks: false
-               '''
             }
         }
         stage("Deploy"){
