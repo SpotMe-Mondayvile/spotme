@@ -8,7 +8,9 @@ pipeline {
         }
         stage("Clone repo"){
             steps{
-                git branch: env.BRANCH_NAME, url: 'git@github.com:SpotMe-Mondayvile/spotme.git'
+                git branch: env.BRANCH_NAME,
+                credentialsId:'master'
+                url: 'git@github.com:SpotMe-Mondayvile/spotme.git'
             }
         }
         stage("Build"){
