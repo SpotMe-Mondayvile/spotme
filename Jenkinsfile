@@ -20,8 +20,9 @@ pipeline {
                 sh '''
                 npm install
                 npm install -g serve
+                npm run build
                 tar -czvf spotme-web-archive.tar.gz build
-                npm run build '''
+                '''
                }
             }
         }
