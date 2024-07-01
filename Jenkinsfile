@@ -28,9 +28,9 @@ pipeline {
                }
                dir("spotme-web/"){
                 sh '''
-                sudo npm install
-                sudo npm install -g serve
-                sudo npm run build
+                npm install
+                npm install -g serve
+                npm run build
                 tar -czvf spotme-web-archive.tar.gz build
                 '''
                }
