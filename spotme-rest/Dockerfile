@@ -4,7 +4,14 @@ EXPOSE 8080
 EXPOSE 3000
 EXPOSE 5000
 
-COPY . ./
+RUN sudo apt install maven
+
+COPY . .
+
+RUN  mvn package -ntp -Dmaven.test.skip
+
+CMD ["java","-jar target/spotme-rest-0.0.1-SNAPSHOT.jar"]
+
 
 
 
