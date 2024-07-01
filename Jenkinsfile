@@ -44,12 +44,12 @@ pipeline {
         }
         stage("Deploy"){
             steps{
+              dir("spotme-web/"){
+                   sh ''' serve -s build'''
+                  }
                dir("spotme-rest/"){
                 sh ''' java -jar target/spotme-rest-0.0.1-SNAPSHOT.jar '''
                }
-               dir("spotme-web/"){
-               sh ''' serve -s build'''
-              }
             }
         }
     }
