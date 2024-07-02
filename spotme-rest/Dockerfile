@@ -6,7 +6,7 @@ EXPOSE 8080
 EXPOSE 3000
 EXPOSE 5000
 
-RUN sudo apt install maven
+RUN apt install maven
 
 COPY . .
 
