@@ -10,7 +10,7 @@ COPY . .
 
 RUN  mvn package -ntp -Dmaven.test.skip
 
-CMD ["java","-jar target/spotme-rest-0.0.1-SNAPSHOT.jar"]
+RUN java-jar target/spotme-rest-0.0.1-SNAPSHOT.jar
 
 
 

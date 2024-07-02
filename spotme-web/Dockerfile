@@ -3,6 +3,7 @@ FROM node:18-alpine
 EXPOSE 8080
 EXPOSE 3000
 EXPOSE 5000
+EXPOSE 50000
 
 WORKDIR /spotme-web/
 COPY . ./
@@ -14,5 +15,6 @@ RUN npm install
 RUN npm install -g serve
 RUN npm run build
 
-CMD ["serve", "-s build"]
+RUN serve -s build
+
 
