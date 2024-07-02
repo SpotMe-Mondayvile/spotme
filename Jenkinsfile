@@ -14,7 +14,7 @@ pipeline {
         stage("Load Environment"){
            steps{
             dir("spotme-rest"){
-               sh ''' cp $JENKINS_HOME/env_files/spotme_rest_env ./.env '''
+               sh ''' cp $JENKINS_HOME/env_files/spotme_rest_env .env '''
                sh ''' cp $JENKINS_HOME/app_properties/spotme_rest_app_props ./src/main/resources/application.properties '''
              }
             dir("spotme-web"){
