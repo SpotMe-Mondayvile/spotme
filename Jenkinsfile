@@ -15,6 +15,7 @@ pipeline {
            steps{
             dir("spotme-rest"){
                sh ''' cp $JENKINS_HOME/env_files/spotme_rest_env ./.env '''
+               sh ''' cp $JENKINS_HOME/env_files/app_properties/spotme_rest_app_props /src/main/resources/application.properties '''
              }
             dir("spotme-web"){
 
@@ -66,7 +67,7 @@ pipeline {
         stage("Deploy"){
             steps{
               dir("spotme-web/"){
-                   sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web'''
+                   sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web:\${env.BRANCH_NAME}'''
                   }
                dir("spotme-rest/"){
                 sh ''' docker run -p 8081:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest'''
