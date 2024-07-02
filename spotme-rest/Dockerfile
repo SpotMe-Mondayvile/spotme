@@ -6,8 +6,6 @@ EXPOSE 8080
 EXPOSE 3000
 EXPOSE 5000
 
-RUN apt install maven
-
 COPY . .
 
 RUN  mvn package -ntp -Dmaven.test.skip
