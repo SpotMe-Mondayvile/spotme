@@ -52,13 +52,24 @@ pipeline {
                archiveArtifacts artifacts: 'spotme-rest/target/*.jar', followSymlinks: false
             }
         }
+        stage("Build Container Images"){
+            steps(){
+                dir("spotme-rest/"){
+                sh '''docker build -t spotme-rest . '''
+                }
+                dir("spotme-web/"){
+                sh '''docker build -t spotme-web . '''
+                }
+            }
+        }
+
         stage("Deploy"){
             steps{
               dir("spotme-web/"){
-                   sh ''' serve -s build'''
+                   sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-rest'''
                   }
                dir("spotme-rest/"){
-                sh ''' java -jar target/spotme-rest-0.0.1-SNAPSHOT.jar '''
+                sh ''' docker run -p 8081:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest'''
                }
             }
         }
