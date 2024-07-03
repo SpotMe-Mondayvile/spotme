@@ -69,14 +69,14 @@ pipeline {
               dir("spotme-web/"){
                 try{
                    sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web'''
-                    }catch{
+                    }catch(e){
                     sh'''echo "Was not able to start web service, might be running already"'''
                     }
                   }
                dir("spotme-rest/"){
                try{
                   sh ''' docker run -p 8081:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest'''
-                   }catch{
+                   }catch(e){
                    sh'''echo "Was not able to start rest service, might be running already"'''
                    }
                }
