@@ -35,18 +35,18 @@ public class OpenApiConfig {
     @Value("${spotme.openapi.dev-url}")
     private String devUrl;
 
-//    @Value("${spotme.openapi.prod-url}")
-//    private String prodUrl;
+    @Value("${spotme.openapi.prod-url}")
+    private String prodUrl;
 
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
         devServer.setUrl(devUrl);
-        devServer.setDescription("Server URL in Development environment");
+        devServer.setDescription("Server URL in Local environment");
 
-//        Server prodServer = new Server();
-//        prodServer.setUrl(prodUrl);
-//        prodServer.setDescription("Server URL in Production environment");
+        Server prodServer = new Server();
+        prodServer.setUrl(prodUrl);
+        prodServer.setDescription("Server URL in Deployed environment");
 
         Contact contact = new Contact();
         contact.setEmail("magustechsolutions@gmail.com");
@@ -60,6 +60,6 @@ public class OpenApiConfig {
                 .description("This API exposes endpoints to manage tutorials.").termsOfService("https://www.bezkoder.com/terms");
 
 
-        return new OpenAPI().info(info).servers(List.of(devServer));
+        return new OpenAPI().info(info).servers(List.of(devServer,prodServer));
     }
 }
