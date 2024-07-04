@@ -63,30 +63,33 @@ pipeline {
                 }
             }
         }
-        if(env.BRANCH_NAME=="develop"){
-                stage("Deploy"){
-                    steps{
-                      dir("spotme-web/"){
-                      script{
-                        try{
-                           sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web:$env.BRANCH_NAME'''
-                            }catch(e){
-                            sh'''echo "Was not able to start web service, might be running already"'''
-                            }
-                          }
-                          }
-                      script{
-                       dir("spotme-rest/"){
-                       try{
-                          sh ''' docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:$env.BRANCH_NAME'''
-                           }catch(e){
-                           sh'''echo "Was not able to start rest service, might be running already"'''
-                           }
-                        }
-                       }
-                    }
+        stage("Deploy"){
+           steps{
+            if(env.BRANCH_NAME=="develop"){
+
+                dir("spotme-web/"){
+                                    script{
+                                        try{
+                                           sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web:$env.BRANCH_NAME'''
+                                            }catch(e){
+                                            sh'''echo "Was not able to start web service, might be running already"'''
+                                            }
+                                          }
+                                          }
+                                    script{
+                                         dir("spotme-rest/"){
+                                           try{
+                                              sh ''' docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:$env.BRANCH_NAME'''
+                                               }catch(e){
+                                               sh'''echo "Was not able to start rest service, might be running already"'''
+                                               }
+                                         }
+                                       }
+                                    }
+                }
+
              }
-        }
+
 
     }
 }
