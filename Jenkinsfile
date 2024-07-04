@@ -7,6 +7,7 @@ pipeline {
         stage("Clean Up"){
             steps{
                 deleteDir()
+                script{sh """ docker image prune -a"""}
             }
         }
         stage("Clone repo"){
