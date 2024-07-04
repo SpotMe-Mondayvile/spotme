@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,10 +33,10 @@ public class OpenApiConfig {
                 .addSecuritySchemes("bearer-key",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"));
     }
-    @Value("${spotme.openapi.dev-url}")
+    @Value("http://localhost:8080")
     private String devUrl;
 
-    @Value("${spotme.openapi.prod-url}")
+    @Value("https://rest.spot-me-app.com")
     private String prodUrl;
 
     @Bean
