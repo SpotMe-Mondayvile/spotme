@@ -29,7 +29,7 @@ pipeline {
         stage("Build"){
             steps{
                dir("spotme-rest/"){
-                sh ''' mvn package -ntp -Dmaven.test.skip '''
+                sh ''' mvn clean install -ntp -Dmaven.test.skip '''
                }
                dir("spotme-web/"){
                 sh '''
