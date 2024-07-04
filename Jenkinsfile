@@ -56,10 +56,10 @@ pipeline {
         stage("Build Container Images"){
             steps(){
                 dir("spotme-rest/"){
-                sh '''docker build -t spotme-rest:$env.BRANCH_NAME . '''
+                sh """ docker build -t spotme-rest:${env.BRANCH_NAME} . """
                 }
                 dir("spotme-web/"){
-                sh '''docker build -t spotme-web:$env.BRANCH_NAME . '''
+                sh """ docker build -t spotme-web:${env.BRANCH_NAME} . """
                 }
             }
         }
@@ -70,7 +70,7 @@ pipeline {
                         dir("spotme-web/") {
                             script {
                                 try {
-                                    sh ''' docker run -p 3000:3000 -p 5000:50000 -d spotme-web:$env.BRANCH_NAME'''
+                                    sh """docker run -p 3000:3000 -p 5000:50000 -d spotme-web:${env.BRANCH_NAME}"""
                                 } catch (e) {
                                     sh '''echo "Was not able to start web service, might be running already"'''
                                 }
@@ -79,7 +79,7 @@ pipeline {
                         dir("spotme-rest/") {
                             script{
                                 try {
-                                    sh ''' docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:$env.BRANCH_NAME'''
+                                    sh """docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:${env.BRANCH_NAME}"""
                                 } catch (e) {
                                     sh '''echo "Was not able to start rest service, might be running already"'''
                                 }
