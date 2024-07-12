@@ -11,10 +11,10 @@ COPY public/ /spotme-web/public
 COPY src/ /spotme-web/src
 COPY package.json /spotme-web/
 
-RUN npm install
 RUN npm install axios
 RUN npm install @ionic/cli
 RUN ionic build
+RUN npm install
 
 
 ENTRYPOINT ["ionic","serve"]
