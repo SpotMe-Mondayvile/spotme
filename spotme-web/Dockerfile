@@ -11,8 +11,8 @@ COPY public/ /spotme-web/public
 COPY src/ /spotme-web/src
 COPY package.json /spotme-web/
 
-RUN npm install axios
-RUN npm install @ionic/cli
+RUN npm install -g axios
+RUN npm install -g @ionic/cli
 RUN npm install
 
 
