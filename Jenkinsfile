@@ -75,7 +75,7 @@ pipeline {
                         dir("spotme-web/") {
                             script {
                                 try {
-                                    sh """docker run -p 3000:3000 -p 5000:50000 -d spotme-web:${s_branch}"""
+                                    sh """docker run -p 3000:8100 -p 5000:50000 -d spotme-web:${s_branch}"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
