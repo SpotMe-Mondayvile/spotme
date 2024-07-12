@@ -34,9 +34,10 @@ pipeline {
                dir("spotme-web/"){
                 sh '''
                 npm install
-                npm install serve
-                npm run build
-                tar -czvf spotme-web-archive.tar.gz build
+                npm install @ionic/cli
+                npm install axios
+                ionic build
+                tar -czvf spotme-web-archive.tar.gz dist
                 '''
                }
             }
