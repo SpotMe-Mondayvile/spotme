@@ -14,6 +14,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Home from './pages/Home';
 import Friends from './pages/Friends.jsx';
 import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 
@@ -46,7 +47,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import SignUp from './pages/SignUp';
+
 
 setupIonicReact();
 
