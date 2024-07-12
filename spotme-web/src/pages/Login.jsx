@@ -1,8 +1,51 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import { useEffect, useRef,useState } from 'react';
+import apiClient from '../utils/api-client';
 import './Login.css';
 
 const Login = () => {
+  const passwordRef = useRef(null)
+  const [isLoading,setIsLoading]= useState(false)
+  const [email,setEmail] =useState("") 
+  const [errors,setErrors]= useState("")
+  const [password,setPassword] =useState("") 
+  const [creds,setCreds] = useState([{
+    email:"",
+    firstname:"",
+    password:""
+  }]); 
+
+
+  useEffect(()=>{
+      setCreds({email:email,password:password});
+      console.log(email,password)
+    }
+    , [email,password]
+  )
+  const onSubmit = ()=>{
+  
+    console.log("clicked")
+    loginPost()
+  }
+
+  const loginPost= async()=>{
+    console.log("Login Called")
+    setIsLoading(true)
+    try {
+      console.log("trying api login")
+        const res = await apiClient.post(`/api/v1/auth/authenticate`,{creds})
+        console.log("post api call")
+    .then((res)=>{
+            console.log(res.data)
+            setIsLoading(false)}
+        )      
+    } catch (err) {
+            setIsLoading(false);
+            setErrors(err.message)   
+    } 
+}
+
   return (
     <IonPage>
       <IonHeader>
@@ -16,22 +59,24 @@ const Login = () => {
           <h2>Login Form</h2>
           <div className="form_inputs">
             <div>
-              <label htmlFor="first_name" className="">First Name</label>
-              <input type="text" className="form_text_name" id='first_name' />
+              <label htmlFor="email" id='email' className="">Email</label>
+              <input 
+              type="email" 
+              className="form_text_name"
+              id='email' onInput={e => setEmail(e.target.value)} />
             </div>
             <div>
-              <label htmlFor="last_name" className="">Last Name</label>
-              <input type="text" className="form_text_name" id='last_name' />
+              <label htmlFor="password" className="">Password</label>
+              <input 
+              type="password" 
+              id='password' 
+              //ref ={passwordRef} 
+              className="form_text_name" onInput={e => setPassword(e.target.value)}/>
             </div>
-            <div>
-              <label htmlFor="" className="">Email</label>
-              <input type="email" className="form_text_name" />
+            <button type="button" className="search_button form_submit" onClick={onSubmit}>Login</button>
+            <div className="signup_button_container">
+                       Need to make an account? <a href="/signup">Sign Up</a>
             </div>
-            <div>
-              <label htmlFor="" className="">Password</label>
-              <input type="text" className="form_text_name" />
-            </div>
-            <button type="submit" className="search_button form_submit"> Submit </button>
           </div>
         </form>
       </section>
