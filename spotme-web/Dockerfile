@@ -3,6 +3,7 @@ FROM node:18-alpine
 EXPOSE 8100
 EXPOSE 3000
 EXPOSE 5000
+EXPOSE 5173
 EXPOSE 50000
 
 WORKDIR /spotme-web/
@@ -13,8 +14,8 @@ COPY package.json /spotme-web/
 
 RUN npm install -g axios
 RUN npm install -g @ionic/cli
-RUN npm install
+RUN npm run build_dev
 
 
 
-ENTRYPOINT ["ionic","serve"]
+ENTRYPOINT ["npm","run","build_dev"]
