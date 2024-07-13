@@ -1,4 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 import {
   IonApp,
   IonIcon,
@@ -51,19 +52,30 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
+
+const App: React.FC = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    () => localStorage.getItem('logged_user') !== null
+  );
+
+  useEffect(() => {
+    localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
+
+return (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/login">
-            <Login />
+          {isLoggedIn? <Home />: <Login/>}
           </Route>
           <Route exact path="/signup">
             <SignUp />
           </Route>
           <Route exact path="/home">
-            <Home />
+          {isLoggedIn? <Home />: <Redirect to="/login"/>}
           </Route>
           <Route exact path="/friends">
             <Friends />
@@ -75,7 +87,7 @@ const App: React.FC = () => (
             <Tab3 />
           </Route>
           <Route exact path="/">
-            <Redirect to="/home" />
+            {isLoggedIn? <Redirect to="/home"/>: <Redirect to="/login"/>}
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
@@ -99,6 +111,7 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+ )
+};
 
 export default App;
