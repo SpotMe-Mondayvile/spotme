@@ -3,6 +3,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import { useEffect, useRef,useState } from 'react';
 import apiClient from '../utils/api-client';
 import './Login.css';
+import { Redirect } from 'react-router';
 
 const Login=()=>{
   const passwordRef = useRef(null)
@@ -10,14 +11,30 @@ const Login=()=>{
   const [email,setEmail] =useState("") 
   const [errors,setErrors]= useState("")
   const [password,setPassword] =useState("") 
-  const [creds,setCreds] = useState([{
+  const [cookies,setCookies] = useState([])
+  const [token,setToken] = useState([])
+  const [creds,setCreds] = useState({
     email:"",
     password:""
-  }]); 
+  }); 
+
+
+  const [isLoggedIn, setIsLoggedIn] = useState({})
+
+  const setStatus=  () => {
+    localStorage.setItem('logged_user',"false") 
+
+  }
+
+  useEffect(() => {
+    localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
+    isLoggedIn? <Redirect to="/home"/>: <Redirect to="/login"/>
+  }, [isLoggedIn]);
+
 
 
   useEffect(()=>{
-      setCreds([{email:email,password:password}]);
+      setCreds({email:email,password:password});
       console.log(email,password)
     }
     , [email,password]
@@ -33,11 +50,16 @@ const Login=()=>{
     setIsLoading(true)
     try {
       console.log("trying api login")
-        const res = await apiClient.post(`/api/v1/auth/authenticate`,{creds})
-.then((res)=>{
+        const res = await apiClient.client.post('/v1/auth/authenticate',creds)
+.then((res: any)=>{
             console.log(res.data)
-            setIsLoading(false)}
-        )      
+          }
+        )
+        apiClient.tokenSetter(token)
+            setCookies([token])
+            setIsLoading(false)
+            setIsLoggedIn(true);
+            console.log(apiClient)      
     } catch (err) {
             setIsLoading(false);
             setErrors(err.message)   

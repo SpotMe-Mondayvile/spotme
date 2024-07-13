@@ -4,9 +4,5 @@
     "capacitor": {}
   },
   "type": "react-vite",
-  "id": "42cbaeb4",
-  "proxies": [{
-    "path": "local",
-    "proxyUrl": "http://localhost:8100"
-  }]
+  "id": "42cbaeb4"
 }
