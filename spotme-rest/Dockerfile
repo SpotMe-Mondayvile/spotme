@@ -1,4 +1,4 @@
-FROM maven:3.9.8-amazoncorretto-17
+FROM maven:3.9.8-amazoncorretto-18
 
 EXPOSE 8080
 EXPOSE 3000
