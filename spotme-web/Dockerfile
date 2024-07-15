@@ -18,4 +18,4 @@ RUN npm run build_dev
 
 
 
-ENTRYPOINT ["npm","run","dev"]
+ENTRYPOINT ["npm","run","dev","--","--host"]
