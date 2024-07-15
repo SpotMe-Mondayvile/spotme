@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping(path="/all")
-    public List<User> getUsers(@PathVariable("user_id") Long userId, Principal principal) throws Exception{
+    public List<User> getUsers(Principal principal) throws Exception{
         // test if userId is current principal or principal is an ADMIN
         Optional<User> user = userService.getUserByEmail(principal.getName());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

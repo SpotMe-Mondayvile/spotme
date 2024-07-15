@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 //import org.springframework.data.annotation.Id;
 
 @Entity
-@Table(name="_routine")
+@Table(name="ROUTINES")
 public class Routine {  // this Is where we initialize
     private static int nextRoutineNumber = 1;
     //added to both methods, with if-else statements

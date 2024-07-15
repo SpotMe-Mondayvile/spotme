@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="_user")
+@Table(name="USERS")
 @Builder
 public class User implements UserDetails {
     @Id
@@ -26,6 +26,7 @@ public class User implements UserDetails {
             sequenceName="users_sequence",
             allocationSize = 1
     )
+
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "users_sequence"
