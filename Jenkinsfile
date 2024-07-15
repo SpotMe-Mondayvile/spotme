@@ -7,7 +7,10 @@ pipeline {
         stage("Clean Up"){
             steps{
                 deleteDir()
-                script{sh """ docker image prune -a"""}
+                script{
+                    sh """ docker stop \$(docker ps -a -q) """
+                    sh """ docker image prune -a"""
+                }
             }
         }
         stage("Clone repo"){
