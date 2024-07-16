@@ -8,8 +8,14 @@ pipeline {
             steps{
                 deleteDir()
                 script{
-                    sh """ docker stop \$(docker ps -a -q) """
-                    sh """ docker image prune -a"""
+                    try{
+                        sh """ docker stop \$(docker ps -a -q) """
+                    }
+                    catch (e)
+                    {
+                        sh """ echo "tried to kill running processes" """
+                    }
+                    sh """ docker system prune -a """
                 }
             }
         }
