@@ -6,20 +6,19 @@ import './Login.css';
 import { Redirect } from 'react-router';
 
 const Login=()=>{
-  const passwordRef = useRef(null)
   const [isLoading,setIsLoading]= useState(false)
-  const [email,setEmail] =useState("") 
   const [errors,setErrors]= useState("")
-  const [password,setPassword] =useState("") 
   const [cookies,setCookies] = useState([])
   const [token,setToken] = useState([])
+  const passwordRef = useRef(null);
+  const emailRef = useRef(null);
   const [creds,setCreds] = useState({
     email:"",
     password:""
   }); 
 
 
-  const [isLoggedIn, setIsLoggedIn] = useState({})
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const setStatus=  () => {
     localStorage.setItem('logged_user',"false") 
@@ -31,16 +30,10 @@ const Login=()=>{
     isLoggedIn? <Redirect to="/home"/>: <Redirect to="/login"/>
   }, [isLoggedIn]);
 
-
-
-  useEffect(()=>{
-      setCreds({email:email,password:password});
-      console.log(email,password)
-    }
-    , [email,password]
-  )
-  const onSubmit = ()=>{
-  
+  const  handleLogin = ()=>{
+    const currentCreds = {email:emailRef.current.value, password: passwordRef.current.value}
+    console.log(currentCreds)
+    setCreds(currentCreds)
     console.log("clicked")
     loginPost()
   }
@@ -79,21 +72,24 @@ const Login=()=>{
           <h2>Login Form</h2>
           <div className="form_inputs">
             <div>
-              <label htmlFor="email" id='email' className="">Email</label>
+              <label htmlFor="email_field" className="">Email</label>
               <input 
               type="email" 
               className="form_text_name"
-              id='email' onInput={(e:any) => setEmail(e.target.value)} />
+              id='email_field' 
+              ref={emailRef} />
             </div>
             <div>
-              <label htmlFor="password" className="">Password</label>
+              <label htmlFor="password_field" className="">Password</label>
               <input 
               type="password" 
-              id='password' 
-              //ref ={passwordRef} 
-              className="form_text_name" onInput={(e:any) => setPassword(e.target.value)}/>
+              id='password_field' 
+              ref ={passwordRef} 
+              className="form_text_name"/>
+              <button type='button' onClick={()=>passwordRef.current.type="password"}>Hide Password</button>
+              <button type='button' onClick={()=>passwordRef.current.type="text"}>Show Password</button>
             </div>
-            <button type="button" className="search_button form_submit" onClick={onSubmit}>Login</button>
+            <button type="button" className="search_button form_submit" onClick={handleLogin}>Login</button>
             <div className="signup_button_container">
                        Need to make an account? <a href="/signup">Sign Up</a>
             </div>
