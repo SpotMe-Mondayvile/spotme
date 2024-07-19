@@ -11,8 +11,8 @@ const apiClient={
     a_token:"",
     client: axios.create({
                 withCredentials: true,
-                baseURL:"http://localhost:8080/api"
-                // baseURL:"https://rest.spot-me-app.com/api"
+                // baseURL:"http://localhost:8080/api"
+                baseURL:"https://rest.spot-me-app.com/api"
             }, axiosConfig),
     tokenSetter:  function(token){
         this.a_token = token;
