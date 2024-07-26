@@ -55,13 +55,14 @@ setupIonicReact();
 
 const App: React.FC = () => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    () => localStorage.getItem('logged_user') !== null
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+  //   () => localStorage.getItem('logged_user') !== null
+  // );
 
-  useEffect(() => {
-    localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
+  // }, [isLoggedIn]);
 
 return (
   <IonApp>
@@ -69,13 +70,13 @@ return (
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/login">
-          {isLoggedIn? <Home />: <Login/>}
+          <Login/>
           </Route>
           <Route exact path="/signup">
             <SignUp />
           </Route>
           <Route exact path="/home">
-          {isLoggedIn? <Home />: <Redirect to="/login"/>}
+          <Home />
           </Route>
           <Route exact path="/friends">
             <Friends />
@@ -87,7 +88,7 @@ return (
             <Tab3 />
           </Route>
           <Route exact path="/">
-            {isLoggedIn? <Redirect to="/home"/>: <Redirect to="/login"/>}
+          <Home />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
