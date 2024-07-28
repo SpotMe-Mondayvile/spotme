@@ -28,12 +28,12 @@ public class BlockUserService {
 
     //all blocked users for a user
     public Set<Optional<BlockUser>> allBlockedUsers(Long userId){
-        return userBlockedDAO.findAllBlockUsers(userId);
+        return userBlockedDAO.findAllById(userId);
     }
 
     //all users that have blocked the current user
     public Set<Optional<BlockUser>> allUsersBlockedBy(Long userId){
-        return userBlockedDAO.findAllBlockUsersByTargetUserId(userId);
+        return userBlockedDAO.findAllByTargetUserId(userId);
     }
     //add a blocked user
     public void createBlockUser(BlockUser b) {

@@ -1,6 +1,5 @@
 package com.mts.spotmerest.models.friendships;
 
-import com.mts.spotmerest.models.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +8,16 @@ public class BlockUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long targetUserId;
-    private Long userId;
+    private Long id;
 
-    public BlockUser(Long targetUserId, Long userId) {
+    private Long targetUserId;
+
+    public BlockUser(Long targetUserId, Long id) {
         this.targetUserId = targetUserId;
-        this.userId = userId;
+        this.id = id;
+    }
+
+    public BlockUser() {
     }
 
     public Long getTargetUserId() {
@@ -26,11 +29,11 @@ public class BlockUser {
     }
 
     public Long getUserId() {
-        return userId;
+        return id;
     }
 
     public void setUserId(Long userId) {
-        this.userId = userId;
+        this.id = userId;
     }
 
 }

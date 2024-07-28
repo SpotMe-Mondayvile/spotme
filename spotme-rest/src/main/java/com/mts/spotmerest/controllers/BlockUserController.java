@@ -49,9 +49,14 @@ public class BlockUserController {
 
     //not sure how to execute
     @PostMapping(path ="/add")
-    public void addBlockUser(@RequestBody Long userId, Long targetUserId){
-        BlockUser b = new BlockUser(targetUserId, userId);
-        blockUserService.createBlockUser(b);
+    public void addBlockUser(@RequestBody BlockUser blocked, Principal principal ){
+       Optional<User> out=userService.getUserByEmail(principal.getName());
+       if(blocked.getUserId()==out.orElseThrow().getId()){
+           blockUserService.createBlockUser(blocked);
+       }else{
+           System.out.println("User does not match request");
+       }
+
     }
 
     /*
