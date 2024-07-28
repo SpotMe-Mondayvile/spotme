@@ -1,5 +1,8 @@
 {
-  "name": "SpotMe v1",
-  "integrations": {},
-  "type": "react"
+  "name": "spotme-web",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "42cbaeb4"
 }
