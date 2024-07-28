@@ -10,11 +10,12 @@ public class BlockUser {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private Long userId;
     private Long targetUserId;
 
-    public BlockUser(Long targetUserId, Long id) {
+    public BlockUser(Long targetUserId, Long userId) {
         this.targetUserId = targetUserId;
-        this.id = id;
+        this.userId = userId;
     }
 
     public BlockUser() {
@@ -29,11 +30,15 @@ public class BlockUser {
     }
 
     public Long getUserId() {
-        return id;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        this.id = userId;
+        this.userId = userId;
+    }
+
+    public Long getId(){
+        return this.id;
     }
 
 }

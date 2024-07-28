@@ -59,9 +59,19 @@ public class BlockUserController {
 
     }
 
-    /*
-    not really sure how to execute this either
-    @DeleteMapping(path = "/delete/{id}")
-     */
+
+    //not really sure how to execute this either
+    @DeleteMapping(path = "/delete")
+    public void deleteBlockUser(@RequestBody BlockUser blocked, Principal principal){
+        Optional<User> out=userService.getUserByEmail(principal.getName());
+        Optional<BlockUser> b = blockUserService.getBlockRelationship( blocked.getUserId(),  blocked.getTargetUserId());
+        if(blocked.getUserId().equals(out.orElseThrow().getId())){
+            blockUserService.deleteBlockUser(b.orElseThrow().getId());
+        }else{
+            System.out.println("User does not match request");
+        }
+
+    }
+
 
 }

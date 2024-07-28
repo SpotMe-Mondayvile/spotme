@@ -47,5 +47,7 @@ public class BlockUserService {
     }
 
 
-
+    public Optional<BlockUser> getBlockRelationship(Long userId, Long targetUserId) {
+        return userBlockedDAO.findBlockUserByUserAndTargetId(userId, targetUserId);
+    }
 }
