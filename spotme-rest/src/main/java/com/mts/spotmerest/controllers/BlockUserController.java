@@ -35,22 +35,24 @@ public class BlockUserController {
     }
 
     @GetMapping(path = "/all")
-    public Set<Optional<BlockUser>> getBlockedUsers(Long userId){
-        return this.blockUserService.allBlockedUsers(userId);
+    public Set<Optional<BlockUser>> getBlockedUsers(Principal principal){
+        Optional<User> out=userService.getUserByEmail(principal.getName());
+        return this.blockUserService.allBlockedUsers(out.orElseThrow().getId());
     }
 
     @GetMapping(path = "/userBlockedBy")
-    public Set<Optional<BlockUser>> userBlockedBy(Long userId){
-        return this.blockUserService.allUsersBlockedBy(userId);
+    public Set<Optional<BlockUser>> userBlockedBy(Principal principal){
+        Optional<User> out=userService.getUserByEmail(principal.getName());
+        return this.blockUserService.allUsersBlockedBy(out.orElseThrow().getId());
     }
 
 
     //not sure how to execute
-//    @PostMapping(path ="/add")
-//    public void addBlockUser(@RequestBody Long userId, Long targetUserId){
-//        BlockUser b = new BlockUser(targetUserId, userId);
-//        blockUserService.createBlockUser(b);
-//    }
+    @PostMapping(path ="/add")
+    public void addBlockUser(@RequestBody Long userId, Long targetUserId){
+        BlockUser b = new BlockUser(targetUserId, userId);
+        blockUserService.createBlockUser(b);
+    }
 
     /*
     not really sure how to execute this either
