@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -54,7 +56,7 @@ public class BlockUserController {
        if(blocked.getUserId()==out.orElseThrow().getId()){
            blockUserService.createBlockUser(blocked);
        }else{
-           System.out.println("User does not match request");
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User does not match request");
        }
 
     }
@@ -68,7 +70,7 @@ public class BlockUserController {
         if(blocked.getUserId().equals(out.orElseThrow().getId())){
             blockUserService.deleteBlockUser(b.orElseThrow().getId());
         }else{
-            System.out.println("User does not match request");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User does not match request");
         }
 
     }

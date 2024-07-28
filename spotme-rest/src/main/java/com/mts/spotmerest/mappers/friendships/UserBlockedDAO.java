@@ -10,8 +10,8 @@ import java.util.Set;
 
 public interface UserBlockedDAO extends JpaRepository<BlockUser, Long> {
 
-    @Query(value = "SELECT b FROM block_users b WHERE (b.userId = :userId and b.targetUserId= :targetUserId) or (b.userId = :userId and b.targetUserId= :targetUserId)")
-    Optional<BlockUser> findBlockUserByUserAndTargetId(Long userId, Long targetUserId);
+    @Query(value = "SELECT b FROM BlockUser b WHERE (b.userId = :userId and b.targetUserId= :targetUserId) or (b.userId = :userId and b.targetUserId= :targetUserId)")
+    Optional<BlockUser> getBlockUserByUserAndTargetId(Long userId, Long targetUserId);
 
     Set<Optional<BlockUser>> findAllById(Long userId);
 
