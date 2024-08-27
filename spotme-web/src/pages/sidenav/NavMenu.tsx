@@ -50,7 +50,10 @@ const NavMenu = () => {
           <IonItem>Messages</IonItem>
           <IonItem>Account</IonItem>
           <IonItem>Settings</IonItem>
-          <IonButton>Logout</IonButton>
+          <IonButton onClick={()=>{
+            localStorage.removeItem('token')          
+            window.location.reload();
+            }}>Logout</IonButton>
         </IonContent>
       </IonMenu>
       </>
