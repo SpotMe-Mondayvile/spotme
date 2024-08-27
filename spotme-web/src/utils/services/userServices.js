@@ -14,3 +14,15 @@ export function userGetInfo(){
 export function userGetEmail(email){
     return apiClient.get(`/v1/user/email/${email}`)
 }
+
+export function getProfile(){
+    var userData;
+    try{
+        userData = localStorage.getItem("userProfData")
+    }catch(e){
+        userData = userGetInfo
+        localStorage.setItem("userProfData")
+        console.log("Stored User Profile")
+    }
+    return userData
+}

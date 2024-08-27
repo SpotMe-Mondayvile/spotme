@@ -4,6 +4,7 @@ import './Home.css';
 import SideNav from '../../components/menu/SideNav';
 import { useEffect } from 'react';
 import { checkLogin } from './../../utils/userSession';
+import NavMenu from '../sidenav/NavMenu';
 
 const Home: React.FC = () => {
   const navigate = useIonRouter()
@@ -14,14 +15,16 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <IonMenu contentId="main-content">
+      {/* <IonMenu contentId="main-content">
         <IonHeader>
           <IonToolbar>
             <IonTitle>SpotMe</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">This is the menu content.</IonContent>
-      </IonMenu>
+        <IonContent className="ion-padding">
+        </IonContent>
+      </IonMenu> */}
+      <NavMenu/>
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>

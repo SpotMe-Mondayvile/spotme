@@ -1,6 +1,7 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
 import ExploreContainer from '../../components/ExploreContainer';
 import './Friends.css';
+import NavMenu from '../sidenav/NavMenu';
 
 
 const Friends = () => {
@@ -12,22 +13,22 @@ const Friends = () => {
     window.location.reload()
   }
   return (
+    <>
+    <NavMenu/>
     <IonPage>
       <IonHeader>
         <IonToolbar>
+        <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
           <IonTitle>Friends</IonTitle>
-          <IonButton onClick={handleProfileClick}>Profile</IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Friends</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Friends" />
+              <ExploreContainer name="Friends" />
       </IonContent>
     </IonPage>
+    </>
   );
 };
 

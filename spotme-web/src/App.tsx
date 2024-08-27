@@ -53,6 +53,7 @@ import { jwtDecode } from 'jwt-decode';
 import SideNav from './components/menu/SideNav';
 import setAuthToken from './utils/setAuthToken';
 import Profile from './pages/profile/UserProfile';
+import NavMenu from './pages/sidenav/NavMenu';
 
 
 setupIonicReact();
