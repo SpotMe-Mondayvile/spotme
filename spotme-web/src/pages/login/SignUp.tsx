@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
 import ExploreContainer from '../../components/ExploreContainer';
 import './SignUp.css';
 import { useState } from 'react';
@@ -7,6 +7,11 @@ import { signup } from '../../utils/services/userServices';
 
 const SignUp=() => {
   const [isLoading,setIsLoading]= useState(false)
+  const navigate = useIonRouter()
+  const [creds,setCreds] = useState({
+    email:"",
+    password:""
+  }); 
   const {
     register,
     handleSubmit,
@@ -17,7 +22,10 @@ const SignUp=() => {
 
   const onSubmit =async (formData:any)=>{
     try{
-      await signup(formData)
+      const{data} = await signup(formData)
+      localStorage.setItem('token',data.access_token);
+      navigate.push('/Home','root','replace')
+      window.location.reload();
     }catch(err){
       if(err.response && err.response.status<500 && err.response.status>=400 ){
           setFormError(err.response.data.message)
@@ -25,19 +33,6 @@ const SignUp=() => {
     }
   }
 
-//   const fetchSellers= async()=>{
-//     setIsLoading(true)
-//     try {
-//         const res = await apiClient.get(`/api/v1/auth/register`,{creds})
-//     .then((res)=>{
-//             setSellers(res.data)
-//             setIsLoading(false)}
-//         )      
-//     } catch (err) {
-//             setIsLoading(false);
-//             setErrors(err.message)   
-//     } 
-// }
   
 
   return (
@@ -49,7 +44,7 @@ const SignUp=() => {
       </IonHeader>
       <IonContent>
       <section className="align_center form_page">
-        <form action="" className="authentication_form">
+        <form action="" className="authentication_form" onSubmit={handleSubmit((formData)=>onSubmit(formData))}>
           <h2>Sign Up</h2>
           <div className="form_inputs">
             <div>
@@ -78,7 +73,7 @@ const SignUp=() => {
             </div>
             <div>
               <label
-               htmlFor="" 
+               htmlFor="email" 
                className="">
                 Email</label>
               <input 
@@ -89,16 +84,16 @@ const SignUp=() => {
             </div>
             <div>
               <label
-               htmlFor="" 
+               htmlFor="password" 
                className="">
                 Password</label>
               <input
-               type="text" 
+               type="password" 
                className="form_text_name" 
                id="password"
-               {...register("password")}/>
+               {...register("password",{required:true, minLength:3})}/>
             </div>
-            <button type="button" className="search_button form_submit" onSubmit={handleSubmit((formData)=>onSubmit(formData))}> Submit </button>
+            <button type="submit" className="search_button form_submit" > Submit </button>
           </div>
         </form>
       </section>
