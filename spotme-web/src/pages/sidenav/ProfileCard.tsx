@@ -21,3 +21,4 @@ const ProfileCard = ({userProf}) => {
 }
 
 export default ProfileCard
+
