@@ -4,5 +4,6 @@
     "capacitor": {}
   },
   "type": "react-vite",
-  "id": "42cbaeb4"
+  "id": "42cbaeb4",
+  "typescript.validate.enable": false
 }

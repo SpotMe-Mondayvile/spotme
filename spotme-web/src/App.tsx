@@ -8,14 +8,15 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact
+  setupIonicReact,
+  useIonRouter
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
-import Home from './pages/Home';
-import Friends from './pages/Friends';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
+import Home from './pages/home/Home';
+import Friends from './pages/friends/Friends';
+import Login from './pages/login/Login';
+import SignUp from './pages/login/SignUp';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 
@@ -48,66 +49,94 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { jwtDecode } from 'jwt-decode';
+import SideNav from './components/menu/SideNav';
+import setAuthToken from './utils/setAuthToken';
+import Profile from './pages/profile/UserProfile';
+import NavMenu from './pages/sidenav/NavMenu';
 
 
 setupIonicReact();
 
 
 const App: React.FC = () => {
+  const [user,setUser] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useIonRouter()
+  console.log(user)
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    () => localStorage.getItem('logged_user') !== null
-  );
 
-  useEffect(() => {
-    localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
-  }, [isLoggedIn]);
+
+  useEffect(()=>{
+    try{
+    const jwt:string = localStorage.getItem("token");
+    const jwtUser = jwtDecode(jwt)
+    setUser(jwt)
+    setAuthToken(jwt)
+    console.log(jwtUser)
+    }catch(e){
+      console.log("No token available")
+     }
+    },[])
+  
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+  //   () => localStorage.getItem('logged_user') !== null
+  // );
+
+  // useEffect(() => {
+  //   localStorage.setItem('logged_user', JSON.stringify(isLoggedIn));
+  // }, [isLoggedIn]);
 
 return (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/login">
-          {isLoggedIn? <Home />: <Login/>}
+          <Route exact path="/Login">
+          <Login/>
           </Route>
-          <Route exact path="/signup">
+          <Route exact path="/SignUp">
             <SignUp />
           </Route>
-          <Route exact path="/home">
-          {isLoggedIn? <Home />: <Redirect to="/login"/>}
+          <Route exact path="/Home">
+          <Home/>
           </Route>
-          <Route exact path="/friends">
+          <Route exact path="/Friends">
             <Friends />
           </Route>
           <Route exact path="/tab2">
             <Tab2 />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/profile">
+            <Profile/>
           </Route>
           <Route exact path="/">
-            {isLoggedIn? <Redirect to="/home"/>: <Redirect to="/login"/>}
+           <Home />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href="/Home">
+          <IonTabButton tab="home" href={user==null? "/Login":"/Home"}>
             <IonIcon aria-hidden="true" icon={triangle} />
             <IonLabel>Home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="Routines" href="/tab2">
+            <IonIcon aria-hidden="true" icon={ellipse} />
+            <IonLabel>Routines </IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="Create" href="/tab2">
+            <IonIcon aria-hidden="true" icon={ellipse} />
+            <IonLabel>Create Spot</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="Search" href="/search">
+            <IonIcon aria-hidden="true" icon={ellipse} />
+            <IonLabel>Search</IonLabel>
           </IonTabButton>
           <IonTabButton tab="friends" href="/Friends">
             <IonIcon aria-hidden="true" icon={triangle} />
             <IonLabel>Friends</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
         </IonTabBar>
+        
       </IonTabs>
     </IonReactRouter>
   </IonApp>
