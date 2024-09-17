@@ -78,7 +78,7 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            def mvn = tool 'maven';
+            def mvn = tool 'Maven Tool';
             withSonarQubeEnv() {
                 sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=spotme -Dsonar.projectName='spotme'"
             }
