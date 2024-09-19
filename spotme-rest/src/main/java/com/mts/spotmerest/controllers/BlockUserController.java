@@ -42,11 +42,12 @@ public class BlockUserController {
         return this.blockUserService.allBlockedUsers(out.orElseThrow().getId());
     }
 
-    @GetMapping(path = "/userBlockedBy")
-    public Set<Optional<BlockUser>> userBlockedBy(Principal principal){
-        Optional<User> out=userService.getUserByEmail(principal.getName());
-        return this.blockUserService.allUsersBlockedBy(out.orElseThrow().getId());
-    }
+
+//    @GetMapping(path = "/userBlockedBy")
+//    public Set<Optional<BlockUser>> userBlockedBy(Principal principal){
+//        Optional<User> out=userService.getUserByEmail(principal.getName());
+//        return this.blockUserService.allUsersBlockedBy(out.orElseThrow().getId());
+//    }
 
 
     //not sure how to execute
