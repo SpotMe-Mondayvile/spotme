@@ -7,16 +7,6 @@ pipeline {
         stage("Clean Up"){
             steps{
                 deleteDir()
-                script{
-                    try{
-                        sh """ docker stop \$(docker ps -a -q) """
-                    }
-                    catch (e)
-                    {
-                        sh """ echo "tried to kill running processes" """
-                    }
-                    sh """ docker system prune -a """
-                }
             }
         }
         stage("Clone repo"){
@@ -75,6 +65,18 @@ pipeline {
                 dir("spotme-web/"){
                 sh """ docker build -t spotme-web:${s_branch} . """
                 }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    dir("spotme-rest/"){
+                        def mvn = tool 'maven';
+                        withSonarQubeEnv() {
+                            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=spotme -Dsonar.projectName='spotme'"
+                        }
+                    }
+            }
             }
         }
         stage("Deploy") {
