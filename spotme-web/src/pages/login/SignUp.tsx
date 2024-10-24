@@ -3,22 +3,21 @@ import './SignUp.css';
 import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { signup } from '../../utils/services/userServices';
+import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+//lets create a regex for valid characters
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const SignUp = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useIonRouter();
-  const [formError, setFormError] = useState("");
+  // useRef doesnt trigger re renders when used and can be used as mutable data
+  const userRef = useRef();// for user input, allows us to set the focus on the useinput when component loads
+  const errRef = useRef();// if we get the error we need to set the focus on it so it can be announced by screen reader
 
-  const userRef = useRef(null);
-  const errRef = useRef(null);
-
-  const [user, setUser] = useState('');
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
+  const [user, setUser] = useState(''); // tied to the user input
+  const [validName, setValidName] = useState(false); // tied to if name validates or not
+  const [userFocus, setUserFocus] = useState(false); //tied to if we have focus on those input fields or not
 
   const [pwd, setPwd] = useState('');
   const [validPwd, setValidPwd] = useState(false);
@@ -28,121 +27,137 @@ const SignUp = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const { register, handleSubmit } = useForm();
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current?.setFocus();
-  }, [])
+    userRef.current.focus();
+  }, []) // set the focus when component loads and set the focus to user name input
+
+  useEffect(() => { 
+    const result = USER_REGEX.test(user); // testing against the user regex state
+    console.log(result); 
+    console.log(user);
+    setValidName(result);
+  }, [user]) // anytime user changes it checks the validation of the field
+
+  useEffect(() => { 
+    const result = PWD_REGEX.test(pwd); // testing agains the password regex state
+    console.log(result); 
+    console.log(pwd);
+    setValidPwd(result);
+    const match = pwd === matchPwd; // need confrontation and then it will return boolean
+    setValidMatch(match);
+  }, [pwd, matchPwd]) // pwd and matchpwd to be in sync
 
   useEffect(() => {
-    setValidName(USER_REGEX.test(user));
-  }, [user]);
+    setErrMsg('');
+  },[user, pwd, matchPwd]) // anytime one of these states are changed then clear error message once read because user is making changes
 
-  useEffect(() => {
-    setValidPwd(PWD_REGEX.test(pwd));
-    setValidMatch(pwd === matchPwd);
-  }, [pwd, matchPwd]);
-
-  useEffect(() => {
-    setFormError('');
-  }, [user, pwd, matchPwd]);
-
-  const onSubmit = async (formData) => {
-    if (!validName || !validPwd || !validMatch) {
-      setFormError("Invalid Entry");
+  /*
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // if button enabled with JS hack
+    const v1 = USER_REGEX.test(user);// validate the info in the state of the user
+    const v2 = PWD_REGEX.test(pwd);// validate the infor in the state of the password
+    if (!v1 || !v2) {
+      setErrMsg("Invalid Entry");
       return;
     }
-    try {
-      setIsLoading(true);
-      const { data } = await signup(formData);
-      localStorage.setItem('token', data.access_token);
-      navigate.push('/Home', 'root', 'replace');
-      window.location.reload();
-    } catch (err) {
-      setIsLoading(false);
-      if (err.response && err.response.status >= 400 && err.response.status < 500) {
-        setFormError(err.response.data.message);
-      } else {
-        setFormError("Registration Failed");
-      }
-      errRef.current?.focus();
-    }
-  };
+      
+    
+  }
+    */
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Sign Up</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding">
-        <section className="align_center form_page">
-          <IonText ref={errRef} color="danger" className={formError ? "errmsg" : "offscreen"} aria-live="assertive">
-            {formError}
-          </IonText>
-          <form className="authentication_form" onSubmit={handleSubmit(onSubmit)}>
-            <h2>Sign Up</h2>
-            <IonItem>
-              <IonLabel position="floating">Username</IonLabel>
-              <IonInput
-                type="text"
-                ref={userRef}
-                value={user}
-                onIonChange={(e) => setUser(e.detail.value)}
-                required
-                aria-invalid={validName ? "false" : "true"}
-                aria-describedby="uidnote"
-                onFocus={() => setUserFocus(true)}
-                onBlur={() => setUserFocus(false)}
-              />
-              <IonText id="uidnote" color="medium" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
-                4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.
-              </IonText>
-            </IonItem>
+    <section>
+      <p ref={errRef} className={errMsg ? "errmsg" : 
+        "offscreen"} aria-live="assertive">{errMsg}</p> 
+      <h1>Sign Up</h1>
+      <form onSubmit = {handleSubmit}>
+        <label htmlFor="username"> 
+          Username:
+          <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
+          <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
+        </label>
+        <input
+          type="text"
+          id="username"
+          ref={userRef}
+          autoComplete="off"
+          onChange={(e) => setUser(e.target.value)}
+          value={user}
+          required
+          ria-invalid={validName ? "false" : "true"}
+          aria-describedby="uidnote"
+          onFocus={() => setUserFocus(true)}
+          onBlur={() => setUserFocus(false)}
+        />
+        <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+          4 to 24 characters.<br />
+          Must begin with a letter.<br />
+          Letters, numbers, underscores, hyphens allowed.
+        </p>
 
-            <IonItem>
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput
-                type="password"
-                value={pwd}
-                onIonChange={(e) => setPwd(e.detail.value)}
-                required
-                aria-invalid={validPwd ? "false" : "true"}
-                aria-describedby="pwdnote"
-                onFocus={() => setPwdFocus(true)}
-                onBlur={() => setPwdFocus(false)}
-              />
-              <IonText id="pwdnote" color="medium" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
-                8 to 24 characters. Must include uppercase and lowercase letters, a number, and a special character. Allowed special characters: ! @ # $ %
-              </IonText>
-            </IonItem>
 
-            <IonItem>
-              <IonLabel position="floating">Confirm Password</IonLabel>
-              <IonInput
-                type="password"
-                value={matchPwd}
-                onIonChange={(e) => setMatchPwd(e.detail.value)}
-                required
-                aria-invalid={validMatch ? "false" : "true"}
-                aria-describedby="confirmnote"
-                onFocus={() => setMatchFocus(true)}
-                onBlur={() => setMatchFocus(false)}
-              />
-              <IonText id="confirmnote" color="medium" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                Must match the first password input field.
-              </IonText>
-            </IonItem>
 
-            <IonButton expand="block" type="submit" disabled={!validName || !validPwd || !validMatch}>
-              Sign Up
-            </IonButton>
-          </form>
-        </section>
-      </IonContent>
-    </IonPage>
-  );
+        <label htmlFor="password">
+          Password:
+          <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
+          <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
+        </label>
+        <input
+          type="password"
+          id="password"
+          onChange={(e) => setPwd(e.target.value)}
+          value={pwd}
+          required
+          aria-invalid={validPwd ? "false" : "true"}
+          aria-describedby="pwdnote"
+          onFocus={() => setPwdFocus(true)}
+          onBlur={() => setPwdFocus(false)}
+        />
+        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+            8 to 24 characters.<br />
+            Must include uppercase and lowercase letters, a number and a special character.<br />
+            Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+        </p>
+
+        <label htmlFor="confirm_pwd">
+          Confirm Password:
+          <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+          <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+        </label>
+        <input
+          type="password"
+          id="confirm_pwd"
+          onChange={(e) => setMatchPwd(e.target.value)}
+          value={matchPwd}
+          required
+          aria-invalid={validMatch ? "false" : "true"}
+          aria-describedby="confirmnote"
+          onFocus={() => setMatchFocus(true)}
+          onBlur={() => setMatchFocus(false)}
+        />
+        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+          Must match the first password input field.
+        </p>
+
+        <button disabled = {!validName || !validPwd || !validMatch ? true : false}
+        >Sign Up</button>
+      </form>
+      <p>
+        Already registered?<br />
+        <span className="line">
+          {/*put react router link here*/}
+          <a href="/login">Sign in</a>
+        </span>
+      </p>
+    </section>
+  )
 };
 
 export default SignUp;
