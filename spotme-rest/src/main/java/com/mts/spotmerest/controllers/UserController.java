@@ -69,13 +69,6 @@ public class UserController {
         return out;
     }
 
-    @GetMapping(path = "/getinfo")
-    public Optional<User> getUserInfo(Principal principal) throws Exception {
-        // test if userId is current principal or principal is an ADMIN
-        Optional<User> out=userService.getUserByEmail(principal.getName());
-
-        return out;
-    }
 
     @DeleteMapping(path= "/{UserId}")
     public void deleteUser(@PathVariable("UserId") Long id){
