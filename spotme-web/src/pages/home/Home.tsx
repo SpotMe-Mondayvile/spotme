@@ -38,6 +38,7 @@ const Home: React.FC = () => {
   }
 
   useEffect(() => {
+    checkLogin(navigate)
     const newItems = [];
     generateItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
