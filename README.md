@@ -8,9 +8,9 @@ External Sources:
   
  - [Jenkins Pipeline](https://jenkins.spot-me-app.com/).
 
- Infrastructure adn Technologies
+ Infrastructure and Technologies
  
- - [Container Registry](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
+ - [Container Registry](https://containerregistry.spot-me-app.com/).
  
  - [SonarQube](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
  
