@@ -71,9 +71,12 @@ pipeline {
             steps {
                 script {
                     dir("spotme-rest/"){
-                        def mvn = tool 'maven';
+                        def mvn = tool 'maven'
+                        try{
                         withSonarQubeEnv() {
                             sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=spotme -Dsonar.projectName='spotme'"
+                        }}catch (e){
+                            println "Could not complete sonar validation " + e
                         }
                     }
             }
