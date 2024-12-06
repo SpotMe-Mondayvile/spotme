@@ -4,7 +4,7 @@ Project Setup
 
  - [Project Setup](https://docs.google.com/document/d/1O-df9oUytpZRouY57QEDtHqefBnCYMHm3AedVO7zcIc/edit?usp=sharing).
 
-External Sources: 
+Application Sources: 
 
  - [UI-Link](https://ui.spot-me-app.com/home).
 
@@ -17,7 +17,7 @@ External Sources:
  
  - [Container Registry](https://containerregistry.spot-me-app.com/).
  
- - [SonarQube](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
+ - [SonarQube](https://sonar.spot-me-app.com/).
  
  - [Project Roadmap](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
 
