@@ -1,7 +1,9 @@
 def s_branch = env.BRANCH_NAME as String
+def registry = "containerregistry.spot-me-app.com/spotme/sorry" as String
+def registryUrl = "https://containerregistry.spot-me-app.com" as String
 s_branch = s_branch.replaceAll("/","_")
 
-pipeline {
+pipeline{
     agent any
     stages{
         stage("Clean Up"){
@@ -60,10 +62,22 @@ pipeline {
         stage("Build Container Images"){
             steps(){
                 dir("spotme-rest/"){
-                sh """ docker build -t spotme-rest:${s_branch} . """
+                sh """ docker build -t ${registry}spotme-rest:${s_branch} . """
                 }
                 dir("spotme-web/"){
-                sh """ docker build -t spotme-web:${s_branch} . """
+                sh """ docker build -t ${registry}spotme-web:${s_branch} . """
+                }
+            }
+        }
+        stage("Image Upload"){
+            steps(){
+                docker.withRegistry(registryUrl,'spotme-containerregistry') {
+                    def smrest = docker.image("${registry}spotme-rest:${s_branch}")
+                    def smweb = docker.image("${registry}spotme-web:${s_branch}")
+                    // or docker.build, etc.
+                    smrest.push
+                    smweb.push
+
                 }
             }
         }
@@ -71,12 +85,12 @@ pipeline {
             steps {
                 script {
                     dir("spotme-rest/"){
-                        def mvn = tool 'maven'
+                        def mvn = tool 'maven';
                         try{
                         withSonarQubeEnv() {
                             sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=spotme -Dsonar.projectName='spotme'"
                         }}catch (e){
-                            println "Could not complete sonar validation " + e
+                            println "Sonar Analysis could not operate"
                         }
                     }
             }
@@ -89,7 +103,7 @@ pipeline {
                         dir("spotme-web/") {
                             script {
                                 try {
-                                    sh """docker run -p 3000:5173 -p 5000:50000 -p 8100:8100 -d spotme-web:${s_branch}"""
+                                    sh """docker run -p 3000:5173 -p 5000:50000 -p 8100:8100 -d ${registry}spotme-web:${s_branch}"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
@@ -99,7 +113,7 @@ pipeline {
                         dir("spotme-rest/") {
                             script{
                                 try {
-                                    sh """docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:${s_branch}"""
+                                    sh """docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d ${registry}spotme-rest:${s_branch}"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start rest service, might be running already"'''

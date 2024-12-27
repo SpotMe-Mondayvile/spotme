@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +42,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                //.createdAt(getCurrentTime())
                 .build();
         if(userDAO.findByEmail(request.getEmail()).isEmpty()){
             userDAO.save(user);
@@ -77,5 +81,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .access_token(jwtToken)
                 .build();
+    }
+
+    public Date getCurrentTime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        return date;
     }
 }
