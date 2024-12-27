@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotme-rest-deployment
+  namespace: spotme-dev
+  labels:
+      app: spotme-rest
+      type: back-end
+spec:
+  template:
+    spec:
+      containers:
+      - name: spotme-rest
+        image: containerregistry.spot-me-app.com/spotme/spotme-rest
+        ports:
+          - containerPort: 8080
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: spotme-app-secrets-dev
+              key: password
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: spotme-app-secrets-dev
+              key: username
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: spotme-app-secrets-dev
+              key: jwt_secret
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: db_url
+        - name: DB_BEHAVIOR
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: db_behavior
+        - name: DB_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: db_driver
+        - name: DB_DIALECT
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: db_dialect
+        - name: CUSTOM_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: custom_port
+        - name: ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: origin   
+        - name: DEV_URL
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: dev_url 
+        - name: PROD_URL
+          valueFrom:
+            configMapKeyRef:
+              name: spotme-dev-config
+              key: prod_url   
+      imagePullSecrets:
+        - name: regcred   
+    metadata:
+        name: spotme-rest
+        labels:
+          app: spotme-rest
+          type: back-end
+          project: spotme
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotme-rest
+  
