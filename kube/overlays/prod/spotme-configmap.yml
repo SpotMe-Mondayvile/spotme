@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: spotme-config
+    namespace: spotme-prod
+data:
+  db_url: "jdbc:mysql://192.168.1.238:30106/spotme_local?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+  db_behavior: "update"
+  db_driver:  "com.mysql.cj.jdbc.Driver"
+  db_dialect: "org.hibernate.dialect.MySQLDialect"
+  custom_port: "8081"
+  origin: "http:localhost:8100"
+  dev_url: "http://localhost:8080"
+  prod_url: "https://rest.spot-me-app.com"
