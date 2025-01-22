@@ -73,12 +73,12 @@ pipeline{
             steps(){
                 script{
                     docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                        def smrest = docker.image("${registry}spotme-rest:${s_branch}"){
-                            c -> sh "docker push ${registry}spotme-rest:${s_branch}"
-                        }
-                        def smweb = docker.image("${registry}spotme-web:${s_branch}"){
-                            c -> sh "docker push ${registry}spotme-web:${s_branch}"
-                        }
+                        def smrest = docker.image("${registry}spotme-rest:${s_branch}")
+                        sh "docker push ${registry}spotme-rest:${s_branch}"
+
+                        def smweb = docker.image("${registry}spotme-web:${s_branch}")
+                            "docker push ${registry}spotme-web:${s_branch}"
+
                         // or docker.build, etc.
                         //smrest.push
                         //smweb.push
