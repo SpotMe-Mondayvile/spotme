@@ -76,28 +76,26 @@ pipeline{
                 script{
                     try{
                         docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                            def smrest = docker.image("${registry}spotme-rest:${s_branch}")
-                            sh "docker push ${registry}spotme-rest:${s_branch}"
+                            def smrest = docker.build("${registry}spotme-rest:${s_branch}")
+                            //sh "docker push ${registry}spotme-rest:${s_branch}"
 
-                            def smweb = docker.image("${registry}spotme-web:${s_branch}")
-                            "docker push ${registry}spotme-web:${s_branch}"
+                            def smweb = docker.build("${registry}spotme-web:${s_branch}")
+                            //"docker push ${registry}spotme-web:${s_branch}"
 
                             // or docker.build, etc.
-                            //smrest.push
-                            //smweb.push
+                            smrest.push
+                            smweb.push
                         }
                     }catch(e){
                         echo 'Tunnel URL did not work, trying to push via intranet'
                         docker.withRegistry(localRegistryUrl,'spotme-containerregistry') {
-                            def smrest_l = docker.image("${localRegistry}spotme-rest:${s_branch}")
-                            sh "docker push ${localRegistry}spotme-rest:${s_branch}"
+                            def smrest_l = docker.build("${localRegistry}spotme-rest:${s_branch}","./spotme-rest")
 
-                            def smweb_l = docker.image("${localRegistry}spotme-web:${s_branch}")
-                            "docker push ${localRegistry}spotme-web:${s_branch}"
+                            def smweb_l = docker.build("${localRegistry}spotme-web:${s_branch}","./spotme-web")
 
                             // or docker.build, etc.
-                            //smrest.push
-                            //smweb.push
+                            smrest_l.push
+                            smweb_l.push
                         }
                     }
                 }
