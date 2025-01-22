@@ -1,7 +1,7 @@
 def s_branch = env.BRANCH_NAME as String
 def registry = "containerregistry.spot-me-app.com/spotme/" as String
-def localRegistry = "192.168.1.227/" as String
-def localRegistryUrl = "192.168.1.227" as String
+def localRegistry = "192.168.1.227:8082/" as String
+def localRegistryUrl = "192.168.1.227:8082" as String
 def registryUrl = "https://containerregistry.spot-me-app.com" as String
 s_branch = s_branch.replaceAll("/","_")
 
