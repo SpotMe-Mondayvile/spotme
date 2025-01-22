@@ -71,13 +71,15 @@ pipeline{
         }
         stage("Image Upload"){
             steps(){
-                docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                    def smrest = docker.image("${registry}spotme-rest:${s_branch}")
-                    def smweb = docker.image("${registry}spotme-web:${s_branch}")
-                    // or docker.build, etc.
-                    smrest.push
-                    smweb.push
+                script{
+                    docker.withRegistry(registryUrl,'spotme-containerregistry') {
+                        def smrest = docker.image("${registry}spotme-rest:${s_branch}")
+                        def smweb = docker.image("${registry}spotme-web:${s_branch}")
+                        // or docker.build, etc.
+                        smrest.push
+                        smweb.push
 
+                    }
                 }
             }
         }
