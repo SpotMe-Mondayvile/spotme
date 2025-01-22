@@ -3,9 +3,7 @@ package com.mts.spotmerest.services;
 
 import com.mts.spotmerest.mappers.UserStatsDAO;
 import com.mts.spotmerest.mappers.UserDAO;
-import com.mts.spotmerest.models.Match;
-import com.mts.spotmerest.models.UserStats;
-import com.mts.spotmerest.models.User;
+import com.mts.spotmerest.models.*;
 import com.mts.spotmerest.models.UserStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +25,13 @@ public class UserStatsService {
         this.userDAO= userDAO;
     }
 
-    public List<UserStats> getUserStatss(){
+//    public List<UserStats> getAllUserStats(Long requesterId){
+//
+//        return userStatsDAO.findAll();
+//    }
+    public Optional<UserStats> getUserStats(Long statId){
 
-        return userStatsDAO.findAll();
-    }
-    public Optional<UserStats> getUserStats(Long id){
-
-        return userStatsDAO.findById(id);
+        return userStatsDAO.findById(statId);
     }
 //
 //    public List<Match> getUserStatsMatchesByID(Long userId){
@@ -41,33 +39,42 @@ public class UserStatsService {
 //        return spot.orElseThrow().getMatches();
 //    }
 
-    public List<Match> getUserStatsMatchesByUserID(Long spotID){
-        Optional<UserStats> uStats= userStatsDAO.findById(spotID);
-        return uStats.orElseThrow().getMatches();
+    public Optional<UserStats> getUserStatsByUserID(Long userId){
+
+        return userStatsDAO.findUserStatsByUserId(userId);
     }
-    public List<Optional<UserStats>> getUserStatsMatchesByUserEmail(String email){
+    public Optional<UserStats> getUserStatsMatchesByUserEmail(String email){
         Optional<User> user = userDAO.findUserByUserEmail(email);
-        List<Optional<UserStats>> uStats= userStatsDAO.findUserStatsByUserId(user.orElseThrow().getId());
+        Optional<UserStats> uStats= userStatsDAO.findUserStatsByUserId(user.orElseThrow().getId());
         return uStats;
     }
 
-    public void updateUserStats(Long id, UserStats spotIn){
+    public void updateUserStats(Long id, UserStats statsIn){
         Optional<UserStats> uStats = userStatsDAO.findById(id);
-        UserStats updated = uStats.orElseThrow().updateAttributes(spotIn);
+        UserStats updated = uStats.orElseThrow().cloneStatsObject();
+        updated.setRating(statsIn.getRating());
+        updated.setPrivate(statsIn.getPrivate());
+        updated.setDescription(statsIn.getDescription());
+        updated.setStatus(statsIn.getStatus());
         userStatsDAO.save(updated);
     }
 
+    public Optional<UserStats> getUserStatsByUserEmail(String email){
+        Optional<User> user = userDAO.findUserByUserEmail(email);
+        Optional<UserStats> stats= userStatsDAO.findUserStatsByUserId(user.orElseThrow().getId());
+        return stats;
+    }
 
-    public void addNewUserStats(UserStats spot) {
+    public void addNewUserStats(UserStats stats) {
         Optional<UserStats> userStatsById= userStatsDAO
-                .findUserStatsById(spot.getId());
+                .findUserStatsById(stats.getId());
         if(userStatsById.isPresent()){
             throw new IllegalStateException("UserStats Already exists");
         }else{
-            userStatsDAO.save(spot);
+            userStatsDAO.save(stats);
             System.out.println("UserStats Created");
         }
-        userStatsDAO.save(spot);
+        userStatsDAO.save(stats);
     }
 
     public void deleteUserStats(Long id) {
