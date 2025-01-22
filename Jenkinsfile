@@ -76,10 +76,10 @@ pipeline{
                 script{
                     try{
                         docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                            def smrest = docker.build("${registry}spotme-rest:${s_branch}")
+                            def smrest = docker.build("${registry}spotme-rest:${s_branch}","/spotme-rest/Dockerfile")
                             //sh "docker push ${registry}spotme-rest:${s_branch}"
 
-                            def smweb = docker.build("${registry}spotme-web:${s_branch}")
+                            def smweb = docker.build("${registry}spotme-web:${s_branch}","/spotme-rest/Dockerfile")
                             //"docker push ${registry}spotme-web:${s_branch}"
 
                             // or docker.build, etc.
@@ -89,9 +89,9 @@ pipeline{
                     }catch(e){
                         echo 'Tunnel URL did not work, trying to push via intranet'
                         docker.withRegistry(localRegistryUrl,'spotme-containerregistry') {
-                            def smrest_l = docker.build("${localRegistry}spotme-rest:${s_branch}","./spotme-rest")
+                            def smrest_l = docker.build("${localRegistry}spotme-rest:${s_branch}","/spotme-rest/Dockerfile")
 
-                            def smweb_l = docker.build("${localRegistry}spotme-web:${s_branch}","./spotme-web")
+                            def smweb_l = docker.build("${localRegistry}spotme-web:${s_branch}","/spotme-web/Dockerfile")
 
                             // or docker.build, etc.
                             smrest_l.push
