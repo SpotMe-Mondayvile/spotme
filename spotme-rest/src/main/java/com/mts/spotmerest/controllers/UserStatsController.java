@@ -2,6 +2,7 @@ package com.mts.spotmerest.controllers;
 
 import com.mts.spotmerest.auth.DataFilter;
 import com.mts.spotmerest.models.Spot;
+import com.mts.spotmerest.models.UserStats;
 import com.mts.spotmerest.services.SpotService;
 import com.mts.spotmerest.services.UserService;
 import com.mts.spotmerest.services.UserStatsService;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @EnableAutoConfiguration
 @ComponentScan
 @RestController
-@RequestMapping(path = "api/v1/spot")
+@RequestMapping(path = "api/v1/userStat")
 @SecurityRequirement(name = "JWT")
 public class UserStatsController {
     private final DataFilter dataFilter;
@@ -36,37 +37,47 @@ public class UserStatsController {
         this.userService= userService;
     }
 
-    @GetMapping
-    public String printHello(){
-        return "Spot Web Controller";
+
+    @GetMapping(path="stats")
+    public Optional<UserStats> getSpots(Principal principal){
+        return userStatsService.getUserStatsByUserEmail(principal.getName());
     }
 
-    @GetMapping(path="all")
-    public List<Optional<Spot>> getSpots(Principal principal){
-        return spotService.getSpotMatchesByUserEmail(principal.getName());
+    @GetMapping(path= "id/{userStatsId}")
+    public Optional<UserStats> getUserStatsByID(@PathVariable("userStatsId") Long id, Principal principal){
+        Optional<UserStats> validatedUserStats = Optional.empty();
+        Optional<UserStats> requestedUserStats = userStatsService.getUserStats(id);
+        Long owner = requestedUserStats.orElseThrow().getUserId();
+//        if(dataFilter.isUser(principal,owner)){
+//            validatedUserStats=userStatsService.getUserStats(id);
+//        }
+        validatedUserStats=userStatsService.getUserStats(id);
+        return validatedUserStats ;
     }
 
-    @GetMapping(path= "id/{spotId}")
-    public Optional<Spot> getSpotByID(@PathVariable("spotId") Long id, Principal principal){
-        Optional<Spot> validatedSpot = Optional.empty();
-        Optional<Spot> requestedSpot = spotService.getSpot(id);
-        Long owner = requestedSpot.orElseThrow().getUserId();
-        if(dataFilter.isUser(principal,owner)){
-            validatedSpot=spotService.getSpot(id);
-        }
-        return validatedSpot ;
+    @GetMapping(path= "id/{userId}")
+    public Optional<UserStats> getUserStatsByUserID(@PathVariable("userId") Long id, Principal principal){
+        Long requester = dataFilter.getPrincipalId(principal);
+        Optional<UserStats> validatedUserStats = Optional.empty();
+        Optional<UserStats> requestedUserStats = userStatsService.getUserStatsByUserID(requester);
+        Long owner = requestedUserStats.orElseThrow().getUserId();
+//            if(dataFilter.isUser(principal,owner)){
+//                validatedUserStats=userStatsService.getUserStats(id);
+//            }
+        validatedUserStats=userStatsService.getUserStats(id);
+        return validatedUserStats;
     }
 
     @PostMapping(path="/add")
-    public void newSpot(@RequestBody Spot spot, Principal principal){
-        System.out.println(spot);
-        if(dataFilter.isUser(principal,spot.getUserId())){
-            spotService.addNewSpot(spot);
+    public void newSpot(@RequestBody UserStats userStats, Principal principal){
+        System.out.println(userStats);
+        if(dataFilter.isUser(principal,userStats.getUserId())){
+            userStatsService.addNewUserStats(userStats);
         }
     }
 
-    @DeleteMapping(path= "/{spot_id}")
-    public void deleteSpot(@PathVariable("spot_id") Long id,Principal principal){
+    @DeleteMapping(path= "/{userStatsId}")
+    public void deleteSpot(@PathVariable("userStatsId") Long id,Principal principal){
         Optional<Spot> newSpot = Optional.empty();
         Long owner = spotService.getSpot(id).orElseThrow().getUserId();
         if(dataFilter.isUser(principal,owner)){

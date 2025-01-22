@@ -2,6 +2,7 @@ package com.mts.spotmerest.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 @Table(name="USER_STATS")
 public class UserStats {
     @Id
@@ -39,6 +41,8 @@ public class UserStats {
         this.userId = userId;
         this.createdAt = createdAt;
     }
+
+
 
     public UserStats(Long id, Long userId, BigDecimal rating, Long spotsCompleted, String description, Date createdAt, String status, Boolean isPrivate) {
         this.id = id;
@@ -134,5 +138,26 @@ public class UserStats {
                 ", isPrivate=" + isPrivate +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    public UserStats cloneStatsObject(){
+        UserStats userStats = new UserStats(
+                this.getId(),
+                this.getUserId(),
+                this.getRating(),
+                this.getSpotsCompleted(),
+                this.getDescription(),
+                this.getCreatedAt(),
+                this.getStatus(),
+                this.getPrivate()
+        );
+        return userStats;
+    }
+
+    public Date getCurrentTime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        return date;
     }
 }
