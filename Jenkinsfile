@@ -123,7 +123,6 @@ pipeline{
                             }
                         }
                         
-                    }
                     }else if(env.BRANCH_NAME=="master"){
                         dir("kube/") {
                             script {
