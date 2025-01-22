@@ -77,10 +77,10 @@ pipeline{
                     dir("./"){
                         try{
                             docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                                def smrest = docker.build("spotme-rest:${s_branch}","./spotme-rest")
+                                def smrest = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
                                 //sh "docker push ${registry}spotme-rest:${s_branch}"
 
-                                def smweb = docker.build("spotme-web:${s_branch}","./spotme-web")
+                                def smweb = docker.build("spotme/spotme-web:${s_branch}","./spotme-web")
                                 //"docker push ${registry}spotme-web:${s_branch}"
 
                                 // or docker.build, etc.
