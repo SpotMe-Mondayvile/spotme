@@ -4,7 +4,7 @@ metadata:
     name: spotme-dev-config
     namespace: spotme-dev
 data:
-  db_url: "jdbc:mysql://192.168.1.238:3306/spotme_local?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+  db_url: "jdbc:mysql://192.168.1.238:30006/spotme_local?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
   db_behavior: "update"
   db_driver:  "com.mysql.cj.jdbc.Driver"
   db_dialect: "org.hibernate.dialect.MySQLDialect"

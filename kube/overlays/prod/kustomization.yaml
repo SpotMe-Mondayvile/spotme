@@ -1,0 +1,10 @@
+bases:
+- ../../base
+kind: Kustomization
+patches:
+- spotme-configmap.yml
+images:
+    - name: containerregistry.spot-me-app.com/spotme/spotme-rest
+        newTag: release
+patchesStrategicMerge:
+    - 

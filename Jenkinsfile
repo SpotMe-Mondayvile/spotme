@@ -1,5 +1,5 @@
 def s_branch = env.BRANCH_NAME as String
-def registry = "containerregistry.spot-me-app.com/spotme/sorry" as String
+def registry = "containerregistry.spot-me-app.com/spotme/" as String
 def registryUrl = "https://containerregistry.spot-me-app.com" as String
 s_branch = s_branch.replaceAll("/","_")
 
@@ -100,26 +100,53 @@ pipeline{
             steps {
                 script{
                     if(env.BRANCH_NAME=="develop"){
-                        dir("spotme-web/") {
+                        dir("kube/") {
                             script {
                                 try {
-                                    sh """docker run -p 3000:5173 -p 5000:50000 -p 8100:8100 -d ${registry}spotme-web:${s_branch}"""
+                                    sh """kubectl apply -k overlays/dev/"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
                                 }
                             }
                         }
-                        dir("spotme-rest/") {
-                            script{
+                        
+                    }else if(env.BRANCH_NAME=="master"){
+                        dir("kube/") {
+                            script {
                                 try {
-                                    sh """docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d ${registry}spotme-rest:${s_branch}"""
+                                    sh """kubectl apply -k overlays/test/"""
                                 } catch (e) {
                                     println e
-                                    sh '''echo "Was not able to start rest service, might be running already"'''
+                                    sh '''echo "Was not able to start web service, might be running already"'''
                                 }
                             }
                         }
+                        
+                    }
+                    }else if(env.BRANCH_NAME=="master"){
+                        dir("kube/") {
+                            script {
+                                try {
+                                    sh """kubectl apply -k overlays/test/"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able to start web service, might be running already"'''
+                                }
+                            }
+                        } 
+                    }else if(env.BRANCH_NAME=="release"){
+                        dir("kube/") {
+                            script {
+                                try {
+                                    input message: 'Deploy to Production?', ok: 'Deploy', parameters: [string(defaultValue: 'hotfix', description: 'This is necessary to make sure we are intentional when deploying to production', name: 'Release Number')]
+                                    sh """kubectl apply -k overlays/prod/"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able to start web service, might be running already"'''
+                                }
+                            }
+                        } 
                     }
             }
 

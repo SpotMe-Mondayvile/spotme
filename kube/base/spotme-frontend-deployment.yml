@@ -1,85 +1,84 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spotme-rest-deployment
-  namespace: spotme-dev
+  name: spotme-web-deployment
   labels:
-      app: spotme-rest
-      type: back-end
+      app: spotme-web
+      type: front-end
 spec:
   template:
     spec:
       containers:
-      - name: spotme-rest
-        image: containerregistry.spot-me-app.com/spotme/spotme-rest
+      - name: spotme-web
+        image: containerregistry.spot-me-app.com/spotme/spotme-web
         ports:
-          - containerPort: 8080
+          - containerPort: 5173
         env:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: spotme-app-secrets-dev
+              name: spotme-app-secrets
               key: password
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: spotme-app-secrets-dev
+              name: spotme-app-secrets
               key: username
         - name: JWT_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: spotme-app-secrets-dev
+              name: spotme-app-secrets
               key: jwt_secret
         - name: DB_URL
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: db_url
         - name: DB_BEHAVIOR
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: db_behavior
         - name: DB_DRIVER
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: db_driver
         - name: DB_DIALECT
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: db_dialect
         - name: CUSTOM_PORT
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: custom_port
         - name: ORIGIN
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: origin   
         - name: DEV_URL
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: dev_url 
         - name: PROD_URL
           valueFrom:
             configMapKeyRef:
-              name: spotme-dev-config
+              name: spotme-config
               key: prod_url   
       imagePullSecrets:
         - name: regcred   
     metadata:
-        name: spotme-rest
+        name: spotme-web
         labels:
-          app: spotme-rest
-          type: back-end
+          app: spotme-web
+          type: front-end
           project: spotme
   replicas: 1
   selector:
     matchLabels:
-      app: spotme-rest
+      app: spotme-web
   
