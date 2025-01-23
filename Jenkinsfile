@@ -77,6 +77,7 @@ pipeline{
                     dir("./"){
                         try{
                             docker.withRegistry(registryUrl,'spotme-containerregistry') {
+                                sh "docker system prune -a -f"
                                 def smrest = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
                                 //sh "docker push ${registry}spotme-rest:${s_branch}"
 
