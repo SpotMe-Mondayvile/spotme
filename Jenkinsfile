@@ -1,7 +1,7 @@
 def s_branch = env.BRANCH_NAME as String
 def registry = "containerregistry.spot-me-app.com/spotme/" as String
-def localRegistry = "192.168.1.227/" as String
-def localRegistryUrl = "192.168.1.227" as String
+def localRegistry = "http://192.168.1.227:8082/" as String
+def localRegistryUrl = "http://192.168.1.227:8082" as String
 def registryUrl = "https://containerregistry.spot-me-app.com" as String
 s_branch = s_branch.replaceAll("/","_")
 
@@ -74,30 +74,34 @@ pipeline{
         stage("Image Upload"){
             steps(){
                 script{
-                    try{
-                        docker.withRegistry(registryUrl,'spotme-containerregistry') {
-                            def smrest = docker.build("${registry}spotme-rest:${s_branch}","/spotme-rest/Dockerfile")
-                            //sh "docker push ${registry}spotme-rest:${s_branch}"
+                    dir("./"){
+                        try{
+                            docker.withRegistry(registryUrl,'spotme-containerregistry') {
+                                sh "docker system prune -a -f"
+                                def smrest = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
+                                //sh "docker push ${registry}spotme-rest:${s_branch}"
 
-                            def smweb = docker.build("${registry}spotme-web:${s_branch}","/spotme-rest/Dockerfile")
-                            //"docker push ${registry}spotme-web:${s_branch}"
+                                def smweb = docker.build("spotme/spotme-web:${s_branch}","./spotme-web")
+                                //"docker push ${registry}spotme-web:${s_branch}"
 
-                            // or docker.build, etc.
-                            smrest.push
-                            smweb.push
-                        }
-                    }catch(e){
-                        echo 'Tunnel URL did not work, trying to push via intranet'
-                        docker.withRegistry(localRegistryUrl,'spotme-containerregistry') {
-                            def smrest_l = docker.build("${localRegistry}spotme-rest:${s_branch}","/spotme-rest/Dockerfile")
+                                // or docker.build, etc.
+                                smrest.push()
+                                smweb.push()
+                            }
+                        }catch(e){
+                            echo 'Tunnel URL did not work for image push, trying to push via intranet'
+                            docker.withRegistry(localRegistryUrl,'spotme-containerregistry') {
+                                def smrest_l = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
 
-                            def smweb_l = docker.build("${localRegistry}spotme-web:${s_branch}","/spotme-web/Dockerfile")
+                                def smweb_l = docker.build("spotme/spotme-web:${s_branch}","./spotme-web")
 
-                            // or docker.build, etc.
-                            smrest_l.push
-                            smweb_l.push
+                                // or docker.build, etc.
+                                smrest_l.push()
+                                smweb_l.push()
+                            }
                         }
                     }
+
                 }
             }
         }
