@@ -8,6 +8,7 @@ data:
   db_driver: "com.mysql.cj.jdbc.Driver"
   db_dialect: "org.hibernate.dialect.MySQLDialect"
   custom_port: "8081"
-  origin: "http:localhost:8100"
+  origin: "https://rest-dev.spot-me-app.com"
+  ui_origin: "https://ui-dev.spot-me-app.com"
   dev_url: "https://rest-dev.spot-me-app.com"
   prod_url: "https://rest-dev.spot-me-app.com"

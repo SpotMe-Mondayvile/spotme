@@ -85,6 +85,8 @@ spec:
           envFrom:
             - secretRef:
                 name: spotme-db-secrets-dev
+            - configMapRef:
+                name: spotme-config
       imagePullSecrets:
         - name: jfrog-dev
   replicas: 1
