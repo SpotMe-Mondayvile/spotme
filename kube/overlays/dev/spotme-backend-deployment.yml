@@ -18,6 +18,7 @@ spec:
       containers:
         - name: spotme-rest
           image: containerregistry.spot-me-app.com/spotme/spotme-rest:develop
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
