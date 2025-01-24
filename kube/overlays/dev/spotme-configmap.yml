@@ -3,12 +3,12 @@ kind: ConfigMap
 metadata:
   name: spotme-config
 data:
-  db_url: "jdbc:mysql://192.168.1.238:30206/spotme_local?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
-  db_behavior: "update"
-  db_driver: "com.mysql.cj.jdbc.Driver"
-  db_dialect: "org.hibernate.dialect.MySQLDialect"
-  custom_port: "8081"
-  origin: "https://rest-dev.spot-me-app.com"
-  ui_origin: "https://ui-dev.spot-me-app.com"
-  dev_url: "https://rest-dev.spot-me-app.com"
-  prod_url: "https://rest-dev.spot-me-app.com"
+  DB_URL: "jdbc:mysql://192.168.1.238:30206/spotme_local?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+  DB_BEHAVIOR: "update"
+  DB_DRIVER: "com.mysql.cj.jdbc.Driver"
+  DB_DIALECT: "org.hibernate.dialect.MySQLDialect"
+  CUSTOM_PORT: "8081"
+  ORIGIN: "https://rest-dev.spot-me-app.com"
+  UI_ORIGIN: "https://ui-dev.spot-me-app.com"
+  DEV_URL: "https://rest-dev.spot-me-app.com"
+  PROD_URL: "https://rest-dev.spot-me-app.com"

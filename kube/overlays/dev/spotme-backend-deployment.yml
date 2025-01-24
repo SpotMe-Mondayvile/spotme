@@ -25,66 +25,19 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: spotme-app-secrets-dev
-                  key: password
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-app-secrets-dev
+                  name: spotme-app-secrets
                   key: password
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: spotme-app-secrets-dev
+                  name: spotme-app-secrets
                   key: username
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: spotme-app-secrets-dev
+                  name: spotme-app-secrets
                   key: jwt_secret
-            - name: DB_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: db_url
-            - name: DB_BEHAVIOR
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: db_behavior
-            - name: DB_DRIVER
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: db_driver
-            - name: DB_DIALECT
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: db_dialect
-            - name: CUSTOM_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: custom_port
-            - name: ORIGIN
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: origin
-            - name: DEV_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: dev_url
-            - name: PROD_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: spotme-dev-config
-                  key: prod_url
           envFrom:
-            - secretRef:
-                name: spotme-db-secrets-dev
             - configMapRef:
                 name: spotme-config
       imagePullSecrets:

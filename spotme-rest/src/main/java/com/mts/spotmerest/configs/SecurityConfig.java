@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Value("${origin}")
     private String originUrl;
 
-    @Value("${origin}")
+    @Value("${ui_origin}")
     private String uiURL;
 
     private static final String[] AUTH_WHITE_LIST = {
