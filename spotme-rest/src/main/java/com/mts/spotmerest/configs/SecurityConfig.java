@@ -30,6 +30,9 @@ public class SecurityConfig {
     @Value("${origin}")
     private String originUrl;
 
+    @Value("${ui_origin}")
+    private String uiURL;
+
     private static final String[] AUTH_WHITE_LIST = {
             "/swagger-ui/index.html",
             "/api/v1/auth/**",
@@ -69,7 +72,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8100","http://localhost:3000",originUrl,"https://rest.spot-me-app.com/","https://ui.spot-me-app.com/"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8100","http://localhost:3000",originUrl,"https://rest.spot-me-app.com/",uiURL,"https://ui.spot-me-app.com/"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
