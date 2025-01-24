@@ -4,7 +4,7 @@ metadata:
   name: spotme-config
 data:
   DB_URL: "jdbc:mysql://192.168.1.238:30206/spotme_db?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
-  DB_BEHAVIOR: "create"
+  DB_BEHAVIOR: "update"
   DB_DRIVER: "com.mysql.cj.jdbc.Driver"
   DB_DIALECT: "org.hibernate.dialect.MySQLDialect"
   CUSTOM_PORT: "8081"
