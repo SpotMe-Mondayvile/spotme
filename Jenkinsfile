@@ -128,6 +128,7 @@ pipeline{
                             script {
                                 try {
                                     sh """kubectl apply -k overlays/dev/"""
+                                    sh """kubectl rollout restart -k  overlays/dev/"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
@@ -140,6 +141,7 @@ pipeline{
                             script {
                                 try {
                                     sh """kubectl apply -k overlays/test/"""
+                                    sh """kubectl rollout restart -k  overlays/test/"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
@@ -152,6 +154,7 @@ pipeline{
                             script {
                                 try {
                                     sh """kubectl apply -k overlays/test/"""
+                                    sh """kubectl rollout restart -k  overlays/test/"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
