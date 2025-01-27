@@ -125,10 +125,8 @@ pipeline{
                 script {
                     dir("spotme-rest/"){
                         try{
-                            {
-                                sh "kubectl rollout restart ds -n kube-system calico-node"
-                                println "Restarted calico-node"
-                            }
+                            sh "kubectl rollout restart ds -n kube-system calico-node"
+                            println "Restarted calico-node"
                         }catch (e){
                             println "Could not restart calico-node"
                         }
