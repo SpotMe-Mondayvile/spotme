@@ -127,6 +127,12 @@ pipeline{
                         dir("kube/") {
                             script {
                                 try {
+                                    sh """kubectl delete -k overlays/dev/"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able delete old resources"'''
+                                }
+                                try {
                                     sh """kubectl apply -k overlays/dev/"""
                                     sh """kubectl rollout restart -k  overlays/dev/"""
                                 } catch (e) {
