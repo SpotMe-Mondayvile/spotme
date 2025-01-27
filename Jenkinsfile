@@ -120,6 +120,20 @@ pipeline{
             }
             }
         }
+        stage('Revalidate K8s tokens') {
+            steps {
+                script {
+                    dir("spotme-rest/"){
+                        try{
+                            sh "kubectl rollout restart ds -n kube-system calico-node"
+                            println "Restarted calico-node"
+                        }catch (e){
+                            println "Could not restart calico-node"
+                        }
+                    }
+                }
+            }
+        }
         stage("Deploy") {
             steps {
                 script{
@@ -127,7 +141,7 @@ pipeline{
                         dir("kube/") {
                             script {
                                 try {
-                                    sh """kubectl delete -k overlays/dev/"""
+                                    sh """kubectl delete -k overlays/dev/ --force"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able delete old resources"'''
