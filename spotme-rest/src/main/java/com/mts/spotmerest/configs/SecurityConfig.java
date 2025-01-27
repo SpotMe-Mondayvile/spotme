@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,12 +27,12 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private Environment env;
 
-    @Value("${origin}")
-    private String originUrl;
+    private String originUrl= env.getProperty("REST_ORIGIN");
+    private String uiURL= env.getProperty("UI_ORIGIN");
 
-    @Value("${ui_origin}")
-    private String uiURL;
+
 
     private static final String[] AUTH_WHITE_LIST = {
             "/swagger-ui/index.html",
