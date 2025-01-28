@@ -28,9 +28,14 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private Environment env;
+//
+//    @Value("${origin}")
+//    private String devUrl;
 
-    private String originUrl= env.getProperty("REST_ORIGIN");
-    private String uiURL= env.getProperty("UI_ORIGIN");
+
+    private String originUrl= System.getenv("REST_ORIGIN");
+
+    private String uiURL= System.getenv("UI_ORIGIN");
 
 
 
