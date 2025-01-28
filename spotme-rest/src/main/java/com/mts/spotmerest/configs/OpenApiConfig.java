@@ -33,8 +33,8 @@ public class OpenApiConfig {
                 .addSecuritySchemes("bearer-key",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"));
     }
-    @Value("${origin}")
-    private String devUrl;
+
+    private String devUrl = System.getenv("REST_ORIGIN");
 
     @Value("https://rest.spot-me-app.com")
     private String prodUrl;
