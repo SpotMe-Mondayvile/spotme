@@ -18,6 +18,7 @@ spec:
       containers:
         - name: spotme-web
           image: containerregistry.spot-me-app.com/spotme/spotme-web:develop
+          imagePullPolicy: Always
           ports:
             - containerPort: 5173
           envFrom:
