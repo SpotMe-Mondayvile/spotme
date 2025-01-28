@@ -9,6 +9,7 @@ data:
   DB_DIALECT: "org.hibernate.dialect.MySQLDialect"
   CUSTOM_PORT: "8081"
   REST_ORIGIN: https://rest-dev.spot-me-app.com
+  VITE_REST_ORIGIN: https://rest-dev.spot-me-app.com
   UI_ORIGIN: https://ui-dev.spot-me-app.com
   DEV_URL: https://rest-dev.spot-me-app.com
   PROD_URL: "https://rest-dev.spot-me-app.com"
