@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotme-web-deployment
+  namespace: spotme-dev
+  labels:
+    app: spotme-web
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: spotme-web
+      labels:
+        app: spotme-web
+        type: front-end
+        project: spotme
+    spec:
+      containers:
+        - name: spotme-web
+          image: containerregistry.spot-me-app.com/spotme/spotme-web:develop
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5173
+          envFrom:
+            - configMapRef:
+                name: spotme-config
+      imagePullSecrets:
+        - name: jfrog-dev
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotme-web

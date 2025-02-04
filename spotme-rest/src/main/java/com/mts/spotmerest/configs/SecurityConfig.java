@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,9 +27,17 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private Environment env;
+//
+//    @Value("${origin}")
+//    private String devUrl;
 
-    @Value("${origin}")
-    private String originUrl;
+
+    private String originUrl= System.getenv("REST_ORIGIN");
+
+    private String uiURL= System.getenv("UI_ORIGIN");
+
+
 
     private static final String[] AUTH_WHITE_LIST = {
             "/swagger-ui/index.html",
@@ -69,7 +78,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8100","http://localhost:3000",originUrl,"https://rest.spot-me-app.com/","https://ui.spot-me-app.com/"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8100","http://localhost:3000",originUrl,"https://rest.spot-me-app.com/",uiURL,"https://ui.spot-me-app.com/"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

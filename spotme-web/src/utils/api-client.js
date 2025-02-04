@@ -1,6 +1,8 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_REST_ORIGIN
+
 export default axios.create({
-    baseURL:"https://rest.spot-me-app.com/api"
+    baseURL: `${API_URL}/api`
 })
 

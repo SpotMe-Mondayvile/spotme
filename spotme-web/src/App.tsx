@@ -19,6 +19,7 @@ import Login from './pages/login/Login';
 import SignUp from './pages/login/SignUp';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Search from './pages/search/Search';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -49,7 +50,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { jwtDecode } from 'jwt-decode';
+import * as jwtDecode from 'jwt-decode';
 import SideNav from './components/menu/SideNav';
 import setAuthToken from './utils/setAuthToken';
 import Profile from './pages/profile/UserProfile';
@@ -76,7 +77,7 @@ const App: React.FC = () => {
     console.log(jwtUser)
     }catch(e){
       console.log("No token available")
-     }
+    }
     },[])
   
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
@@ -93,13 +94,13 @@ return (
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/Login">
-          <Login/>
+            <Login/>
           </Route>
           <Route exact path="/SignUp">
             <SignUp />
           </Route>
           <Route exact path="/Home">
-          <Home/>
+            <Home/>
           </Route>
           <Route exact path="/Friends">
             <Friends />
@@ -111,7 +112,10 @@ return (
             <Profile/>
           </Route>
           <Route exact path="/">
-           <Home />
+            <Home />
+          </Route>
+          <Route exact path="/search">
+            <Search/>
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

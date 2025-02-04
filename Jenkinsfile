@@ -1,22 +1,16 @@
 def s_branch = env.BRANCH_NAME as String
+def registry = "containerregistry.spot-me-app.com/spotme/" as String
+def localRegistry = "http://192.168.1.227:8082/" as String
+def localRegistryUrl = "http://192.168.1.227:8082" as String
+def registryUrl = "https://containerregistry.spot-me-app.com" as String
 s_branch = s_branch.replaceAll("/","_")
 
-pipeline {
+pipeline{
     agent any
     stages{
         stage("Clean Up"){
             steps{
                 deleteDir()
-                script{
-                    try{
-                        sh """ docker stop \$(docker ps -a -q) """
-                    }
-                    catch (e)
-                    {
-                        sh """ echo "tried to kill running processes" """
-                    }
-                    sh """ docker system prune -a """
-                }
             }
         }
         stage("Clone repo"){
@@ -24,17 +18,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage("Load Environment"){
-           steps{
-            dir("spotme-rest"){
-               sh ''' cp $JENKINS_HOME/env_files/spotme_rest_env .env '''
-               sh ''' cp $JENKINS_HOME/app_properties/spotme_rest_app_props ./src/main/resources/application.properties '''
-             }
-            dir("spotme-web"){
 
-            }
-           }
-        }
         stage("Build"){
             steps{
                dir("spotme-rest/"){
@@ -67,13 +51,76 @@ pipeline {
                archiveArtifacts artifacts: 'spotme-rest/target/*.jar', followSymlinks: false
             }
         }
-        stage("Build Container Images"){
+//        stage("Build Container Images"){
+//            steps(){
+//                dir("spotme-rest/"){
+//                sh """ docker build -t ${registry}spotme-rest:${s_branch} . """
+//                }
+//                dir("spotme-web/"){
+//                sh """ docker build -t ${registry}spotme-web:${s_branch} . """
+//                }
+//            }
+//        }
+        stage("Image Upload"){
             steps(){
-                dir("spotme-rest/"){
-                sh """ docker build -t spotme-rest:${s_branch} . """
+                script{
+                    dir("./"){
+                        try{
+                            docker.withRegistry(registryUrl,'spotme-containerregistry') {
+                                sh "docker system prune -a -f"
+                                def smrest = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
+                                //sh "docker push ${registry}spotme-rest:${s_branch}"
+
+                                def smweb = docker.build("spotme/spotme-web:${s_branch}","./spotme-web")
+                                //"docker push ${registry}spotme-web:${s_branch}"
+
+                                // or docker.build, etc.
+                                smrest.push()
+                                smweb.push()
+                            }
+                        }catch(e){
+                            echo 'Tunnel URL did not work for image push, trying to push via intranet'
+                            docker.withRegistry(localRegistryUrl,'spotme-containerregistry') {
+                                def smrest_l = docker.build("spotme/spotme-rest:${s_branch}","./spotme-rest")
+
+                                def smweb_l = docker.build("spotme/spotme-web:${s_branch}","./spotme-web")
+
+                                // or docker.build, etc.
+                                smrest_l.push()
+                                smweb_l.push()
+                            }
+                        }
+                    }
+
                 }
-                dir("spotme-web/"){
-                sh """ docker build -t spotme-web:${s_branch} . """
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    dir("spotme-rest/"){
+                        def mvn = tool 'maven';
+                        try{
+                        withSonarQubeEnv() {
+                            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=spotme -Dsonar.projectName='spotme'"
+                        }}catch (e){
+                            println "Sonar Analysis could not operate"
+                        }
+                    }
+            }
+            }
+        }
+        stage('Revalidate K8s tokens') {
+            steps {
+                script {
+                    dir("spotme-rest/"){
+                        try{
+                            sh "kubectl rollout restart ds -n kube-system calico-node"
+                            println "Restarted calico-node"
+                        }catch (e){
+                            println "Could not restart calico-node"
+                        }
+                    }
                 }
             }
         }
@@ -81,26 +128,61 @@ pipeline {
             steps {
                 script{
                     if(env.BRANCH_NAME=="develop"){
-                        dir("spotme-web/") {
+                        dir("kube/") {
                             script {
                                 try {
-                                    sh """docker run -p 3000:5173 -p 5000:50000 -p 8100:8100 -d spotme-web:${s_branch}"""
+                                    sh """kubectl delete -k overlays/dev/ --force"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able delete old resources"'''
+                                }
+                                try {
+                                    sh """kubectl apply -k overlays/dev/"""
+                                    sh """kubectl rollout restart -k  overlays/dev/"""
                                 } catch (e) {
                                     println e
                                     sh '''echo "Was not able to start web service, might be running already"'''
                                 }
                             }
                         }
-                        dir("spotme-rest/") {
-                            script{
+                        
+                    }else if(env.BRANCH_NAME=="master"){
+                        dir("kube/") {
+                            script {
                                 try {
-                                    sh """docker run -p 8080:8080 -p 3001:3000 -p 50001:50000 -d spotme-rest:${s_branch}"""
+                                    sh """kubectl apply -k overlays/test/"""
+                                    sh """kubectl rollout restart -k  overlays/test/"""
                                 } catch (e) {
                                     println e
-                                    sh '''echo "Was not able to start rest service, might be running already"'''
+                                    sh '''echo "Was not able to start web service, might be running already"'''
                                 }
                             }
                         }
+                        
+                    }else if(env.BRANCH_NAME=="master"){
+                        dir("kube/") {
+                            script {
+                                try {
+                                    sh """kubectl apply -k overlays/test/"""
+                                    sh """kubectl rollout restart -k  overlays/test/"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able to start web service, might be running already"'''
+                                }
+                            }
+                        } 
+                    }else if(env.BRANCH_NAME=="release"){
+                        dir("kube/") {
+                            script {
+                                try {
+                                    input message: 'Deploy to Production?', ok: 'Deploy', parameters: [string(defaultValue: 'hotfix', description: 'This is necessary to make sure we are intentional when deploying to production', name: 'Release Number')]
+                                    sh """kubectl apply -k overlays/prod/"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able to start web service, might be running already"'''
+                                }
+                            }
+                        } 
                     }
             }
 
