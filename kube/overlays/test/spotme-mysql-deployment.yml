@@ -26,17 +26,16 @@ spec:
             limits:
               memory: "3000Mi"
               cpu: "1000m"
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: password
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: username
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: spotme-db-secrets
+          #         key: password
+          #   - name: DB_USERNAME
+          envFrom:
+            - secretRef:
+                name: spotme-db-secrets
           ports:
             - containerPort: 3306
               name: mysql
