@@ -159,18 +159,6 @@ pipeline{
                             }
                         }
                         
-                    }else if(env.BRANCH_NAME=="master"){
-                        dir("kube/") {
-                            script {
-                                try {
-                                    sh """kubectl apply -k overlays/test/"""
-                                    sh """kubectl rollout restart -k  overlays/test/"""
-                                } catch (e) {
-                                    println e
-                                    sh '''echo "Was not able to start web service, might be running already"'''
-                                }
-                            }
-                        } 
                     }else if(env.BRANCH_NAME=="release"){
                         dir("kube/") {
                             script {
