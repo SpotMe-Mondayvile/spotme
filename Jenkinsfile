@@ -150,6 +150,12 @@ pipeline{
                         dir("kube/") {
                             script {
                                 try {
+                                    sh """kubectl delete -k overlays/test/ --force"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able delete old resources"'''
+                                }
+                                try {
                                     sh """kubectl apply -k overlays/test/"""
                                     sh """kubectl rollout restart -k  overlays/test/"""
                                 } catch (e) {
@@ -162,6 +168,12 @@ pipeline{
                     }else if(env.BRANCH_NAME=="release"){
                         dir("kube/") {
                             script {
+                                try {
+                                    sh """kubectl delete -k overlays/prod/ --force"""
+                                } catch (e) {
+                                    println e
+                                    sh '''echo "Was not able delete old resources"'''
+                                }
                                 try {
                                     input message: 'Deploy to Production?', ok: 'Deploy', parameters: [string(defaultValue: 'hotfix', description: 'This is necessary to make sure we are intentional when deploying to production', name: 'Release Number')]
                                     sh """kubectl apply -k overlays/prod/"""
