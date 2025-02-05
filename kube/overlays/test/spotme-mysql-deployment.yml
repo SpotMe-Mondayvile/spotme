@@ -21,22 +21,21 @@ spec:
           name: spotme-db
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
+              memory: "1000Mi"
               cpu: "500m"
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: password
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: username
+            limits:
+              memory: "3000Mi"
+              cpu: "1000m"
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: spotme-db-secrets
+          #         key: password
+          #   - name: DB_USERNAME
+          envFrom:
+            - secretRef:
+                name: spotme-db-secrets
           ports:
             - containerPort: 3306
               name: mysql
