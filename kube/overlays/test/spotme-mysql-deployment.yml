@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: spotme-db
-    namespace: spotme-dev
-    labels:
-      app: spotme-db
+  name: spotme-db
+  namespace: spotme-test
+  labels:
+    app: spotme-db
 spec:
   selector:
     matchLabels:
@@ -17,26 +17,26 @@ spec:
         app: spotme-db
     spec:
       containers:
-      - image: mysql:8.0-debian
-        name: spotme-db
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: spotme-app-secrets-dev
-              key: password
-        - name: DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: spotme-app-secrets-dev
-              key: username
-        ports:
-        - containerPort: 3306
-          name: mysql
-        volumeMounts:
-        - name: spotme-mysql-storage-dev
-          mountPath: /var/lib/mysql
+        - image: mysql:8.0-debian
+          name: spotme-db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spotme-db-secrets
+                  key: password
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: spotme-db-secrets
+                  key: username
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: spotme-mysql-storage
+              mountPath: /var/lib/mysql
       volumes:
-      - name: spotme-mysql-storage-dev
-        persistentVolumeClaim:
-          claimName: spotme-mysql-pvc-dev
+        - name: spotme-mysql-storage
+          persistentVolumeClaim:
+            claimName: spotme-mysql-pvc
