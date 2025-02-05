@@ -1,4 +1,4 @@
-import { IonBreadcrumb, IonBreadcrumbs, IonButton, IonButtons, IonContent, IonHeader, IonList, IonItem, IonInput, IonIcon, IonLabel, IonMenuButton, IonPage, IonSearchbar, IonSegment, IonSegmentButton, IonTabs, IonTab, IonTabBar, IonTitle, IonToolbar, useIonRouter, IonTabButton } from '@ionic/react';
+import { IonBreadcrumb, IonBreadcrumbs, IonButton, IonButtons, IonContent, IonHeader, IonList, IonItem, IonInput, IonIcon, IonLabel, IonMenuButton, IonPage, IonSearchbar, IonSegment, IonSegmentButton,IonSegmentContent, IonTabs, IonTab, IonTabBar, IonTitle, IonToolbar, useIonRouter, IonTabButton } from '@ionic/react';
 
 import React from 'react';
 import { IonSegmentView } from '@ionic/react';
