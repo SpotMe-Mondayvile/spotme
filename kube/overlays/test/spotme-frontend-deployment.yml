@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotme-web-deployment
-  namespace: spotme-prod
+  namespace: spotme-test
   labels:
     app: spotme-web
     type: front-end
