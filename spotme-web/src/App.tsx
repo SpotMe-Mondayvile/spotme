@@ -50,7 +50,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import * as jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import SideNav from './components/menu/SideNav';
 import setAuthToken from './utils/setAuthToken';
 import Profile from './pages/profile/UserProfile';
@@ -70,16 +70,17 @@ const App: React.FC = () => {
 
   useEffect(()=>{
     try{
-    const jwt:string = localStorage.getItem("token");
+    const jwt:string = localStorage.getItem('token');
+    console.log(jwt)
     const jwtUser = jwtDecode(jwt)
     setUser(jwt)
     setAuthToken(jwt)
     console.log(jwtUser)
     }catch(e){
-      console.log("No token available")
+      console.log("No token available: " + e)
     }
     },[])
-  
+
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
   //   () => localStorage.getItem('logged_user') !== null
   // );
@@ -119,23 +120,23 @@ return (
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href={user==null? "/Login":"/Home"}>
+          <IonTabButton tab="home" href={user===null? "/Login":"/Home"}>
             <IonIcon aria-hidden="true" icon={triangle} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Routines" href="/tab2">
+          <IonTabButton tab="Routines" href={user===null? "/Login":"/tab2"}>
             <IonIcon aria-hidden="true" icon={ellipse} />
             <IonLabel>Routines </IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Create" href="/tab2">
+          <IonTabButton tab="Create" href={user===null? "/Login":"/tab2"}>
             <IonIcon aria-hidden="true" icon={ellipse} />
             <IonLabel>Create Spot</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Search" href="/search">
+          <IonTabButton tab="Search" href={user===null? "/Login":"/search"}>
             <IonIcon aria-hidden="true" icon={ellipse} />
             <IonLabel>Search</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="friends" href="/Friends">
+          <IonTabButton tab="friends" href={user===null? "/Login":"/Friends"}>
             <IonIcon aria-hidden="true" icon={triangle} />
             <IonLabel>Friends</IonLabel>
           </IonTabButton>
