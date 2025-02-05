@@ -23,12 +23,12 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: spotme-db-secrets-prod
+                  name: spotme-db-secrets
                   key: password
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: spotme-db-secrets-prod
+                  name: spotme-db-secrets
                   key: username
           ports:
             - containerPort: 3306
