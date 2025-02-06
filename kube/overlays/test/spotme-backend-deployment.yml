@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotme-rest-deployment
+  # namespace: spotme-dev
+  labels:
+    app: spotme-rest
+    type: back-end
+spec:
+  template:
+    metadata:
+      name: spotme-rest
+      labels:
+        app: spotme-rest
+        type: back-end
+        project: spotme
+    spec:
+      containers:
+        - name: spotme-rest
+          image: containerregistry.spot-me-app.com/spotme/spotme-rest:develop
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+#          env:
+#            - name: DB_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: spotme-db-secrets-prod
+#                  key: password
+#            - name: DB_USERNAME
+#              valueFrom:
+#                secretKeyRef:
+#                  name: spotme-db-secrets-prod
+#                  key: username
+#            - name: JWT_SECRET_KEY
+#              valueFrom:
+#                secretKeyRef:
+#                  name: spotme-db-secrets-prod
+#                  key: jwt_secret
+          envFrom:
+            - configMapRef:
+                name: spotme-config
+            - secretRef:
+                name: spotme-db-secrets
+      imagePullSecrets:
+        - name: jfrog-dev
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotme-rest

@@ -1,9 +1,10 @@
 package com.mts.spotmerest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name="MATCHES")
 public class Match {
     @Id
     @SequenceGenerator(
@@ -16,88 +17,56 @@ public class Match {
             generator = "match_sequence"
     )
     private Long id;
-    private Long userId;
-    private String gymId;
-    private String name;
-    private Integer age;
-    private String gender;
-    private String race;
+    private Long authorId;
+    private Long attendeeId;
     private String status;
+    private String authorResponse;
+    private String attendeeResponse;
 
-    public Match(Long id, Long userId, String gymId, String name, Integer age, String gender, String race, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.gymId = gymId;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.race = race;
-        this.status = status;
-    }
 
     public Match() {
     }
 
-    public Match(Long id, Long userId, String gymId) {
+    public Match(Long id, Long authorId, Long attendeeId, String status, String authorResponse, String attendeeResponse) {
         this.id = id;
-        this.userId = userId;
-        this.gymId = gymId;
+        this.authorId = authorId;
+        this.attendeeId = attendeeId;
+        this.status = status;
+        this.authorResponse = authorResponse;
+        this.attendeeResponse = attendeeResponse;
+    }
+    public Match(Long id, Long authorId, Long attendeeId) {
+        this.id = id;
+        this.authorId = authorId;
+        this.attendeeId = attendeeId;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getAuthorId() {
+        return authorId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public Long getAttendeeId() {
+        return attendeeId;
     }
 
-    public String getGymId() {
-        return gymId;
+    public void setAttendeeId(Long attendeeId) {
+        this.attendeeId = attendeeId;
     }
 
-    public void setGymId(String gymId) {
-        this.gymId = gymId;
+    public Spot getSpot() {
+        return spot;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
+    public void setSpot(Spot spot) {
+        this.spot = spot;
     }
 
     public String getStatus() {
@@ -108,18 +77,24 @@ public class Match {
         this.status = status;
     }
 
-
-    @Override
-    public String toString() {
-        return "Match{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", gymId='" + gymId + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\'' +
-                ", race='" + race + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+    public String getAuthorResponse() {
+        return authorResponse;
     }
+
+    public void setAuthorResponse(String authorResponse) {
+        this.authorResponse = authorResponse;
+    }
+
+    public String getAttendeeResponse() {
+        return attendeeResponse;
+    }
+
+    public void setAttendeeResponse(String attendeeResponse) {
+        this.attendeeResponse = attendeeResponse;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name ="spot_id")
+    private Spot spot;
 }

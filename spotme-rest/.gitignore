@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.Zone.Identifier
 
 ### STS ###
 .apt_generated
@@ -16,6 +17,8 @@ target/
 ##environment vars
 .env
 .env_dev
+.env_*
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -34,3 +37,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/.env
+

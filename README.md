@@ -1,11 +1,29 @@
 # Spot Me Portfolio Application
 
-External Sources: 
+Project Setup
 
+ - [Project Setup](https://docs.google.com/document/d/1O-df9oUytpZRouY57QEDtHqefBnCYMHm3AedVO7zcIc/edit?usp=sharing).
+
+Application Sources: 
+
+ - [UI-Link](https://ui.spot-me-app.com/home).
+
+ - [Rest API Swagger ](https://rest.spot-me-app.com/swagger-ui/index.html#/).
+  
+
+ Infrastructure and Technologies
+
+ - [Jenkins Pipeline](https://jenkins.spot-me-app.com/).
+ 
+ - [Container Registry](https://containerregistry.spot-me-app.com/).
+ 
+ - [SonarQube](https://sonar.spot-me-app.com/).
+ 
  - [Project Roadmap](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
 
  - [Project UI Planning](https://github.com/chihabam/spotme/projects?query=is%3Aopen).
- 
+   
+
 This project is not a completely original idea, but it will allow us engineers and developers to 
 build something from the ground up. We will be able to collaborate and tune our skills as we add to
 the tech-stack of the project.

@@ -1,62 +1,71 @@
 package com.mts.spotmerest.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="USERS")
+@Builder
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(
-            name="user_sequence",
-            sequenceName="user_sequence",
+            name="users_sequence",
+            sequenceName="users_sequence",
             allocationSize = 1
     )
+
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
+            generator = "users_sequence"
     )
     private Long id;
     private String username;
+    private String firstname;
+    private String lastname;
     private String email;
+    private String password;
     private String phoneNumber;
     private String name;
     private Integer age;
     private LocalDate dob;
     private String gender;
     private String race;
+    private Boolean enabled;
 
-    public User(){
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    }
-    public User(String username,
-                Integer age,
-                String gender,
-                String race) {
-        this.username = username;
-        this.age = age;
-        this.dob= null;
-        this.gender = gender;
-        this.race = race;
-        this.email = null;
-        this.phoneNumber = null;
-        this.name = null;
-    }
-
-
-    public User(Long id, String username, String email, String phoneNumber, String name, LocalDate dob, String gender, String race) {
+    public User(Long id, String username, String firstname, String lastname, String email, String password, String phoneNumber, String name, Integer age, LocalDate dob, String gender, String race, Boolean enabled, Role role) {
         this.id = id;
         this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
+        this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
+        this.age = age;
         this.dob = dob;
         this.gender = gender;
         this.race = race;
-        getCalculatedAge();
+        this.enabled = true;
+        this.role = role;
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -67,12 +76,49 @@ public class User {
         this.id = id;
     }
 
+    @Override //for spring authentication
     public String getUsername() {
-        return username;
+        return email;
+    }
+
+    public String getUserName(){return username;}
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getAge() {
@@ -84,6 +130,7 @@ public class User {
             this.age=Period.between(this.dob,LocalDate.now()).getYears();
         }
     }
+
 
     public void setAge(Integer age) {
         this.age = age;
@@ -137,6 +184,24 @@ public class User {
         this.dob = dob;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -151,4 +216,5 @@ public class User {
                 ", race='" + race + '\'' +
                 '}';
     }
+
 }
