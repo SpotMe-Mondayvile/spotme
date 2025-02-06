@@ -19,24 +19,30 @@ spec:
       containers:
         - image: mysql:8.0-debian
           name: spotme-db
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: password
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-db-secrets
-                  key: username
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "500m"
+            limits:
+              memory: "3000Mi"
+              cpu: "1000m"
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: spotme-db-secrets
+          #         key: password
+          #   - name: DB_USERNAME
+          envFrom:
+            - secretRef:
+                name: spotme-db-secrets
           ports:
             - containerPort: 3306
               name: mysql
           volumeMounts:
-            - name: spotme-mysql-storage-prod
+            - name: spotme-mysql-storage
               mountPath: /var/lib/mysql
       volumes:
-        - name: spotme-mysql-storage-prod
+        - name: spotme-mysql-storage
           persistentVolumeClaim:
             claimName: spotme-mysql-pvc-prod
