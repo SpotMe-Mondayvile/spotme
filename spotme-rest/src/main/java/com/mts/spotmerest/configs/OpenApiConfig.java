@@ -45,6 +45,9 @@ public class OpenApiConfig {
         devServer.setUrl(devUrl);
         devServer.setDescription("Server URL");
 
+        Server localServer = new Server();
+        devServer.setUrl("http://localhost:8080");
+        devServer.setDescription("Local URL");
 
         Contact contact = new Contact();
         contact.setEmail("magustechsolutions@gmail.com");
@@ -58,6 +61,6 @@ public class OpenApiConfig {
                 .description("This API exposes endpoints to manage tutorials.").termsOfService("https://www.bezkoder.com/terms");
 
 
-        return new OpenAPI().info(info).servers(List.of(devServer));
+        return new OpenAPI().info(info).servers(List.of(devServer,localServer));
     }
 }
