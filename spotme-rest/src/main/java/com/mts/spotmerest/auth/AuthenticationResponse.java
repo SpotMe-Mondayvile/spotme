@@ -16,6 +16,8 @@ public class AuthenticationResponse{
     public String getAccess_token() {
         return access_token;
     }
+    public String message;
+    public Long code;
 
     public void setAccess_token(String token) {
         this.access_token = token;

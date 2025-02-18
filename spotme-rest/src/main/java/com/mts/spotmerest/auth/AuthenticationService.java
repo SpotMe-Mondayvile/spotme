@@ -36,6 +36,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest request) {
         String jwtToken=null;
+        AuthenticationResponse authenticationResponse;
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -54,12 +55,17 @@ public class AuthenticationService {
 //            return AuthenticationResponse.builder()
 //                    .token(jwtToken)
 //                    .build();
+            authenticationResponse =AuthenticationResponse.builder()
+                    .access_token(jwtToken)
+                    .build();
         }else{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User does not match request");
+            authenticationResponse = new AuthenticationResponse();
+            authenticationResponse.setMessage("User does not match request");
+            authenticationResponse.setCode(407L);
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User does not match request");
         }
-        return AuthenticationResponse.builder()
-                .access_token(jwtToken)
-                .build();
+
+        return authenticationResponse;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
