@@ -93,6 +93,9 @@ const SignUp=() => {
                id="password"
                {...register("password",{required:true, minLength:3})}/>
             </div>
+            <p>
+                {formError}
+            </p>
             <button type="submit" className="search_button form_submit" > Submit </button>
           </div>
         </form>
