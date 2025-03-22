@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotme-rest-deployment
+  annotations:
+      strategy.spinnaker.io/recreate: 'true'
   # namespace: spotme-dev
   labels:
     app: spotme-rest
@@ -28,25 +30,11 @@ spec:
               cpu: "1000m"
           ports:
             - containerPort: 8080
-          env:
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-app-secrets
-                  key: password
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-app-secrets
-                  key: username
-            - name: JWT_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: spotme-app-secrets
-                  key: jwt_secret
           envFrom:
             - configMapRef:
                 name: spotme-config
+            - secretRef:
+                name: spotme-db-secrets
       imagePullSecrets:
         - name: jfrog-dev
   replicas: 1
