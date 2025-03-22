@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: spotme-db
   namespace: spotme-dev
+  annotations:
+    strategy.spinnaker.io/recreate: 'true'
   labels:
     app: spotme-db
 spec:
