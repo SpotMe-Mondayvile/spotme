@@ -2,10 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotme-rest-deployment
-  # namespace: spotme-dev
   labels:
     app: spotme-rest
     type: back-end
+    annotations:
+      strategy.spinnaker.io/versioned: 'false'
+      strategy.spinnaker.io/recreate: 'true'
 spec:
   template:
     metadata:
@@ -21,22 +23,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-#          env:
-#            - name: DB_PASSWORD
-#              valueFrom:
-#                secretKeyRef:
-#                  name: spotme-db-secrets-prod
-#                  key: password
-#            - name: DB_USERNAME
-#              valueFrom:
-#                secretKeyRef:
-#                  name: spotme-db-secrets-prod
-#                  key: username
-#            - name: JWT_SECRET_KEY
-#              valueFrom:
-#                secretKeyRef:
-#                  name: spotme-db-secrets-prod
-#                  key: jwt_secret
           envFrom:
             - configMapRef:
                 name: spotme-config
