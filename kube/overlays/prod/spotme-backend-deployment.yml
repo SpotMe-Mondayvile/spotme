@@ -2,12 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotme-rest-deployment
+  annotations:
+    strategy.spinnaker.io/versioned: 'false'
+    strategy.spinnaker.io/recreate: 'true'
   labels:
     app: spotme-rest
     type: back-end
-    annotations:
-      strategy.spinnaker.io/versioned: 'false'
-      strategy.spinnaker.io/recreate: 'true'
+
 spec:
   template:
     metadata:
