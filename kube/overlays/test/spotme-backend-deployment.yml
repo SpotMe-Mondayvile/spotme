@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: spotme-rest-deployment
   # namespace: spotme-dev
+  annotations:
+    strategy.spinnaker.io/versioned: 'false'
+    strategy.spinnaker.io/recreate: 'true'
   labels:
     app: spotme-rest
     type: back-end

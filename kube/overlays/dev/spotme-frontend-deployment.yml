@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: spotme-web-deployment
   namespace: spotme-dev
+  annotations:
+    strategy.spinnaker.io/recreate: 'true'
   labels:
     app: spotme-web
     type: front-end

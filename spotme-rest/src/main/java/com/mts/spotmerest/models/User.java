@@ -1,5 +1,6 @@
 package com.mts.spotmerest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +37,10 @@ public class User implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private String phoneNumber;
     private String name;
     private Integer age;

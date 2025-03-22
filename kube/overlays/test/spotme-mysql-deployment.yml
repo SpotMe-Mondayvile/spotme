@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: spotme-db
   namespace: spotme-test
+  annotations:
+    strategy.spinnaker.io/versioned: 'false'
+    strategy.spinnaker.io/recreate: 'true'
   labels:
     app: spotme-db
 spec:
@@ -26,13 +29,6 @@ spec:
             limits:
               memory: "3000Mi"
               cpu: "1000m"
-          # env:
-          #   - name: MYSQL_ROOT_PASSWORD
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: spotme-db-secrets
-          #         key: password
-          #   - name: DB_USERNAME
           envFrom:
             - secretRef:
                 name: spotme-db-secrets

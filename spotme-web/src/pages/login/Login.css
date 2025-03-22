@@ -2,10 +2,20 @@
     justify-content: center;
 }
 
-.authentication_form{
-    width: 305;
+.align_center.form_page{
+    width: 500px;
     padding: 32px 48px;
-    margin-top: 32px;
+    margin-top: 45px;
+}
+
+.align_center.form_page{
+    width: 500px;
+    padding: 32px 48px;
+    margin-top: 45px;
+}
+.section_login{
+  display: flex;
+  align-items: center
 }
 
 .authentication_form h2{
@@ -20,10 +30,9 @@
     margin-bottom: 20px;
 }
 
-.form_inputs label{
-    font-size: 40px;
-    font-weight: 600;
-    margin-bottom: 3px;
+.signup_button_container{
+  display: flex;
+  align-items: center
 }
 
 .form_text_input {
@@ -33,10 +42,11 @@
     font-size: 17px;
     outline:none;
 }
-.form_submit{
+.search_button.form_submit {
     height: 40px;
-    width: 100%;
+    width: 100px;
     margin: 25px;
+
 }
 
 .form_error{

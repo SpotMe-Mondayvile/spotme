@@ -77,6 +77,29 @@ public class UserStatsService {
         userStatsDAO.save(stats);
     }
 
+    public void updateUserStats(UserStats stats) {
+        Optional<UserStats> userStatsById= userStatsDAO
+                .findUserStatsById(stats.getId());
+        if(userStatsById.isPresent()){
+            throw new IllegalStateException("UserStats Already exists");
+        }else{
+            userStatsDAO.save(stats);
+            System.out.println("UserStats Created");
+        }
+        userStatsDAO.save(stats);
+    }
+
+    public void updateUserStat(String stat, Object value, Long userId) throws Exception {
+        Optional<UserStats> userStatsById= userStatsDAO
+                .findUserStatsById(userId);
+        if(userStatsById.isPresent()){
+            userStatsById.orElseThrow().updateProperty(stat,value);
+        }else{
+            System.out.println("UserStats Created");
+        }
+        userStatsDAO.save(userStatsById.orElseThrow());
+    }
+
     public void deleteUserStats(Long id) {
         boolean exists = userStatsDAO.existsById(id);
         if(!exists){

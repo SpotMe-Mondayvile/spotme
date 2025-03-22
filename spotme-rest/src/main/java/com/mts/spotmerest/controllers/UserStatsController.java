@@ -55,7 +55,7 @@ public class UserStatsController {
         return validatedUserStats ;
     }
 
-    @GetMapping(path= "id/{userId}")
+    @GetMapping(path= "user/{userId}")
     public Optional<UserStats> getUserStatsByUserID(@PathVariable("userId") Long id, Principal principal){
         Long requester = dataFilter.getPrincipalId(principal);
         Optional<UserStats> validatedUserStats = Optional.empty();
@@ -68,20 +68,35 @@ public class UserStatsController {
         return validatedUserStats;
     }
 
-    @PostMapping(path="/add")
-    public void newSpot(@RequestBody UserStats userStats, Principal principal){
+    @PostMapping(path="/new")
+    public void newUserStat(@RequestBody UserStats userStats, Principal principal){
         System.out.println(userStats);
         if(dataFilter.isUser(principal,userStats.getUserId())){
             userStatsService.addNewUserStats(userStats);
         }
     }
 
-    @DeleteMapping(path= "/{userStatsId}")
-    public void deleteSpot(@PathVariable("userStatsId") Long id,Principal principal){
-        Optional<Spot> newSpot = Optional.empty();
-        Long owner = spotService.getSpot(id).orElseThrow().getUserId();
-        if(dataFilter.isUser(principal,owner)){
-            spotService.deleteSpot(id);
+    @PostMapping(path="/update-all")
+    public void updateUserStats(@RequestBody UserStats userStats, Principal principal){
+        System.out.println(userStats);
+        if(dataFilter.isUser(principal,userStats.getUserId())){
+            userStatsService.addNewUserStats(userStats);
         }
     }
+
+    @PostMapping(path="/update/{stat}?{value}")
+    public void updateUserStat(@PathVariable("stat") String stat, @PathVariable("value") String value,Principal principal) throws Exception {
+        System.out.println("Updating Stats: " + stat);
+        Long userID=dataFilter.getPrincipalId(principal);
+        userStatsService.updateUserStat(stat,value,userID );
+    }
+
+//    @DeleteMapping(path= "/{userStatsId}")
+//    public void deleteSpot(@PathVariable("userStatsId") Long id,Principal principal){
+//        Optional<Spot> newSpot = Optional.empty();
+//        Long owner = spotService.getSpot(id).orElseThrow().getUserId();
+//        if(dataFilter.isUser(principal,owner)){
+//            spotService.deleteSpot(id);
+//        }
+//    }
 }

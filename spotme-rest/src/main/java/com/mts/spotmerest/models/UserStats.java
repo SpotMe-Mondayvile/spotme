@@ -1,15 +1,14 @@
 package com.mts.spotmerest.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.deser.BasicDeserializerFactory;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -31,6 +30,7 @@ public class UserStats {
     private BigDecimal rating;
     private Long spotsCompleted;
     private String description;
+    private String userTag;
     private Date createdAt;
     private String status; //open or closed
     private Boolean isPrivate;
@@ -44,6 +44,20 @@ public class UserStats {
 
 
 
+    public UserStats(Long id, Long userId, BigDecimal rating, Long spotsCompleted, String description, Date createdAt, String status, Boolean isPrivate, String userTag) {
+        this.id = id;
+        this.userId = userId;
+        this.rating = rating;
+        this.spotsCompleted = spotsCompleted;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.status = status;
+        this.isPrivate = isPrivate;
+        this.enabled = true;
+        this.userTag= userTag;
+    }
+
+
     public UserStats(Long id, Long userId, BigDecimal rating, Long spotsCompleted, String description, Date createdAt, String status, Boolean isPrivate) {
         this.id = id;
         this.userId = userId;
@@ -55,6 +69,8 @@ public class UserStats {
         this.isPrivate = isPrivate;
         this.enabled = true;
     }
+
+
 
     public Long getId() {
         return id;
@@ -109,6 +125,14 @@ public class UserStats {
         this.status = status;
     }
 
+    public String getUserTag() {
+        return userTag;
+    }
+
+    public void setUserTag(String userTag) {
+        this.userTag = userTag;
+    }
+
     public Boolean getPrivate() {
         return isPrivate;
     }
@@ -154,10 +178,49 @@ public class UserStats {
         return userStats;
     }
 
+    @JsonIgnore
     public Date getCurrentTime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
         return date;
+    }
+
+    @JsonIgnore
+    public Map<String, Object> getStatsAsMap(){
+        Map<String, Object> mapOut = new HashMap<>();
+        mapOut.put("id",id);
+        mapOut.put("userId",userId);
+        mapOut.put("rating",rating);
+        mapOut.put("spotsCompleted",spotsCompleted);
+        mapOut.put("description",description);
+        mapOut.put("createdAt",createdAt);
+        mapOut.put("status",status);
+        mapOut.put("isPrivate",isPrivate);
+        mapOut.put("enabled",enabled);
+
+        return  mapOut;
+    }
+
+    public void updateProperty(String key, Object value) throws Exception {
+        switch (key){
+
+            case "rating":          this.setRating((BigDecimal) value);
+                                    break;
+
+            case "spotsCompleted":  this.setSpotsCompleted((Long) value);
+                                    break;
+
+            case "description":     this.setDescription((String) value);
+                                    break;
+
+            case "status":          this.setStatus((String) value);
+                                    break;
+
+             case "isPrivate":      this.setPrivate(Boolean.valueOf(value.toString()));
+                                    break;
+
+            default:              throw new Exception("The selected property is immutable");
+        }
     }
 }
