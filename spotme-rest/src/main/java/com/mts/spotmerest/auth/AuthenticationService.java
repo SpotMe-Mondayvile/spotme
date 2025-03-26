@@ -38,7 +38,7 @@ public class AuthenticationService {
         String jwtToken=null;
         AuthenticationResponse authenticationResponse= new AuthenticationResponse();
         int userExists;
-        if(userDAO.findByEmail(request.getEmail()).orElseThrow().getEmail()==request.getEmail()){
+        if(userDAO.findByEmail(request.getEmail()).isPresent()){
             userExists=1;
         }else{
             userExists=0;

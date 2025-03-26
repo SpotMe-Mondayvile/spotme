@@ -79,11 +79,11 @@ const Login=()=>{
                         </div>
 
                         <div>
-                          <label htmlFor="password_field" className="">Password</label>
+                          <label htmlFor="password" className="">Password</label>
                           <input
                           type="password"
-                          id='password_field'
-                          {...register("password_field",{required:true, minLength:3})}
+                          id='password'
+                          {...register("password",{required:true, minLength:3})}
                           className="form_text_name"
                           placeholder='Enter Password'/>
                           {errors.name?.type==="required" && <em className='form_error'>Please enter a valid password</em>}
