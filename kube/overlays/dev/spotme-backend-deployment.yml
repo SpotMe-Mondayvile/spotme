@@ -37,7 +37,7 @@ spec:
                 name: spotme-db-secrets
       imagePullSecrets:
         - name: jfrog-dev
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: spotme-rest
