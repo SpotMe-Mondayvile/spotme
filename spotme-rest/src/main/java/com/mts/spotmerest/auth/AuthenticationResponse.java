@@ -22,4 +22,20 @@ public class AuthenticationResponse{
     public void setAccess_token(String token) {
         this.access_token = token;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
 }
